@@ -1,0 +1,58 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							":PACKAGE:",
+							":BLANK_LINE:",
+							":ALIAS:",
+							":BLANK_LINE:",
+							":PATH:"
+						]
+					}
+				},
+				"useSortedKeys": "on"
+			}
+		}
+	},
+	"files": {
+		"includes": ["**", "!.millennium", "!package.json"]
+	},
+	"linter": {
+		"rules": {
+			"style": {
+				"useEnumInitializers": "off",
+				"useNamingConvention": {
+					"level": "on",
+					"options": {
+						"conventions": [
+							{
+								"match": "(.+)_t",
+								"selector": {
+									"kind": "typeAlias"
+								}
+							},
+							{
+								"match": "E(.+)",
+								"selector": {
+									"kind": "enum"
+								}
+							},
+							{
+								"match": ".*"
+							}
+						],
+						"strictCase": false
+					}
+				}
+			},
+			"suspicious": {
+				"noExplicitAny": "off"
+			}
+		}
+	}
+}

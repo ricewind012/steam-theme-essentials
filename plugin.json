@@ -1,0 +1,10 @@
+{
+	"$schema": "https://raw.githubusercontent.com/SteamClientHomebrew/Millennium/main/src/system/plugin-schema.json",
+	"common_name": "Theme Essentials",
+	"description": "Additional elements for themes",
+	"frontend": "./src",
+	"include": ["./locales"],
+	"name": "steam-theme-essentials",
+	"useBackend": false,
+	"version": "1.0.0"
+}

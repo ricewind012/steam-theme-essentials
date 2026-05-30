@@ -1,0 +1,12 @@
+{
+	"compilerOptions": {
+		"experimentalDecorators": true,
+		"jsx": "react-jsx",
+		"moduleResolution": "bundler",
+		"paths": {
+			"@/*": ["./src/*"]
+		},
+		"strict": false,
+		"target": "esnext"
+	}
+}

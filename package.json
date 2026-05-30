@@ -1,0 +1,21 @@
+{
+	"name": "steam-theme-essentials",
+	"description": "Additional elements for themes",
+	"private": true,
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"build": "millennium-ttc --build prod",
+		"dev": "millennium-ttc --build dev"
+	},
+	"dependencies": {
+		"@steambrew/client": "^5.8.5",
+		"@steambrew/ttc": "^3.3.7",
+		"@types/react": "^19.2.15",
+		"@types/react-dom": "^19.2.3",
+		"tslib": "^2.8.1"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15"
+	}
+}

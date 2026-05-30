@@ -1,0 +1,183 @@
+import { CThemeEssentialBase } from "@/essentials/base";
+import { bind } from "@/utils/bind";
+import { AddPopupCreatedCallback, type Unsubscribable } from "@/utils/popup";
+import { classes, type SteamPopup_t, WaitForElement } from "@/utils/shared";
+
+import { DispatchGameListChange } from "./events/gamelistchange";
+import { DispatchTabChange } from "./events/tabchange";
+import * as parts from "./parts";
+
+const g_strMainWindowTitle = LocalizationManager.LocalizeString(
+	"#WindowName_SteamDesktop",
+);
+
+export class CAeroThemeEssential extends CThemeEssentialBase {
+	private readonly k_strCSSPropIcon = "--library_game-icon";
+	private readonly k_strCSSPropName = "--library_game-name";
+
+	private m_elThemeFieldsStyle: HTMLStyleElement;
+	private m_pMainWindowPopup: SteamPopup_t;
+	private m_pOrigSetGameListSelection: (
+		section: string,
+		appid: number,
+	) => Promise<void>;
+	private m_pSuperNavObserver: MutationObserver;
+	private m_vecPopupCallbacks: Unsubscribable[] = [];
+
+	constructor() {
+		super({
+			fnFilter: (popup) => {
+				if (popup.m_strTitle !== g_strMainWindowTitle) {
+					return false;
+				}
+
+				this.m_pMainWindowPopup = popup;
+				return true;
+			},
+			strName: "aerothemesteam",
+			vecParts: [
+				{
+					component: <parts.GameListBar />,
+					componentClassName: "Container",
+					steamComponent: "gamelistbar",
+				},
+				{
+					component: <parts.SteamDesktop />,
+					componentClassName: "OuterFrame",
+					steamComponent: "steamdesktop",
+				},
+				{
+					component: <parts.SuperNav />,
+					componentClassName: "SuperNav",
+					steamComponent: "supernav",
+				},
+				{
+					component: <parts.TitleBarControls />,
+					componentClassName: "TitleBarControls",
+					steamComponent: "titlebarcontrols",
+				},
+			],
+		});
+	}
+
+	OnDismount() {
+		super.OnDismount();
+		for (const handle of this.m_vecPopupCallbacks) {
+			handle.Unsubscribe();
+		}
+
+		// AddSuperNavEvents
+		this.m_pSuperNavObserver.disconnect();
+
+		// AddThemeFieldVars
+		this.m_elThemeFieldsStyle.remove();
+
+		// PatchUIStore
+		uiStore.SetGameListSelection = this.m_pOrigSetGameListSelection;
+
+		const doc: HTMLElement =
+			this.m_pMainWindowPopup.m_popup.document.documentElement;
+		doc.style.removeProperty(this.k_strCSSPropIcon);
+		doc.style.removeProperty(this.k_strCSSPropName);
+	}
+
+	OnMount() {
+		this.m_vecPopupCallbacks = [
+			AddPopupCreatedCallback(this.m_fnFilter, super.RenderParts),
+			AddPopupCreatedCallback(this.m_fnFilter, this.PatchUIStore),
+			AddPopupCreatedCallback(this.m_fnFilter, this.AddSuperNavEvents),
+			AddPopupCreatedCallback(this.m_fnFilter, this.AddThemeFieldVars),
+		];
+	}
+
+	/**
+	 * Watches for supernav's active tab changes.
+	 */
+	@bind
+	async AddSuperNavEvents(popup: SteamPopup_t) {
+		const doc = popup.m_popup.document;
+		const container = await WaitForElement(
+			`.${classes.supernav.SuperNav}`,
+			doc,
+		);
+		const sel = classes.supernav.Selected;
+		const observer = new MutationObserver(() => {
+			const children = [...container.children];
+			const tab = children.findIndex((e) => e.classList.contains(sel));
+
+			// Account for the browser navigation arrows
+			DispatchTabChange(tab - 2);
+		});
+
+		this.m_pSuperNavObserver = observer;
+		observer.observe(container, {
+			attributeFilter: ["class"],
+			attributes: true,
+			subtree: true,
+		});
+	}
+
+	/**
+	 * Adds theme preview image vars for Millennium theme fields.
+	 */
+	@bind
+	async AddThemeFieldVars(popup: SteamPopup_t) {
+		// No API for finding themes yet? so use the internal API instead
+		// biome-ignore lint/complexity/useLiteralKeys: required here
+		const themes = await globalThis["Millennium"].callServerMethod(
+			"core",
+			"Core_FindAllThemes",
+		);
+		const textContent = JSON.parse(themes)
+			.map(
+				(e) => `
+				.MillenniumThemes_ThemeItem[data-theme-folder-name-on-disk="${e.native}"] {
+					--img: url("${e.data.splash_image}");
+				}
+			`,
+			)
+			.join("\n");
+		const style = Object.assign(document.createElement("style"), {
+			textContent,
+		});
+		this.m_elThemeFieldsStyle = style;
+		popup.m_popup.document.head.appendChild(style);
+	}
+
+	/**
+	 * Intercepts the function that's called upon a selected game change in the
+	 * library.
+	 */
+	@bind
+	PatchUIStore(popup: SteamPopup_t) {
+		const store = uiStore;
+		const orig = store.SetGameListSelection;
+		const doc = popup.m_popup.document.documentElement;
+
+		this.m_pOrigSetGameListSelection = orig;
+		store.SetGameListSelection = async function (
+			section: string,
+			appid: number,
+		) {
+			if (!appid) {
+				DispatchGameListChange(-1);
+				return;
+			}
+
+			const app = appStore.GetAppOverviewByAppID(appid);
+			const iconFilePath = urlStore.BuildCachedLibraryAssetURL(
+				appid,
+				`${app.icon_hash}.jpg`,
+			);
+			const url = app.icon_data
+				? `data:image/${app.icon_data_format};base64,${app.icon_data}`
+				: iconFilePath;
+
+			DispatchGameListChange(appid);
+			doc.style.setProperty(this.k_strCSSPropIcon, `url("${url}")`);
+			doc.style.setProperty(this.k_strCSSPropName, `"${app.display_name}"`);
+
+			return orig.call(this, section, appid);
+		};
+	}
+}

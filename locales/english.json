@@ -1,0 +1,18 @@
+{
+	"Essential_aerothemesteam_GameListBar_NoFilters": "No filters",
+	"Essential_aerothemesteam_GameListBar_OnlyLinux": "Showing only Linux-ready games",
+	"Essential_aerothemesteam_GameListBar_OnlyLinuxAndInstalled": "Showing installed Linux-ready games",
+	"Essential_aerothemesteam_GameListBar_OnlyReadyToPlay": "Showing only Ready to Play games",
+	"Essential_aerothemesteam_GameListBar_SortRecentActivity": "Sorting games by recent activity",
+	"Essential_aerothemesteam_GameListBar_SortRecentActivityOnLinux": "Sorting games by recent activity that run on Linux",
+	"Essential_aerothemesteam_GameListBar_SortRecentActivityOnLinuxAndReadyToPlay": "Sorting games by recent activity that run on Linux and are Ready to Play",
+	"Essential_aerothemesteam_GameListBar_SortRecentActivityReadyToPlay": "Sorting games by recent activity that are Ready to Play",
+
+	"Essential_aerothemesteam_RibbonSection_Account": "Account",
+	"Essential_aerothemesteam_RibbonSection_Browser": "Browser",
+	"Essential_aerothemesteam_RibbonSection_Game": "Game",
+	"Essential_aerothemesteam_RibbonSection_Links": "Links",
+
+	"EssentialSettings_aerothemesteam": "MS Office 2007 Theme",
+	"EssentialSettings_aerothemesteam_bEnabled": "Enable"
+}

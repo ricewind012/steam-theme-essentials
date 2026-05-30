@@ -1,0 +1,48 @@
+#!/bin/sh -e
+
+# Reason this is a separate script is that CI is *not* going to download Steam,
+# run it, generate a class map, etc. It already takes ages with npm packages...
+
+: "${TMPDIR:=/tmp}"
+export GH_TOKEN=$(gh auth token)
+
+DIST_BRANCH=dist
+JASONS='package.json plugin.json'
+
+log() {
+	printf '\033[32;0;1m%s\033[m\n' "$1" >&2
+}
+
+git_branch_exists() {
+	git show-ref --verify --quiet "refs/heads/$1"
+}
+
+while IFS= read -r line; do case $line in
+	*'The next release version'*)
+		next=${line##*is }
+		break
+	;;
+
+	*'There are no relevant changes'*)
+		log 'nothing to release!'
+		exit 1
+	;;
+esac; done <<-EOF
+$(npx semantic-release --dry-run --no-ci 2>/dev/null)
+EOF
+commit_msg="chore(release): ${next:=1.0.0}" # for first run
+
+for file in $JASONS; do
+	sed -i "s/\"version\": \".*\"/\"version\": \"$next\"/" "$file"
+done
+
+npx semantic-release --no-ci --plugins '
+	@semantic-release/commit-analyzer,
+	@semantic-release/release-notes-generator,
+	@semantic-release/github
+'
+git add $JASONS
+git commit -m "$commit_msg"
+git push
+
+log 'success!'
