@@ -3,8 +3,7 @@ import { bind } from "@/utils/bind";
 import { AddPopupCreatedCallback, type Unsubscribable } from "@/utils/popup";
 import { classes, type SteamPopup_t, WaitForElement } from "@/utils/shared";
 
-import { DispatchGameListChange } from "./events/gamelistchange";
-import { DispatchTabChange } from "./events/tabchange";
+import { Events } from "./events";
 import * as parts from "./parts";
 
 const g_strMainWindowTitle = LocalizationManager.LocalizeString(
@@ -106,7 +105,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 			const tab = children.findIndex((e) => e.classList.contains(sel));
 
 			// Account for the browser navigation arrows
-			DispatchTabChange(tab - 2);
+			Events.Tab.Dispatch({ tab: tab - 2 });
 		});
 
 		this.m_pSuperNavObserver = observer;
@@ -160,7 +159,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 			appid: number,
 		) {
 			if (!appid) {
-				DispatchGameListChange(-1);
+				Events.GameList.Dispatch({ appid: -1 });
 				return;
 			}
 
@@ -173,7 +172,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 				? `data:image/${app.icon_data_format};base64,${app.icon_data}`
 				: iconFilePath;
 
-			DispatchGameListChange(appid);
+			Events.GameList.Dispatch({ appid });
 			doc.style.setProperty(this.k_strCSSPropIcon, `url("${url}")`);
 			doc.style.setProperty(this.k_strCSSPropName, `"${app.display_name}"`);
 

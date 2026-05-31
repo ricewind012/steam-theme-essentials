@@ -10,7 +10,7 @@ import {
 	EParentalFeature,
 } from "@/modules/parentalfeatures";
 import { bind } from "@/utils/bind";
-import { GetMainPopupWindow } from "@/utils/popup";
+import { GetMainPopupWindow, type Unsubscribable } from "@/utils/popup";
 
 import {
 	RibbonButton,
@@ -18,15 +18,12 @@ import {
 	RibbonSection,
 } from "../../components/ribbon";
 import {
-	GAME_LIST_CHANGE_EVENT_NAME,
-	type GameListChangeEvent,
-} from "../../events/gamelistchange";
-import {
 	ESuperNavTab,
+	Events,
+	type GameListChangeEvent,
 	GetESuperNavTabFromSetting,
-	TAB_CHANGE_EVENT_NAME,
 	type TabChangeEvent,
-} from "../../events/tabchange";
+} from "../../events";
 import { ActionButton } from "./actionbutton";
 import { FavoriteButton } from "./favoritebutton";
 
@@ -177,6 +174,8 @@ interface SteamDesktopState {
 }
 
 export class SteamDesktop extends Component<{}, SteamDesktopState> {
+	private m_vecEventRegistrars: Unsubscribable[] = [];
+
 	state = {
 		appid: -1,
 		tab: GetDefaltTabState(),
@@ -230,16 +229,15 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 	}
 
 	override componentDidMount() {
-		const events = [GAME_LIST_CHANGE_EVENT_NAME, TAB_CHANGE_EVENT_NAME];
-		for (const event of events) {
-			window.addEventListener(event, this.OnWindowEvent);
-		}
+		this.m_vecEventRegistrars = [
+			Events.GameList.Register(this.OnWindowEvent),
+			Events.Tab.Register(this.OnWindowEvent),
+		];
 	}
 
 	override componentWillUnmount() {
-		const events = [GAME_LIST_CHANGE_EVENT_NAME, TAB_CHANGE_EVENT_NAME];
-		for (const event of events) {
-			window.removeEventListener(event, this.OnWindowEvent);
+		for (const handle of this.m_vecEventRegistrars) {
+			handle.Unregister();
 		}
 	}
 

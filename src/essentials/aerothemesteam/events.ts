@@ -1,4 +1,13 @@
-export const TAB_CHANGE_EVENT_NAME = "tab-change";
+import { CEssentialEvent } from "@/essentials/event";
+
+type ClientTabSetting_t =
+	| "store"
+	| "news"
+	| "library"
+	| "community"
+	| "friendactivity"
+	| "profile"
+	| "console";
 
 export enum ESuperNavTab {
 	Store,
@@ -9,25 +18,21 @@ export enum ESuperNavTab {
 	Max,
 }
 
+export interface GameListChangeEvent {
+	appid: number;
+}
+
 export interface TabChangeEvent {
 	tab: ESuperNavTab;
 }
 
-export function DispatchTabChange(tab: ESuperNavTab) {
-	const ev = new CustomEvent<TabChangeEvent>(TAB_CHANGE_EVENT_NAME, {
-		detail: { tab },
-	});
-	window.dispatchEvent(ev);
-}
-
-type ClientTabSetting_t =
-	| "store"
-	| "news"
-	| "library"
-	| "community"
-	| "friendactivity"
-	| "profile"
-	| "console";
+export const Events = {
+	GameList: new CEssentialEvent<GameListChangeEvent>(
+		window,
+		"game-list-change",
+	),
+	Tab: new CEssentialEvent<TabChangeEvent>(window, "tab-change"),
+};
 
 export function GetESuperNavTabFromSetting(tab: ClientTabSetting_t) {
 	switch (tab) {
