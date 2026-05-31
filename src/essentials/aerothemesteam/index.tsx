@@ -63,7 +63,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 	OnDismount() {
 		super.OnDismount();
 		for (const handle of this.m_vecPopupCallbacks) {
-			handle.Unsubscribe();
+			handle.Unregister();
 		}
 
 		// AddSuperNavEvents

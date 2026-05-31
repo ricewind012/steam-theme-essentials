@@ -1,7 +1,7 @@
 import type { SteamPopup_t } from "@/utils/shared";
 
 export interface Unsubscribable {
-	Unsubscribe(): void;
+	Unregister(): void;
 }
 
 /** Internal main window name. */
@@ -22,7 +22,7 @@ export function AddPopupCreatedCallback(
 	for (const popup of g_PopupManager.GetPopups()) {
 		if (popupFilter(popup)) {
 			onCreated(popup);
-			return { Unsubscribe() {} };
+			return { Unregister() {} };
 		}
 	}
 
