@@ -124,6 +124,10 @@ function BuildSteamRootMenuEntries(): RootMenuEntry[] {
 			steamURL: "steam://millennium/settings",
 		},
 		{
+			name: "Millennium Library Manager",
+			steamURL: "steam://millennium/sidebar",
+		},
+		{
 			name: "Separator4",
 			parentalFeature: EParentalFeature.Max,
 			visible: !bIsOSX,

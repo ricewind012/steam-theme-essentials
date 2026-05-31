@@ -6,14 +6,14 @@ import { classes, type SteamPopup_t, WaitForElement } from "@/utils/shared";
 import { Events } from "./events";
 import * as parts from "./parts";
 
+const k_strCSSPropIcon = "--library_game-icon";
+const k_strCSSPropName = "--library_game-name";
+
 const g_strMainWindowTitle = LocalizationManager.LocalizeString(
 	"#WindowName_SteamDesktop",
 );
 
 export class CAeroThemeEssential extends CThemeEssentialBase {
-	private readonly k_strCSSPropIcon = "--library_game-icon";
-	private readonly k_strCSSPropName = "--library_game-name";
-
 	private m_elThemeFieldsStyle: HTMLStyleElement;
 	private m_pMainWindowPopup: SteamPopup_t;
 	private m_pOrigSetGameListSelection: (
@@ -173,8 +173,11 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 				: iconFilePath;
 
 			Events.GameList.Dispatch({ appid });
-			doc.style.setProperty(this.k_strCSSPropIcon, `url("${url}")`);
-			doc.style.setProperty(this.k_strCSSPropName, `"${app.display_name}"`);
+			doc.style.setProperty(
+				k_strCSSPropIcon,
+				`url("https://steamloopback.host${url}")`,
+			);
+			doc.style.setProperty(k_strCSSPropName, `"${app.display_name}"`);
 
 			return orig.call(this, section, appid);
 		};
