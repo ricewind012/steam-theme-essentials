@@ -2,10 +2,12 @@ import type { EssentialName_t } from "@/settings";
 
 import { CAeroThemeEssential } from "./aerothemesteam";
 import type { CThemeEssentialBase } from "./base";
+import { CLegacySteamEssential } from "./legacysteam";
 
 export const pEssentialController = new (class {
 	private m_mapEssentials = new Map<EssentialName_t, CThemeEssentialBase>([
 		["aerothemesteam", new CAeroThemeEssential()],
+		["legacysteam", new CLegacySteamEssential()],
 	]);
 
 	/**

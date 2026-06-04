@@ -76,8 +76,8 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 
 		const doc: HTMLElement =
 			this.m_pMainWindowPopup.m_popup.document.documentElement;
-		doc.style.removeProperty(this.k_strCSSPropIcon);
-		doc.style.removeProperty(this.k_strCSSPropName);
+		doc.style.removeProperty(k_strCSSPropIcon);
+		doc.style.removeProperty(k_strCSSPropName);
 	}
 
 	OnMount() {

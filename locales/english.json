@@ -14,5 +14,8 @@
 	"Essential_aerothemesteam_RibbonSection_Links": "Links",
 
 	"EssentialSettings_aerothemesteam": "MS Office 2007 Theme",
-	"EssentialSettings_aerothemesteam_bEnabled": "Enable"
+	"EssentialSettings_aerothemesteam_bEnabled": "Enable",
+
+	"EssentialSettings_legacysteam": "Legacy Steam",
+	"EssentialSettings_legacysteam_bEnabled": "Enable"
 }

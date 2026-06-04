@@ -8,6 +8,9 @@ const DEFAULT_SETTINGS = {
 	aerothemesteam: {
 		bEnabled: true,
 	},
+	legacysteam: {
+		bEnabled: true,
+	},
 };
 
 let g_pSettings: Settings_t = null;

@@ -1,4 +1,7 @@
 import { findModuleExport } from "@steambrew/client";
+import type { Context } from "react";
+
+import { FindModuleExportByString } from "@/utils/shared";
 
 /**
  * Global configuration constants.
@@ -7,6 +10,13 @@ import { findModuleExport } from "@steambrew/client";
  * and some in SteamLibrary.InitConfig directly. Some it skips - be sure to test.
  */
 export const Config = findModuleExport((e) => typeof e.PLATFORM === "string");
+
+/**
+ * Makes some Steam components shut the fuck up in console
+ */
+export const ConfigContext: Context<typeof Config> = FindModuleExportByString(
+	"useMemo(()=>({IN_GAMEPADUI",
+);
 
 enum ELauncherType {
 	Default,

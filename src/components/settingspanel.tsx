@@ -41,6 +41,24 @@ const EssentialPanelSectionContent: Record<EssentialName_t, () => ReactNode> = {
 			/>
 		);
 	},
+	legacysteam: () => {
+		const pEssential = pEssentialController.Get("legacysteam");
+
+		return (
+			<EssentialField
+				fieldProps={{ bottomSeparator: "thick" }}
+				strName="legacysteam"
+				strField="bEnabled"
+				onChange={(value) => {
+					if (value) {
+						pEssential.OnMount();
+					} else {
+						pEssential.OnDismount();
+					}
+				}}
+			/>
+		);
+	},
 };
 
 interface EssentialControlProps<

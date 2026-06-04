@@ -126,9 +126,9 @@ export abstract class CThemeEssentialBase {
 					},
 				});
 				const children = Config.DEV_MODE ? (
-					<ErrorBoundary>{component}</ErrorBoundary>
-				) : (
 					component
+				) : (
+					<ErrorBoundary>{component}</ErrorBoundary>
 				);
 				root.render(children);
 				this.m_setPartHandles.add({ div, root });

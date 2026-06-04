@@ -11,6 +11,7 @@ import { Component } from "react";
 
 import { BIsChinaLauncher, Config } from "@/modules/config";
 import { MenuGroup } from "@/modules/contextmenu";
+import { EPersonaState } from "@/modules/friends";
 import { CKioskModeManager } from "@/modules/kioskmodemgr";
 import { Localize } from "@/modules/localization";
 import {
@@ -27,18 +28,6 @@ import {
 } from "@/utils/shared";
 
 import { IconButton } from "../components/iconbutton";
-
-enum EPersonaState {
-	Offline,
-	Online,
-	Busy,
-	Away,
-	Snooze,
-	LookingToTrade,
-	LookingToPlay,
-	Invisible,
-	Max,
-}
 
 const bIsChinaLauncher = BIsChinaLauncher(Config.LAUNCHER_TYPE);
 const bIsLinux = Config.PLATFORM === "linux";
