@@ -2,6 +2,7 @@ import { ErrorBoundary } from "@steambrew/client";
 import type { ReactNode } from "react";
 import { createRoot, type Root } from "react-dom/client";
 
+import { Config } from "@/modules/config";
 import { type EssentialName_t, GetSettings } from "@/settings";
 import { bind } from "@/utils/bind";
 import { CLogger } from "@/utils/log";
@@ -124,7 +125,12 @@ export abstract class CThemeEssentialBase {
 						pLoadedEssentials.StopTracking(doc);
 					},
 				});
-				root.render(<ErrorBoundary>{component}</ErrorBoundary>);
+				const children = Config.DEV_MODE ? (
+					<ErrorBoundary>{component}</ErrorBoundary>
+				) : (
+					component
+				);
+				root.render(children);
 				this.m_setPartHandles.add({ div, root });
 
 				g_pLogger.Log("%s(%s): rendered", this.m_strName, steamComponent);
