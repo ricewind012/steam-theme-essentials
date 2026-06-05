@@ -2,7 +2,7 @@
 	"name": "steam-theme-essentials",
 	"description": "Additional elements for themes",
 	"private": true,
-	"version": "0.9.9",
+	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"build": "millennium-ttc --build prod",
