@@ -127,17 +127,35 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 			"core",
 			"Core_FindAllThemes",
 		);
-		const textContent = JSON.parse(themes)
-			.map(
-				(e) => `
-				.MillenniumThemes_ThemeItem[data-theme-folder-name-on-disk="${e.native}"] {
-					--img: url("${e.data.splash_image}");
+		const css = [];
+		for (const { data, native } of JSON.parse(themes)) {
+			const img = data.splash_image;
+			if (!img) {
+				continue;
+			}
+
+			const match = img.match(
+				/^https:\/\/raw\.githubusercontent\.com\/([\w-]+\/){3}/,
+			);
+			const url = (() => {
+				// Use the local file instead
+				if (match) {
+					const [part] = match;
+					const path = img.slice(part.length);
+					return `https://millennium.host/v1/themes/${native}/${path}`;
+				} else {
+					return img;
 				}
-			`,
-			)
-			.join("\n");
+			})();
+			css.push(`
+				.MillenniumThemes_ThemeItem[data-theme-folder-name-on-disk="${native}"] {
+					--img: url("${url}");
+				}
+			`);
+		}
+
 		const style = Object.assign(document.createElement("style"), {
-			textContent,
+			textContent: css.join("\n"),
 		});
 		this.m_elThemeFieldsStyle = style;
 		popup.m_popup.document.head.appendChild(style);
