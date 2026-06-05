@@ -266,20 +266,20 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 			);
 		});
 		const browserSection = (
-			<RibbonSection title="#Essential_aerothemesteam_RibbonSection_Browser">
+			<RibbonSection title="#Essential_RibbonSection_Browser">
 				<RibbonButton
 					icon="nav-back"
-					text="Go back"
+					text="#Essential_RibbonButton_NavBack"
 					onClick={this.OnGoBackButtonClick}
 				/>
 				<RibbonButton
 					icon="nav-forward"
-					text="Go forward"
+					text="#Essential_RibbonButton_NavForward"
 					onClick={this.OnGoForwardButtonClick}
 				/>
 				<RibbonButton
 					icon="update"
-					text="Reload"
+					text="#Essential_RibbonButton_Reload"
 					onClick={this.OnReloadButtonClick}
 				/>
 			</RibbonSection>
@@ -299,7 +299,7 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 
 				return (
 					<RibbonContainer>
-						<RibbonSection title="#Essential_aerothemesteam_RibbonSection_Game">
+						<RibbonSection title="#Essential_RibbonSection_Game">
 							<ActionButton appid={appid} />
 							<RibbonButton
 								icon="manage"
@@ -314,7 +314,7 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 							<FavoriteButton appid={appid} />
 						</RibbonSection>
 						{links.length > 0 && (
-							<RibbonSection title="#Essential_aerothemesteam_RibbonSection_Links">
+							<RibbonSection title="#Essential_RibbonSection_Links">
 								{links}
 							</RibbonSection>
 						)}
@@ -331,7 +331,7 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 					<RibbonContainer>
 						{browserSection}
 						{tab === ESuperNavTab.Profile && (
-							<RibbonSection title="#Essential_aerothemesteam_RibbonSection_Account">
+							<RibbonSection title="#Essential_RibbonSection_Account">
 								{accountSection}
 							</RibbonSection>
 						)}

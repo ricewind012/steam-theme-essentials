@@ -54,10 +54,10 @@ export function Notes() {
 	return (
 		<OverlayPanel.Container strName="notes">
 			<OverlayPanel.Header>
-				{Localize("#UserGameNotes_NotesList")}
+				{Localize("#Essential_OverlayPanel_Notes_Header")}
 			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize("#UserGameNotes_NotesForGame", pOverview.display_name)}
+				{Localize("#Essential_OverlayPanel_Notes_Description", vecNotes.length)}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				{vecNotes.slice(0, k_nPanelEntriesCount).map((e) => (
@@ -66,10 +66,10 @@ export function Notes() {
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
 				<DialogButton onClick={onOpenNotesPopupClick}>
-					{Localize("#AppDetails_ViewAllNotes")}
+					{Localize("#Essential_OverlayPanel_Notes_FooterButton")}
 				</DialogButton>
 				<DialogButton onClick={onNewNoteClick}>
-					{Localize("#UserGameNotes_NewNote")}
+					{Localize("#Essential_OverlayPanel_Notes_FooterButton_2")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>

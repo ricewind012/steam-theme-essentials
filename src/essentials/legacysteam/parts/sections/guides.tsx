@@ -47,10 +47,12 @@ export function Guides() {
 	return (
 		<OverlayPanel.Container strName="guides">
 			<OverlayPanel.Header>
-				{Localize("#AppOverlay_Guides")}
+				{Localize("#Essential_OverlayPanel_Guides_Header")}
 			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize("#AppOverlay_Guides_Desc", strGameName)}
+				{bIsOfflineMode
+					? Localize("#Essential_OverlayPanel_OfflineModeInfo")
+					: Localize("#Essential_OverlayPanel_Guides_Description", strGameName)}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				{vecRealGuides.map((e) => {
@@ -74,7 +76,7 @@ export function Guides() {
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
 				<DialogButton onClick={onAllGuidesClick}>
-					{Localize("#AppOverlay_Guides")}
+					{Localize("#Essential_OverlayPanel_Guides_FooterButton")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>

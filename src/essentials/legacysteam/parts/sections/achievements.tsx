@@ -8,7 +8,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 
 import { AchievementIconBase } from "@/modules/achievementiconbase";
-import { Localize } from "@/modules/localization";
+import { Localize, LocalizeInlineReact } from "@/modules/localization";
 import { RandomArrayElement } from "@/utils/shared";
 
 import { OverlayPanel } from "../../components/overlaypanel";
@@ -63,10 +63,6 @@ export function Achievements() {
 	const nAchieved = vecAchievements.filter((e) => e.bAchieved).length;
 	const nTotal = vecAchievements.length;
 	const nProgress = (nAchieved / nTotal) * 100;
-	const bAchievedAll = nAchieved === nTotal;
-	const strDescToken = bAchievedAll
-		? "#AppDetails_PlayerUnlockedPercentAll"
-		: "#AppDetails_PlayerUnlockedPercent";
 
 	function FetchAchievements() {
 		const handler = ({ data, result }: AppAchievementResponse) => {
@@ -91,12 +87,17 @@ export function Achievements() {
 	return (
 		<OverlayPanel.Container strName="achievements">
 			<OverlayPanel.Header>
-				{Localize("#AppOverlay_Achievements")}
+				{Localize("#Essential_OverlayPanel_Achievements_Header")}
 			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize(strDescToken, nAchieved, nTotal)}
-				{!bAchievedAll && (
-					<span className="AppAchievements_ProgressPercentage">{`(${Math.floor(nProgress)}%)`}</span>
+				{LocalizeInlineReact(
+					Localize(
+						"#Essential_OverlayPanel_Achievements_Description",
+						nAchieved,
+						nTotal,
+						Math.floor(nProgress),
+					),
+					<span className="AppAchievements_ProgressPercentage" />,
 				)}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
@@ -113,7 +114,7 @@ export function Achievements() {
 				<DialogButton
 					onClick={() => pInstance.Navigator.MyAchievements(pBrowser.m_unAppID)}
 				>
-					{Localize("#AppOverlay_GameOverview_YourAchievements")}
+					{Localize("#Essential_OverlayPanel_Achievements_FooterButton")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>

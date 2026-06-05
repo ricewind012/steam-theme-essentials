@@ -4,7 +4,7 @@ import { Localize } from "@/modules/localization";
 import { GetMainPopupWindow } from "@/utils/popup";
 import { classes, WaitForElement } from "@/utils/shared";
 
-const k_strLocTokenPrefix = "#Essential_aerothemesteam_GameListBar";
+const k_strLocTokenPrefix = "#Essential_GameListBar";
 
 interface GameListBarState {
 	text: string;

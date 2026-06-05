@@ -45,9 +45,13 @@ export function News() {
 
 	return (
 		<OverlayPanel.Container strName="news">
-			<OverlayPanel.Header>{Localize("#WhatsNew_Title")}</OverlayPanel.Header>
+			<OverlayPanel.Header>
+				{Localize("#Essential_OverlayPanel_News_Header")}
+			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize("#LibraryHome_WhatsNew_Empty")}
+				{bIsOfflineMode
+					? Localize("#Essential_OverlayPanel_OfflineModeInfo")
+					: Localize("#Essential_OverlayPanel_News_Description")}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				{data.events.map(({ announcement_body: body }) => {
@@ -71,7 +75,7 @@ export function News() {
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
 				<DialogButton onClick={onLatestNewsClick}>
-					{Localize("#AppActivity_ViewLatestNews")}
+					{Localize("#Essential_OverlayPanel_News_FooterButton")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>

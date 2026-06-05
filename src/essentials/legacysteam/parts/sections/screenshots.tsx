@@ -97,10 +97,13 @@ export function Screenshots() {
 	return (
 		<OverlayPanel.Container strName="screenshots">
 			<OverlayPanel.Header>
-				{Localize("#AppOverlay_Toolbar_Screenshots")}
+				{Localize("#Essential_OverlayPanel_Screenshots_Header")}
 			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize("#ScreenshotUploader_Explainer_HowToTake", strKeyName)}
+				{Localize(
+					"#Essential_OverlayPanel_Screenshots_Description",
+					strKeyName,
+				)}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				<ConfigContext>
@@ -111,10 +114,10 @@ export function Screenshots() {
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
 				<DialogButton onClick={() => pInstance.Navigator.Media.Grid()}>
-					{Localize("#AppOverlay_GameOverview_YourScreenshots")}
+					{Localize("#Essential_OverlayPanel_Screenshots_FooterButton")}
 				</DialogButton>
 				<DialogButton onClick={onSetShortcutClick}>
-					{Localize("#ControllerChordSummary_Unbound")}
+					{Localize("#Essential_OverlayPanel_Screenshots_FooterButton_2")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>

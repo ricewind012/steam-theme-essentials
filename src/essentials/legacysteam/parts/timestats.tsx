@@ -6,6 +6,28 @@ import { GetUnixTime } from "@/utils/shared";
 
 import { Events } from "../events";
 
+interface TimeStatsProps {
+	nPlaytime: number;
+	strTokenPart: string;
+}
+
+function TimeStat(props: TimeStatsProps) {
+	const { nPlaytime, strTokenPart } = props;
+	const strToken = `#Essential_TimeStats_${strTokenPart}`;
+
+	const flTime = nPlaytime / 60;
+	const strTime =
+		flTime >= 1
+			? Localize("#Played_Hours", flTime.toFixed(1))
+			: Localize("#Played_Minutes", nPlaytime.toFixed(1));
+
+	return (
+		<div className="TimeStats" data-type={strTokenPart}>
+			{Localize(strToken, strTime)}
+		</div>
+	);
+}
+
 export function TimeStats() {
 	const [pPlaytime, setPlaytime] = useState<Playtime>(null);
 
@@ -21,22 +43,16 @@ export function TimeStats() {
 	}
 	const { rtLastTimePlayed, nPlaytimeForever, nPlaytimeLastTwoWeeks } =
 		pPlaytime;
-	const rtCurrentSession = GetUnixTime() - rtLastTimePlayed / 60;
+	const nCurrentSession = (GetUnixTime() - rtLastTimePlayed) / 60;
 
 	return (
 		<>
-			<div className="TimeStats" data-type="current">
-				{Localize(
-					"#AppOverlay_Playtime_ThisSession",
-					Localize("#Played_Minutes", rtCurrentSession),
-				)}
-			</div>
-			<div className="TimeStats" data-type="twoweeks">
-				{Localize("#AppOverlay_Playtime_ThisSession", nPlaytimeLastTwoWeeks)}
-			</div>
-			<div className="TimeStats" data-type="total">
-				{Localize("#AppOverlay_Playtime_ThisSession", nPlaytimeForever)}
-			</div>
+			<TimeStat nPlaytime={nCurrentSession} strTokenPart="CurrentSession" />
+			<TimeStat
+				nPlaytime={nPlaytimeLastTwoWeeks}
+				strTokenPart="PlaytimeLastTwoWeeks"
+			/>
+			<TimeStat nPlaytime={nPlaytimeForever} strTokenPart="PlaytimeForever" />
 		</>
 	);
 }

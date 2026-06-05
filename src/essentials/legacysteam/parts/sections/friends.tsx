@@ -59,16 +59,12 @@ export function Friends() {
 		};
 	}, []);
 
-	const vecBodies = [
-		Localize("#FriendsList_OfflineMode"),
-		Localize("#FriendsList_SignedOut"),
-		vecFriends
-			.slice(0, k_nPanelEntriesCount)
-			.map((e) => (
-				<FriendsListEntry browserContext={pBrowser} friend={e} notDraggable />
-			)),
+	const vecHeaders = [
+		Localize("#Essential_OverlayPanel_OfflineModeInfo"),
+		Localize("#Essential_OverlayPanel_Friends_Description_SignedOut"),
+		Localize("#Essential_OverlayPanel_Friends_Description", vecFriends.length),
 	];
-	const nBodyIndex: EFriendsPanelStatus = [
+	const nHeaderIdx: EFriendsPanelStatus = [
 		bIsOfflineMode,
 		ePersonaState === EPersonaState.Offline,
 		true,
@@ -78,15 +74,19 @@ export function Friends() {
 	return (
 		<OverlayPanel.Container strName="friends">
 			<OverlayPanel.Header>
-				{Localize("#WindowTitle_FriendsList")}
+				{Localize("#Essential_OverlayPanel_Friends_Header")}
 			</OverlayPanel.Header>
 			<OverlayPanel.Description>
-				{Localize("#Menu_ViewFriendsList", vecFriends.length)}
+				{vecHeaders[nHeaderIdx]}
 			</OverlayPanel.Description>
-			<OverlayPanel.Body>{vecBodies[nBodyIndex]}</OverlayPanel.Body>
+			<OverlayPanel.Body>
+				{vecFriends.slice(0, k_nPanelEntriesCount).map((e) => (
+					<FriendsListEntry browserContext={pBrowser} friend={e} notDraggable />
+				))}
+			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
 				<DialogButton onClick={() => pInstance.Navigator.Chat()}>
-					{Localize("#FriendsList_ExpandButton")}
+					{Localize("#Essential_OverlayPanel_Friends_FooterButton")}
 				</DialogButton>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
