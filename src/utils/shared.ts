@@ -5,9 +5,6 @@ import {
 	Millennium,
 } from "@steambrew/client";
 
-export type CMsgHotkey_t = any;
-export type SteamPopup_t = any;
-
 export const classes = {
 	appactionbutton: findClassModule(
 		(e) => e.StreamingContextMenuItem,

@@ -1,6 +1,8 @@
 import { type BrowserContext, findModuleByExport } from "@steambrew/client";
 import type { FC, HTMLAttributes, ReactNode, RefObject } from "react";
 
+import type { CPlayer } from "@/utils/steamtypes";
+
 export enum EPersonaState {
 	Offline,
 	Online,

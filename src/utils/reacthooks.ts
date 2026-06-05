@@ -3,13 +3,11 @@ import { useEffect } from "react";
 
 // TODO: useEffectEvent with React 19.2
 // biome-ignore lint/suspicious/noConfusingVoidType: See below
-function useSteamRegistrar<T extends (...args: any[]) => Unregisterable | void>(
-	handle: T,
-) {
+function useSteamRegistrar(handle: Unregisterable | void) {
 	useEffect(() => {
 		// Some functions like User.RegisterForCurrentUserChanges do not return
 		// anything... vaaaalve
-		return handle?.unregister;
+		return handle ? handle.unregister : undefined;
 	}, []);
 }
 

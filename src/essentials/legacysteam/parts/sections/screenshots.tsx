@@ -14,9 +14,9 @@ import {
 	ClickableScreenshot,
 	ToClickableScreenshot,
 } from "@/modules/clickablescreenshot";
-import { ConfigContext } from "@/modules/config";
+import { Config, ConfigContext } from "@/modules/config";
 import { Localize } from "@/modules/localization";
-import type { CMsgHotkey_t } from "@/utils/shared";
+import type { CMsgHotkey_t } from "@/utils/steamtypes";
 
 import { KeyCaptureDialog } from "../../components/keycapturedialog";
 import {
@@ -76,6 +76,7 @@ export function Screenshots() {
 
 		const handler = ({ strOperation, unAppID }: ScreenshotNotification) => {
 			// No idea what "started" is but it only has unAppID... useless
+			// @ts-expect-error: Wrong type
 			if (unAppID !== pBrowser.m_unAppID || strOperation === "started") {
 				return;
 			}
@@ -106,7 +107,7 @@ export function Screenshots() {
 				)}
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
-				<ConfigContext>
+				<ConfigContext value={Config}>
 					{vecScreenshots.slice(0, k_nPanelEntriesCount).map((e) => (
 						<ClickableScreenshot screenshot={ToClickableScreenshot(e)} />
 					))}

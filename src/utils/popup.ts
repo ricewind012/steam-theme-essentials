@@ -1,4 +1,4 @@
-import type { SteamPopup_t } from "@/utils/shared";
+import type { SteamPopup_t } from "./steamtypes";
 
 export interface Unsubscribable {
 	Unregister(): void;

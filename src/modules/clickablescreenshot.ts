@@ -12,6 +12,7 @@ export function ToClickableScreenshot(scr: Screenshot) {
 		nWidth: scr.nWidth,
 		rtCreated: scr.nCreated,
 		strGameID: scr.strGameID,
+		// @ts-expect-error: Wrong type
 		strShortcutName: scr.strShortcutName,
 		strUrl: ToAbsoluteURL(scr.strUrl),
 		type: "screenshot",

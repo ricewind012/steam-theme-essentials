@@ -102,6 +102,7 @@ export function Achievements() {
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				<ProgressBar
+					// @ts-expect-error: Wrong type
 					className="AppAchievements_ProgressBar"
 					nProgress={nProgress}
 				/>

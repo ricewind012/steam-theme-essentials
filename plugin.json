@@ -6,5 +6,5 @@
 	"include": ["./locales"],
 	"name": "steam-theme-essentials",
 	"useBackend": false,
-	"version": "1.0.0"
+	"version": "0.9.9"
 }

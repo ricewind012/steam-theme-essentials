@@ -9,7 +9,8 @@ import { type KeyboardEventHandler, useRef, useState } from "react";
 import { XLineIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { ToolTip } from "@/modules/tooltip";
-import { type CMsgHotkey_t, classes } from "@/utils/shared";
+import { classes } from "@/utils/shared";
+import { type CMsgHotkey_t } from "@/utils/steamtypes";
 
 function BuildClassNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
@@ -92,6 +93,7 @@ export function KeyCaptureDialog(props: KeyCaptureDialogProps) {
 					<TextField
 						focusOnMount
 						spellCheck={false}
+						// @ts-expect-error: Wrong type
 						ref={refTextField}
 						className={BuildClassNames(
 							classes.keycapture.KeyCapture,

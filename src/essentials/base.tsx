@@ -6,7 +6,8 @@ import { Config } from "@/modules/config";
 import { type EssentialName_t, GetSettings } from "@/settings";
 import { bind } from "@/utils/bind";
 import { CLogger } from "@/utils/log";
-import { classes, type SteamPopup_t, WaitForElement } from "@/utils/shared";
+import { classes, WaitForElement } from "@/utils/shared";
+import { type SteamPopup_t } from "@/utils/steamtypes";
 
 import { pLoadedEssentials } from "./loadedtracker";
 
