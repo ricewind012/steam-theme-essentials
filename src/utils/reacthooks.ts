@@ -1,4 +1,4 @@
-import type { Unregisterable } from "@steambrew/client";
+import type { Unregisterable } from "millennium";
 import { useEffect } from "react";
 
 // TODO: useEffectEvent with React 19.2

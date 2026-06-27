@@ -1,4 +1,4 @@
-import { DialogButton } from "@steambrew/client";
+import { DialogButton } from "millennium";
 import { useContext, useEffect, useState } from "react";
 
 import { Localize } from "@/modules/localization";

@@ -1,4 +1,4 @@
-import type { EResult } from "@steambrew/client";
+import type { EResult } from "millennium";
 
 import { Config } from "@/modules/config";
 

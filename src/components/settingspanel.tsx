@@ -1,4 +1,4 @@
-import { Field, type FieldProps, TextField, Toggle } from "@steambrew/client";
+import { Field, type FieldProps, TextField, Toggle } from "millennium";
 import {
 	type ChangeEventHandler,
 	createContext,

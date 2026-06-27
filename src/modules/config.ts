@@ -1,4 +1,4 @@
-import { findModuleExport } from "@steambrew/client";
+import { findModuleExport } from "millennium";
 import type { Context } from "react";
 
 import { FindModuleExportByString } from "@/utils/shared";

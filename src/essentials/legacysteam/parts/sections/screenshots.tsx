@@ -7,7 +7,7 @@ import {
 	type ShowModalProps,
 	type ShowModalResult,
 	showModal,
-} from "@steambrew/client";
+} from "millennium";
 import { type ReactNode, useContext, useEffect, useState } from "react";
 
 import {

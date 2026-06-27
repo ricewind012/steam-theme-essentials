@@ -1,4 +1,4 @@
-import { EResult, findModuleExport } from "@steambrew/client";
+import { EResult, findModuleExport } from "millennium";
 
 import { FindModuleExportByString } from "@/utils/shared";
 

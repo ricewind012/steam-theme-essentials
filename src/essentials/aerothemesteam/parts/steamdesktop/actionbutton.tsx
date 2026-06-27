@@ -6,7 +6,7 @@ import {
 	showContextMenu,
 	sleep,
 	type Unregisterable,
-} from "@steambrew/client";
+} from "millennium";
 
 import {
 	type AppAction_t,
