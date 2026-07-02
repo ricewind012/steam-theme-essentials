@@ -109,7 +109,10 @@ export function Screenshots() {
 			<OverlayPanel.Body>
 				<ConfigContext value={Config}>
 					{vecScreenshots.slice(0, k_nPanelEntriesCount).map((e) => (
-						<ClickableScreenshot screenshot={ToClickableScreenshot(e)} />
+						<ClickableScreenshot
+							key={e.hHandle}
+							screenshot={ToClickableScreenshot(e)}
+						/>
 					))}
 				</ConfigContext>
 			</OverlayPanel.Body>

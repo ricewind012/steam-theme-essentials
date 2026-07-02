@@ -257,6 +257,7 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 
 			return (
 				<RibbonButton
+					key={text}
 					args={args}
 					icon={icon}
 					disabled={disabled}
@@ -294,7 +295,14 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 						MainWindowBrowserManager.ShowURL(dest);
 					};
 
-					return <RibbonButton icon={icon} text={label} onClick={onClick} />;
+					return (
+						<RibbonButton
+							key={label}
+							icon={icon}
+							text={label}
+							onClick={onClick}
+						/>
+					);
 				});
 
 				return (

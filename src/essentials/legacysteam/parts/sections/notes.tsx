@@ -61,7 +61,7 @@ export function Notes() {
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				{vecNotes.slice(0, k_nPanelEntriesCount).map((e) => (
-					<GameNote pNote={e} />
+					<GameNote key={e.id} pNote={e} />
 				))}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>

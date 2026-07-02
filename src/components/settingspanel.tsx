@@ -171,7 +171,7 @@ export function SettingsPanel() {
 	return (
 		<SettingsContext value={pSettings}>
 			{vecEssentials.map((e) => (
-				<EssentialPanelSection strName={e} />
+				<EssentialPanelSection key={e} strName={e} />
 			))}
 		</SettingsContext>
 	);

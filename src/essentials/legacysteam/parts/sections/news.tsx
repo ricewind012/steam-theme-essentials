@@ -66,6 +66,7 @@ export function News() {
 
 					return (
 						<OverlayPanel.ListItem
+							key={body.headline}
 							onClick={onClick}
 							strPrimaryText={body.headline}
 							strSecondaryText={LocalizeRtime32ToShortDate(body.posttime)}

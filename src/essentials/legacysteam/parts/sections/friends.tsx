@@ -81,7 +81,12 @@ export function Friends() {
 			</OverlayPanel.Description>
 			<OverlayPanel.Body>
 				{vecFriends.slice(0, k_nPanelEntriesCount).map((e) => (
-					<FriendsListEntry browserContext={pBrowser} friend={e} notDraggable />
+					<FriendsListEntry
+						key={e}
+						browserContext={pBrowser}
+						friend={e}
+						notDraggable
+					/>
 				))}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>

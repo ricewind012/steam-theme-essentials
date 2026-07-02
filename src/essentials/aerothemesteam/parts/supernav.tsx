@@ -353,7 +353,7 @@ export class SuperNav extends Component {
 		showContextMenu(
 			<Menu label="Menu">
 				{Object.entries(pEntries).map(([token, entries]) => (
-					<MenuGroup label={Localize(token)}>
+					<MenuGroup key={token} label={Localize(token)}>
 						{entries
 							.filter(
 								(e) =>

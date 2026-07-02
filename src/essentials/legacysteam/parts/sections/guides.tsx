@@ -66,6 +66,7 @@ export function Guides() {
 
 					return (
 						<OverlayPanel.ListItem
+							key={e.title}
 							onClick={onClick}
 							strImage={e.file_url}
 							strPrimaryText={e.title}
