@@ -70,38 +70,43 @@ interface EssentialControlProps<
 	strName: T;
 }
 
-// Type checking is disabled for onChange values, because I don't think this is
-// possible to do, but what do I know...
+// The worst type checking known to man
 const EssentialControls: Record<
 	EssentialControlsType_t,
 	<T extends EssentialName_t, F extends Exclude<keyof Settings_t[T], symbol>>(
 		props: EssentialControlProps<T, F>,
 	) => ReactNode
 > = {
-	boolean(props) {
+	boolean<
+		T extends EssentialName_t,
+		F extends Exclude<keyof Settings_t[T], symbol>,
+	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
 		const ctx = useContext(SettingsContext);
 		const [value, setValue] = useState(ctx[strName][strField] as boolean);
-		const onChange = (value: never) => {
-			props.onChange(value);
-			SetSettingsKey(strName, strField, value);
+		const onChange = (value: boolean) => {
+			props.onChange(value as Settings_t[T][F]);
+			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
 		return <Toggle value={value} onChange={onChange} />;
 	},
-	number(props) {
+	number<
+		T extends EssentialName_t,
+		F extends Exclude<keyof Settings_t[T], symbol>,
+	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
 		const pSettings = useContext(SettingsContext);
 		const [value, setValue] = useState(pSettings[strName][strField] as number);
 		const onChange: ChangeEventHandler<HTMLInputElement> = (ev) => {
-			const value = Number(ev.target.value) as never;
+			const value = Number(ev.target.value);
 			if (!Number.isFinite(value)) {
 				return;
 			}
 
-			props.onChange(value);
-			SetSettingsKey(strName, strField, value);
+			props.onChange(value as Settings_t[T][F]);
+			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
@@ -109,14 +114,17 @@ const EssentialControls: Record<
 			<TextField mustBeNumeric value={value.toString()} onChange={onChange} />
 		);
 	},
-	string(props) {
+	string<
+		T extends EssentialName_t,
+		F extends Exclude<keyof Settings_t[T], symbol>,
+	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
 		const pSettings = useContext(SettingsContext);
 		const [value, setValue] = useState(pSettings[strName][strField] as string);
 		const onChange: ChangeEventHandler<HTMLInputElement> = (ev) => {
-			const value = ev.target.value as never;
-			props.onChange(value);
-			SetSettingsKey(strName, strField, value);
+			const value = ev.target.value;
+			props.onChange(value as Settings_t[T][F]);
+			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
