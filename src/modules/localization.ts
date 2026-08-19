@@ -1,4 +1,4 @@
-import { findModuleByExport } from "millennium";
+import { findModuleByExport } from "@steambrew/client";
 import type { ReactNode } from "react";
 
 const mod = findModuleByExport((e) =>

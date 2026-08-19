@@ -1,4 +1,4 @@
-import type { Playtime } from "millennium";
+import type { Playtime } from "@steambrew/client";
 import { useEffect, useState } from "react";
 
 import { Localize } from "@/modules/localization";

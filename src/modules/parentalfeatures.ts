@@ -1,4 +1,4 @@
-import { findModuleExport } from "millennium";
+import { findModuleExport } from "@steambrew/client";
 
 export enum EParentalFeature {
 	Invalid,

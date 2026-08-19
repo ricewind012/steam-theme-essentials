@@ -1,4 +1,4 @@
-import { definePlugin, EUIMode, IconsModule, sleep } from "millennium";
+import { definePlugin, EUIMode, IconsModule, sleep } from "@steambrew/client";
 
 import { SettingsPanel } from "@/components/settingspanel";
 import { pEssentialController } from "@/essentials/controller";

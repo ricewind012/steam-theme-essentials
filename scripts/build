@@ -1,0 +1,11 @@
+#!/bin/sh
+
+SRC_DIR=src/frontend
+
+find "$SRC_DIR" -type f | while read -r l; do
+	sed -i 's/from "@steambrew\/client"/from "millennium"/g' "$l"
+done
+cargo run --manifest-path ~/opt/git/Millennium/starlight/Cargo.toml
+find "$SRC_DIR" -type f | while read -r l; do
+	sed -i 's/from "millennium"/from "@steambrew\/client"/g' "$l"
+done

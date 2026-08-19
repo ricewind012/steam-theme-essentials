@@ -1,4 +1,9 @@
-import { DialogButton, DialogHeader, Focusable, TextField } from "millennium";
+import {
+	DialogButton,
+	DialogHeader,
+	Focusable,
+	TextField,
+} from "@steambrew/client";
 import { type KeyboardEventHandler, useRef, useState } from "react";
 
 import { XLineIcon } from "@/modules/icons";

@@ -1,5 +1,5 @@
 local logger = require("logger")
-local millennium = require("millennium")
+local millennium = require("@steambrew/client")
 
 ---@ffi
 ---@param path string

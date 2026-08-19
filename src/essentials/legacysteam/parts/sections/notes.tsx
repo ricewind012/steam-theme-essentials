@@ -1,4 +1,4 @@
-import { DialogButton, type Note } from "millennium";
+import { DialogButton, type Note } from "@steambrew/client";
 import { useContext, useEffect, useState } from "react";
 
 import {

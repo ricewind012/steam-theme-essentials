@@ -6,7 +6,7 @@ import {
 	MenuSeparator,
 	showContextMenu,
 	showModal,
-} from "millennium";
+} from "@steambrew/client";
 import { Component } from "react";
 
 import { BIsChinaLauncher, Config } from "@/modules/config";

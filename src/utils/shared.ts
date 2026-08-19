@@ -3,7 +3,7 @@ import {
 	findClassModule,
 	findModuleExport,
 	Millennium,
-} from "millennium";
+} from "@steambrew/client";
 
 export const classes = {
 	appactionbutton: findClassModule(

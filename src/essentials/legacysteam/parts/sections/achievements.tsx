@@ -4,7 +4,7 @@ import {
 	DialogButton,
 	EResult,
 	ProgressBar,
-} from "millennium";
+} from "@steambrew/client";
 import { useContext, useEffect, useState } from "react";
 
 import { AchievementIconBase } from "@/modules/achievementiconbase";

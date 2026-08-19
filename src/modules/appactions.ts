@@ -2,7 +2,7 @@ import {
 	type ELaunchSource,
 	findModuleByExport,
 	type Module,
-} from "millennium";
+} from "@steambrew/client";
 
 const exports: Module[] = Object.values(
 	findModuleByExport((e) => e.toString().includes("BIsAppBlocked()")),

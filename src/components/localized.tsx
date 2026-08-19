@@ -1,4 +1,4 @@
-import { PanelSection } from "millennium";
+import { PanelSection } from "@steambrew/client";
 import type { PropsWithChildren } from "react";
 
 import { Localize } from "@/modules/localization";

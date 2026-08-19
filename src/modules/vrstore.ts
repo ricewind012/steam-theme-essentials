@@ -1,4 +1,4 @@
-import { findModuleExport } from "millennium";
+import { findModuleExport } from "@steambrew/client";
 
 interface VRStore {
 	get IsSteamVRRunning(): boolean;

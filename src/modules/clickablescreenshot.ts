@@ -1,4 +1,4 @@
-import type { Screenshot } from "millennium";
+import type { Screenshot } from "@steambrew/client";
 import type { FC } from "react";
 
 import { FindModuleExportByString } from "@/utils/shared";

@@ -1,4 +1,4 @@
-import { ModalPosition, showModal } from "millennium";
+import { ModalPosition, showModal } from "@steambrew/client";
 import { Component } from "react";
 
 import { AppGameInfo } from "@/modules/appgameinfo";

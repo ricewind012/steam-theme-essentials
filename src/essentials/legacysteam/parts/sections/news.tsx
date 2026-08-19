@@ -1,4 +1,4 @@
-import { DialogButton, EResult } from "millennium";
+import { DialogButton, EResult } from "@steambrew/client";
 import { useContext, useEffect, useState } from "react";
 
 import { Config } from "@/modules/config";

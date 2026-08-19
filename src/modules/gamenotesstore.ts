@@ -3,7 +3,7 @@ import {
 	findModuleExport,
 	type Note,
 	type SteamAppOverview,
-} from "millennium";
+} from "@steambrew/client";
 
 import { FindModuleExportByString } from "@/utils/shared";
 
