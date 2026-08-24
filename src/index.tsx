@@ -1,11 +1,20 @@
-import { definePlugin, EUIMode, IconsModule, sleep } from "@steambrew/client";
+import {
+	definePlugin,
+	EUIMode,
+	IconsModule,
+	Millennium,
+	sleep,
+} from "@steambrew/client";
 
 import { SettingsPanel } from "@/components/settingspanel";
 import { PLUGIN_PATH } from "@/consts";
 import { pEssentialController } from "@/essentials/controller";
 import { CLogger } from "@/utils/log";
+import { FindStringInProps } from "@/utils/reactstuff";
 
 const g_pLogger = new CLogger("index");
+
+Millennium.exposeObj({ FindStringInProps });
 
 /**
  * Replacement function to avoid JSON modules because of localization - it's
