@@ -9,10 +9,12 @@ import {
 import { SettingsPanel } from "@/components/settingspanel";
 import { PLUGIN_PATH } from "@/consts";
 import { pEssentialController } from "@/essentials/controller";
+import { FindStringInObject } from "@/exposed";
 import { CLogger } from "@/utils/log";
-import { FindStringInProps } from "@/utils/reactstuff";
 
 const g_pLogger = new CLogger("index");
+
+Millennium.exposeObj({ FindStringInObject });
 
 /**
  * Replacement function to avoid JSON modules because of localization - it's
@@ -49,8 +51,6 @@ export default definePlugin(async () => {
 	await App.WaitForServicesInitialized();
 	// TODO: shitty workaround for millennium ui rerender
 	await sleep(1_000);
-
-	Millennium.exposeObj({ FindStringInProps });
 
 	const vecRegistrars = [
 		SteamClient.UI.RegisterForUIModeChanged(OnUIModeChange),
