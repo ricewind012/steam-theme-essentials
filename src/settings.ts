@@ -11,6 +11,9 @@ const DEFAULT_SETTINGS = {
 	legacysteam: {
 		bEnabled: true,
 	},
+	menuarialabels: {
+		bEnabled: true,
+	},
 };
 
 let g_pSettings: Settings_t = null;

@@ -18,7 +18,6 @@ function FindStringInChildren(props: PropsWithChildren): string {
 		}
 
 		if (typeof child === "string") {
-			console.error(`Got ${child}`);
 			return child;
 		}
 
@@ -62,7 +61,6 @@ export function FindStringInObject(obj: Record<string, unknown>): string {
 		}
 
 		if (typeof v === "string") {
-			console.error(`Got ${v}`);
 			return v;
 		}
 
