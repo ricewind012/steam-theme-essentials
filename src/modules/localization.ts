@@ -12,7 +12,7 @@ export const Localize: (
 	strToken: string,
 	...args: (string | number)[]
 ) => string = Object.values<any>(mod).find((e) =>
-	e.toString().includes("LocalizeString(e);return"),
+	e.toString().match(/LocalizeString\(\w+\);return/),
 );
 
 /**
@@ -28,5 +28,5 @@ export const LocalizeInlineReact: (
 	strToken: string,
 	...nodes: ReactNode[]
 ) => ReactNode = Object.values<any>(mod).find((e) =>
-	e.toString().includes(".LocalizeIfToken"),
+	e.toString().includes("cloneElement"),
 );
