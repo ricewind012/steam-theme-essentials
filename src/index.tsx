@@ -1,28 +1,23 @@
 import { definePlugin, EUIMode, IconsModule, sleep } from "@steambrew/client";
 
 import { SettingsPanel } from "@/components/settingspanel";
-import { PLUGIN_PATH } from "@/consts";
 import { pEssentialController } from "@/essentials/controller";
 import { CLogger } from "@/utils/log";
 
 const g_pLogger = new CLogger("index");
 
-/**
- * Replacement function to avoid JSON modules because of localization - it's
- * easier to just create 1 file instead of doing the same thing, then typing an
- * import somewhere here, checking if it works, and so on.
- */
-const ImportJSON = async (path: string) =>
-	(await fetch(`${PLUGIN_PATH}/${path}`)).json();
+window.a = backend;
 
 async function InitLocalization() {
 	const lang = await SteamClient.Settings.GetCurrentLanguage();
+	/*
 	const tokens = await ImportJSON(`locales/${lang}.json`).catch(() => {
 		g_pLogger.Warn("No %o locale, reverting to English", lang);
 		return ImportJSON(`locales/english.json`);
 	});
+	*/
 
-	LocalizationManager.AddTokens(tokens);
+	LocalizationManager.AddTokens({});
 }
 
 function OnUIModeChange(mode: EUIMode) {

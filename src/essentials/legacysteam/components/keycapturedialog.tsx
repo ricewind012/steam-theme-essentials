@@ -10,7 +10,7 @@ import { XLineIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { ToolTip } from "@/modules/tooltip";
 import { classes } from "@/utils/shared";
-import { type CMsgHotkey_t } from "@/utils/steamtypes";
+import type { CMsgHotkey_t } from "@/utils/steamtypes";
 
 function BuildClassNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");

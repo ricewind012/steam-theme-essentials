@@ -1,0 +1,19 @@
+[plugin]
+author = "ricewind"
+description = "Additional elements for themes"
+id = "steam-theme-essentials-starlight"
+name = "Theme Essentials"
+version = "1.0.0"
+
+[assets]
+resources = ["locales"]
+
+[backend]
+entry = "src/main.lua"
+sources = ["src/**/*.lua"]
+
+[frontend]
+entry = "src/index.tsx"
+
+[dev]
+reload_steamui_when = "both"
