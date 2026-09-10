@@ -5,7 +5,10 @@ import {
 } from "@steambrew/client";
 
 const exports: Module[] = Object.values(
-	findModuleByExport((e) => e.toString().includes("BIsAppBlocked()")),
+	findModuleByExport((e) => {
+		const str = e.toString();
+		return str.includes("BIsAppBlocked()") && str.includes("GetPerClientData");
+	}),
 );
 
 /**
@@ -37,7 +40,7 @@ export const GetAppAction: (
 	pOverview: any,
 	ePerClientData?: PerClientData_t,
 ) => AppAction_t | null = exports.find((e) =>
-	e.toString?.().includes("BIsAppBlocked()"),
+	e.toString().includes("BIsAppBlocked()"),
 );
 
 export const GetCallbackForAppAction: (
