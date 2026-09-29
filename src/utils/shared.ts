@@ -1,8 +1,8 @@
 import {
-    type ClassModule,
-    findClassModule,
-    findModuleExport,
-    Millennium,
+	type ClassModule,
+	findClassModule,
+	findModuleExport,
+	Millennium,
 } from "millennium";
 
 export const classes = {

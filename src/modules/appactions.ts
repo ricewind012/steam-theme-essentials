@@ -1,7 +1,7 @@
 import {
-    type ELaunchSource,
-    findModuleByExport,
-    type Module,
+	type ELaunchSource,
+	findModuleByExport,
+	type Module,
 } from "millennium";
 
 const exports: Module[] = Object.values(

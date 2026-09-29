@@ -11,7 +11,8 @@ interface LocalizedBaseProps {
 }
 
 interface LocalizedPanelSectionProps
-	extends LocalizedBaseProps, PropsWithChildren {}
+	extends LocalizedBaseProps,
+		PropsWithChildren {}
 
 export function LocalizedPanelSection(props: LocalizedPanelSectionProps) {
 	const { strToken, children } = props;
