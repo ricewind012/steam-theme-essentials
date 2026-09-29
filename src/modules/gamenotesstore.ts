@@ -1,9 +1,9 @@
 import {
-	type EResult,
-	findModuleExport,
-	type Note,
-	type SteamAppOverview,
-} from "@steambrew/client";
+    type EResult,
+    findModuleExport,
+    type Note,
+    type SteamAppOverview,
+} from "millennium";
 
 import { FindModuleExportByString } from "@/utils/shared";
 

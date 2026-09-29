@@ -1,4 +1,4 @@
-import { ErrorBoundary } from "@steambrew/client";
+import { ErrorBoundary } from "millennium";
 import type { ReactNode } from "react";
 import { createRoot, type Root } from "react-dom/client";
 

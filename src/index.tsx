@@ -1,4 +1,4 @@
-import { definePlugin, EUIMode, IconsModule, sleep } from "@steambrew/client";
+import { definePlugin, EUIMode, IconsModule, sleep } from "millennium";
 
 import { SettingsPanel } from "@/components/settingspanel";
 import { pEssentialController } from "@/essentials/controller";
@@ -6,18 +6,15 @@ import { CLogger } from "@/utils/log";
 
 const g_pLogger = new CLogger("index");
 
-window.a = backend;
-
 async function InitLocalization() {
 	const lang = await SteamClient.Settings.GetCurrentLanguage();
-	/*
-	const tokens = await ImportJSON(`locales/${lang}.json`).catch(() => {
+	let tokens = await backend.read_locale(lang);
+	if (!tokens) {
 		g_pLogger.Warn("No %o locale, reverting to English", lang);
-		return ImportJSON(`locales/english.json`);
-	});
-	*/
+		tokens = await backend.read_locale("english");
+	}
 
-	LocalizationManager.AddTokens({});
+	LocalizationManager.AddTokens(tokens);
 }
 
 function OnUIModeChange(mode: EUIMode) {

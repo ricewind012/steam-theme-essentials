@@ -1,9 +1,9 @@
 import {
-	type ClassModule,
-	findClassModule,
-	findModuleExport,
-	Millennium,
-} from "@steambrew/client";
+    type ClassModule,
+    findClassModule,
+    findModuleExport,
+    Millennium,
+} from "millennium";
 
 export const classes = {
 	appactionbutton: findClassModule(

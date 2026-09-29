@@ -1,4 +1,4 @@
-import { PanelSection } from "@steambrew/client";
+import { PanelSection } from "millennium";
 import type { PropsWithChildren } from "react";
 
 import { Localize } from "@/modules/localization";
@@ -11,8 +11,7 @@ interface LocalizedBaseProps {
 }
 
 interface LocalizedPanelSectionProps
-	extends LocalizedBaseProps,
-		PropsWithChildren {}
+	extends LocalizedBaseProps, PropsWithChildren {}
 
 export function LocalizedPanelSection(props: LocalizedPanelSectionProps) {
 	const { strToken, children } = props;
