@@ -1,4 +1,4 @@
-import { type BrowserContext, findModuleByExport } from "@steambrew/client";
+import { type BrowserContext, findModuleByExport } from "millennium";
 import type { FC, HTMLAttributes, ReactNode, RefObject } from "react";
 
 import type { CPlayer } from "@/utils/steamtypes";

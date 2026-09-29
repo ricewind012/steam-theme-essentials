@@ -1,4 +1,4 @@
-import type { BrowserContext } from "@steambrew/client";
+import type { BrowserContext } from "millennium";
 import { createContext } from "react";
 
 export interface OverlayInfoContext {

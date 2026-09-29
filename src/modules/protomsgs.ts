@@ -1,4 +1,4 @@
-import { type EResult, findModuleExport } from "@steambrew/client";
+import { type EResult, findModuleExport } from "millennium";
 
 export type ProtoBufService_t = Record<
 	string,

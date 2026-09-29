@@ -1,12 +1,15 @@
 {
 	"compilerOptions": {
-		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
 		"jsx": "react-jsx",
 		"moduleResolution": "bundler",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"millennium": ["./.millennium/lsp/ts"]
 		},
-		"strict": false,
-		"target": "esnext"
-	}
+		"resolveJsonModule": true,
+		"strict": false
+	},
+	"exclude": ["./src/backend"],
+	"include": ["./src", "./.millennium/types"]
 }

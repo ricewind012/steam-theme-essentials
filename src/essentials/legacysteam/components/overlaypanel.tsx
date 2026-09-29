@@ -1,4 +1,4 @@
-import { DialogButton } from "@steambrew/client";
+import { DialogButton } from "millennium";
 import type { FC, PropsWithChildren } from "react";
 
 export const k_nPanelEntriesCount = 4;

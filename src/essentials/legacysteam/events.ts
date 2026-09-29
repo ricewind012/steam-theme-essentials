@@ -1,4 +1,4 @@
-import type { Playtime } from "@steambrew/client";
+import type { Playtime } from "millennium";
 
 import { CEssentialEvent } from "@/essentials/event";
 

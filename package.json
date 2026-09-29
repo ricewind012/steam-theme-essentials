@@ -5,15 +5,13 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
-		"build": "millennium-ttc --build prod",
-		"dev": "millennium-ttc --build dev"
+		"build": "starlight --release",
+		"dev": "starlight"
 	},
 	"dependencies": {
-		"@steambrew/client": "^5.8.5",
-		"@steambrew/ttc": "^3.3.7",
-		"@types/react": "^19.1.1",
-		"@types/react-dom": "^19.1.1",
-		"tslib": "^2.8.1"
+		"@steambrew/starlight": "^1.1.6",
+		"@types/react": "19.1.1",
+		"@types/react-dom": "19.1.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.4.15",
