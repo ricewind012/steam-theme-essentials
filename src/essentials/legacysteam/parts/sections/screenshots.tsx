@@ -16,7 +16,7 @@ import {
 } from "@/modules/clickablescreenshot";
 import { Config, ConfigContext } from "@/modules/config";
 import { Localize } from "@/modules/localization";
-import type { CMsgHotkey_t } from "@/utils/steamtypes";
+import type { CMsgHotkey, SteamUIWindowInstance } from "@/utils/steamtypes";
 
 import { KeyCaptureDialog } from "../../components/keycapturedialog";
 import {
@@ -30,7 +30,7 @@ import { OverlayInfoContext } from "../overlayinfocontext";
  */
 function ShowModalForOverlay(
 	modal: ReactNode,
-	instance: any,
+	instance: SteamUIWindowInstance,
 	props?: ShowModalProps,
 ) {
 	return showModal(modal, instance.BrowserWindow, {
@@ -46,7 +46,7 @@ export function Screenshots() {
 
 	const [vecScreenshots, setScreenshots] = useState<Screenshot[]>([]);
 
-	const onSetKey = (key: CMsgHotkey_t) => {
+	const onSetKey = (key: CMsgHotkey) => {
 		setKey(key);
 		setKeyName(key.display_name);
 	};
@@ -93,7 +93,7 @@ export function Screenshots() {
 		return () => {
 			unregister();
 		};
-	}, []);
+	}, [pBrowser.m_unAppID]);
 
 	return (
 		<OverlayPanel.Container strName="screenshots">

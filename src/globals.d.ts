@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: Intentional */
+
 declare global {
 	const App: any;
 	const appStore: any;

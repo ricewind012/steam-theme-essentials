@@ -1,3 +1,8 @@
+/**
+ * biome-ignore-all lint/correctness/useHookAtTopLevel: False positive in
+ * EssentialControls
+ */
+
 import { Field, type FieldProps, TextField, Toggle } from "millennium";
 import {
 	type ChangeEventHandler,

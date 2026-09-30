@@ -2,7 +2,7 @@ import { CThemeEssentialBase } from "@/essentials/base";
 import { bind } from "@/utils/bind";
 import { AddPopupCreatedCallback, type Unsubscribable } from "@/utils/popup";
 import { classes, WaitForElement } from "@/utils/shared";
-import type { SteamPopup_t } from "@/utils/steamtypes";
+import type { SteamPopup } from "@/utils/steamtypes";
 
 import { Events } from "./events";
 import * as parts from "./parts";
@@ -16,7 +16,7 @@ const g_strMainWindowTitle = LocalizationManager.LocalizeString(
 
 export class CAeroThemeEssential extends CThemeEssentialBase {
 	private m_elThemeFieldsStyle: HTMLStyleElement;
-	private m_pMainWindowPopup: SteamPopup_t;
+	private m_pMainWindowPopup: SteamPopup;
 	private m_pOrigSetGameListSelection: (
 		section: string,
 		appid: number,
@@ -94,7 +94,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 	 * Watches for supernav's active tab changes.
 	 */
 	@bind
-	async AddSuperNavEvents(popup: SteamPopup_t) {
+	async AddSuperNavEvents(popup: SteamPopup) {
 		const doc = popup.m_popup.document;
 		const container = await WaitForElement(
 			`.${classes.supernav.SuperNav}`,
@@ -121,7 +121,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 	 * Adds theme preview image vars for Millennium theme fields.
 	 */
 	@bind
-	async AddThemeFieldVars(popup: SteamPopup_t) {
+	async AddThemeFieldVars(popup: SteamPopup) {
 		// No API for finding themes yet? so use the internal API instead
 		// biome-ignore lint/complexity/useLiteralKeys: required here
 		const themes = await globalThis["Millennium"].callServerMethod(
@@ -167,7 +167,7 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 	 * library.
 	 */
 	@bind
-	PatchUIStore(popup: SteamPopup_t) {
+	PatchUIStore(popup: SteamPopup) {
 		const store = uiStore;
 		const orig = store.SetGameListSelection;
 		const doc = popup.m_popup.document.documentElement;

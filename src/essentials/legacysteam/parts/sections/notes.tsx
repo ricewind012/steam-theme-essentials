@@ -49,7 +49,7 @@ export function Notes() {
 
 	useEffect(() => {
 		GameNotesCloudStore.GetGameNotesList(pOverview).then((e) => setNotes(e));
-	}, []);
+	}, [pOverview]);
 
 	return (
 		<OverlayPanel.Container strName="notes">

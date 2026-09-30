@@ -42,7 +42,7 @@ export function Guides() {
 		if (!bIsOfflineMode) {
 			FetchPopularGuides(pBrowser.m_unAppID).then((e) => setGuides(e));
 		}
-	}, []);
+	}, [bIsOfflineMode, pBrowser.m_unAppID]);
 
 	return (
 		<OverlayPanel.Container strName="guides">

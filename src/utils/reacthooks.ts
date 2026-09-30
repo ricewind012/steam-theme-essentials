@@ -8,7 +8,7 @@ function useSteamRegistrar(handle: Unregisterable | void) {
 		// Some functions like User.RegisterForCurrentUserChanges do not return
 		// anything... vaaaalve
 		return handle ? handle.unregister : undefined;
-	}, []);
+	}, [handle]);
 }
 
 /**

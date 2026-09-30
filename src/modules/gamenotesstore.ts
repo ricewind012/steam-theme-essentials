@@ -15,6 +15,7 @@ interface GameNotesCloudStore {
 	ResolveImageURL(param0: string): string;
 	SaveGameNotes(overview: SteamAppOverview, json: string): Promise<EResult>;
 	SyncFromServer(): Promise<void>;
+	// biome-ignore lint/suspicious/noExplicitAny: idk what the type is
 	UploadImage(e: string, t: any): any;
 	WriteNotesFile(filenameForNotes: string, notes: string): Promise<EResult>;
 }

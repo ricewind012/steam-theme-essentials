@@ -26,6 +26,8 @@ import {
 	FindModuleExportByString,
 	WaitForElement,
 } from "@/utils/shared";
+import { SteamClientURL } from "@/utils/steamtypes";
+import type { Fn_t } from "@/utils/types";
 
 import { IconButton } from "../components/iconbutton";
 
@@ -127,7 +129,7 @@ function BuildSteamRootMenuEntries(): RootMenuEntry[] {
 
 const RUN_VR_URL = "steam://run/250820";
 
-const exports: ((...args: any[]) => any)[] = Object.values(
+const exports: Fn_t[] = Object.values(
 	findModuleByExport((e) => e.toString().includes(RUN_VR_URL)),
 );
 
@@ -365,16 +367,16 @@ export class SuperNav extends Component {
 							.map((e) => {
 								const { checked, name, onClick, steamURL } = e;
 								if (name.startsWith("Separator")) {
-									return <MenuSeparator />;
+									return <MenuSeparator key={name} />;
 								}
 
 								const text = Localize(name);
 								const onClickFallback = () => {
-									(SteamClient.URL as any).ExecuteSteamURL(steamURL);
+									SteamClientURL.ExecuteSteamURL(steamURL);
 								};
 
 								return (
-									<MenuItem onSelected={onClick || onClickFallback}>
+									<MenuItem key={name} onSelected={onClick || onClickFallback}>
 										{checked && <span className={classes.jumplist.Icon} />}
 										{text}
 									</MenuItem>

@@ -5,17 +5,17 @@ import { XLineIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { ToolTip } from "@/modules/tooltip";
 import { classes } from "@/utils/shared";
-import type { CMsgHotkey_t } from "@/utils/steamtypes";
+import type { CMsgHotkey } from "@/utils/steamtypes";
 
 function BuildClassNames(...classes: string[]) {
 	return classes.filter(Boolean).join(" ");
 }
 
 interface KeyCaptureDialogProps {
-	currentKey: CMsgHotkey_t;
+	currentKey: CMsgHotkey;
 	disabled?: boolean;
 	fnClose: () => void;
-	onSetKey: (key: CMsgHotkey_t) => void;
+	onSetKey: (key: CMsgHotkey) => void;
 	// Key, not dialog title
 	strTitle: string;
 }

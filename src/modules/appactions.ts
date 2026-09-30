@@ -2,9 +2,12 @@ import {
 	type ELaunchSource,
 	findModuleByExport,
 	type Module,
+	type SteamAppOverview,
 } from "millennium";
 
-const exports: Module[] = Object.values(
+import type { SteamUIWindowInstance } from "@/utils/steamtypes";
+
+const exports = Object.values<Module>(
 	findModuleByExport((e) => {
 		const str = e.toString();
 		return str.includes("BIsAppBlocked()") && str.includes("GetPerClientData");
@@ -36,8 +39,8 @@ export type AppAction_t =
 type PerClientData_t = "local" | "mostavailable" | "selected";
 
 export const GetAppAction: (
-	pWindowInstance: any,
-	pOverview: any,
+	pWindowInstance: SteamUIWindowInstance,
+	pOverview: SteamAppOverview,
 	ePerClientData?: PerClientData_t,
 ) => AppAction_t | null = exports.find((e) =>
 	e.toString().includes("BIsAppBlocked()"),
@@ -45,7 +48,7 @@ export const GetAppAction: (
 
 export const GetCallbackForAppAction: (
 	eAction: AppAction_t,
-	pOverview: any,
+	pOverview: SteamAppOverview,
 	ePerClientData: PerClientData_t,
 	eLaunchSource: ELaunchSource,
 	wnd?: Window,

@@ -41,7 +41,7 @@ export function News() {
 				l: Config.LANGUAGE,
 			},
 		).then((e) => setData(e));
-	}, []);
+	}, [bIsOfflineMode, pBrowser.m_unAppID]);
 
 	return (
 		<OverlayPanel.Container strName="news">

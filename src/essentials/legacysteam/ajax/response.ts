@@ -8,9 +8,9 @@ export const AjaxURLs = {
 	PartnerEventsPageable: `${Config.STORE_BASE_URL}events/ajaxgetpartnereventspageable`,
 };
 
-export async function GetAjaxResponse<T extends Record<string, any>>(
+export async function GetAjaxResponse<T extends Record<string, unknown>>(
 	strURL: string,
-	params: Record<string, any>,
+	params: Record<string, unknown>,
 ): Promise<AjaxResult_t<T>> {
 	try {
 		return await steamAjaxRequest.get(strURL, { params });

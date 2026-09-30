@@ -23,6 +23,9 @@
 		"includes": ["**", "!.millennium", "!package.json"]
 	},
 	"linter": {
+		"domains": {
+			"react": "recommended"
+		},
 		"rules": {
 			"style": {
 				"useEnumInitializers": "off",
@@ -49,9 +52,6 @@
 						"strictCase": false
 					}
 				}
-			},
-			"suspicious": {
-				"noExplicitAny": "off"
 			}
 		}
 	}

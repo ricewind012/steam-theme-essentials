@@ -5,7 +5,7 @@ import {
 	EResult,
 	ProgressBar,
 } from "millennium";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { AchievementIconBase } from "@/modules/achievementiconbase";
 import { Localize, LocalizeInlineReact } from "@/modules/localization";
@@ -64,7 +64,7 @@ export function Achievements() {
 	const nTotal = vecAchievements.length;
 	const nProgress = (nAchieved / nTotal) * 100;
 
-	function FetchAchievements() {
+	const FetchAchievements = useCallback(() => {
 		const handler = ({ data, result }: AppAchievementResponse) => {
 			if (result !== EResult.OK) {
 				throw new Error(`GetMyAchievementsForApp got result ${result}`);
@@ -73,7 +73,7 @@ export function Achievements() {
 			setAchievements(data.rgAchievements);
 		};
 		SteamClient.Apps.GetMyAchievementsForApp(pBrowser.m_gameID).then(handler);
-	}
+	}, [pBrowser.m_gameID]);
 
 	useEffect(() => {
 		FetchAchievements();
@@ -82,7 +82,7 @@ export function Achievements() {
 		// useless... valve moment
 		// Doesn't return an unregister function either, VAAAAALVE
 		SteamClient.Apps.RegisterForAchievementChanges(() => FetchAchievements());
-	}, []);
+	}, [FetchAchievements]);
 
 	return (
 		<OverlayPanel.Container strName="achievements">

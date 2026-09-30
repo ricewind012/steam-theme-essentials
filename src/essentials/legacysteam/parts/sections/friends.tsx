@@ -1,5 +1,5 @@
 import { DialogButton } from "millennium";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 
 import { EPersonaState, FriendsListEntry } from "@/modules/friends";
 import { Localize } from "@/modules/localization";
@@ -37,17 +37,20 @@ export function Friends() {
 	const [ePersonaState, setPersonaState] = useState(GetPersonaStatus(self));
 	const [vecFriends, setFriends] = useState(GetOnlineFriends());
 
-	const onPersonaStateChange = (pPlayer) => {
-		const ePersonaState = GetPersonaStatus(pPlayer);
-		if (pPlayer === self) {
-			setPersonaState(ePersonaState);
-		}
+	const onPersonaStateChange = useCallback(
+		(pPlayer) => {
+			const ePersonaState = GetPersonaStatus(pPlayer);
+			if (pPlayer === self) {
+				setPersonaState(ePersonaState);
+			}
 
-		// TODO: make a map, screenshots also
-		if (ePersonaState !== EPersonaState.Offline && !bIsOfflineMode) {
-			setFriends(GetOnlineFriends());
-		}
-	};
+			// TODO: make a map, screenshots also
+			if (ePersonaState !== EPersonaState.Offline && !bIsOfflineMode) {
+				setFriends(GetOnlineFriends());
+			}
+		},
+		[bIsOfflineMode, self],
+	);
 
 	useOfflineMode((bIsOfflineMode) => setOfflineMode(bIsOfflineMode));
 	useEffect(() => {
@@ -57,7 +60,7 @@ export function Friends() {
 		return () => {
 			handle.Unregister();
 		};
-	}, []);
+	}, [onPersonaStateChange]);
 
 	const vecHeaders = [
 		Localize("#Essential_OverlayPanel_OfflineModeInfo"),

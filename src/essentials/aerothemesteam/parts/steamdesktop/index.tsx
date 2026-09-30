@@ -11,6 +11,7 @@ import {
 } from "@/modules/parentalfeatures";
 import { bind } from "@/utils/bind";
 import { GetMainPopupWindow, type Unsubscribable } from "@/utils/popup";
+import { SteamClientURL } from "@/utils/steamtypes";
 
 import {
 	RibbonButton,
@@ -173,7 +174,7 @@ interface SteamDesktopState {
 	tab: ESuperNavTab;
 }
 
-export class SteamDesktop extends Component<{}, SteamDesktopState> {
+export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 	private m_vecEventRegistrars: Unsubscribable[] = [];
 
 	state = {
@@ -250,7 +251,7 @@ export class SteamDesktop extends Component<{}, SteamDesktopState> {
 		const accountSection = GetAccountEntries().map((e) => {
 			const { args, icon, feature, text, url } = e;
 			const onClick = () => {
-				(SteamClient.URL as any).ExecuteSteamURL(url);
+				SteamClientURL.ExecuteSteamURL(url);
 			};
 			const disabled =
 				e.disabled || CParentalFeaturesManager.BIsFeatureBlocked(feature);

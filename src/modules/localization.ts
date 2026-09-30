@@ -1,4 +1,4 @@
-import { findModuleByExport } from "millennium";
+import { findModuleByExport, type Module } from "millennium";
 import type { ReactNode } from "react";
 
 const mod = findModuleByExport((e) =>
@@ -11,7 +11,7 @@ const mod = findModuleByExport((e) =>
 export const Localize: (
 	strToken: string,
 	...args: (string | number)[]
-) => string = Object.values<any>(mod).find((e) =>
+) => string = Object.values<Module>(mod).find((e) =>
 	e.toString().match(/LocalizeString\([\w$]+\);return/),
 );
 
@@ -27,6 +27,6 @@ export const Localize: (
 export const LocalizeInlineReact: (
 	strToken: string,
 	...nodes: ReactNode[]
-) => ReactNode = Object.values<any>(mod).find((e) =>
+) => ReactNode = Object.values<Module>(mod).find((e) =>
 	e.toString().includes("cloneElement"),
 );

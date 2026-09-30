@@ -1,5 +1,11 @@
 import { type BrowserContext, findModuleByExport } from "millennium";
-import type { FC, HTMLAttributes, ReactNode, RefObject } from "react";
+import type {
+	FC,
+	HTMLAttributes,
+	ReactElement,
+	ReactNode,
+	RefObject,
+} from "react";
 
 import type { CPlayer } from "@/utils/steamtypes";
 
@@ -20,7 +26,7 @@ const mod = findModuleByExport((e) =>
 );
 
 interface FriendsListEntryProps {
-	action?: <T extends Event>(friend: any, ev: T) => void;
+	action?: <T extends Event>(friend: CPlayer, ev: T) => void;
 	avatarSize?:
 		| "X-Small"
 		| "Small"
@@ -61,6 +67,6 @@ interface FriendsListEntryProps {
 }
 
 // mobx-react's @observer memoizes components, but it's the only one here
-export const FriendsListEntry: FC<FriendsListEntryProps> = Object.values<any>(
-	mod,
-).find((e) => e.type);
+export const FriendsListEntry = Object.values<ReactElement>(mod).find(
+	(e) => e.type,
+) as unknown as FC<FriendsListEntryProps>;

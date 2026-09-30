@@ -2,6 +2,7 @@ import { type EResult, findModuleExport } from "millennium";
 
 export type ProtoBufService_t = Record<
 	string,
+	// biome-ignore lint/suspicious/noExplicitAny: idc lol
 	<T>(transport: any, msg: any) => Promise<CBaseProtoBufMsg<T>>
 >;
 

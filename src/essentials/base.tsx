@@ -7,7 +7,7 @@ import { type EssentialName_t, GetSettings } from "@/settings";
 import { bind } from "@/utils/bind";
 import { CLogger } from "@/utils/log";
 import { classes, WaitForElement } from "@/utils/shared";
-import type { SteamPopup_t } from "@/utils/steamtypes";
+import type { SteamPopup } from "@/utils/steamtypes";
 
 import { pLoadedEssentials } from "./loadedtracker";
 
@@ -22,7 +22,7 @@ interface EssentialConstructor {
 	/**
 	 * Filter for whether to use this popup or not.
 	 */
-	fnFilter: (popup: SteamPopup_t) => boolean;
+	fnFilter: (popup: SteamPopup) => boolean;
 
 	/**
 	 * The essential's name.
@@ -61,7 +61,7 @@ const g_pLogger = new CLogger("essentials/base");
 
 export abstract class CThemeEssentialBase {
 	private readonly m_bEnabled: boolean;
-	protected readonly m_fnFilter: (popup: SteamPopup_t) => boolean;
+	protected readonly m_fnFilter: (popup: SteamPopup) => boolean;
 	private readonly m_setPartHandles = new Set<EssentialPartHandle>();
 	private readonly m_strName: EssentialName_t;
 	private readonly m_vecParts: EssentialPart[];
@@ -104,7 +104,7 @@ export abstract class CThemeEssentialBase {
 	 * @param popup The popup to render to.
 	 */
 	@bind
-	protected RenderParts(popup: SteamPopup_t) {
+	protected RenderParts(popup: SteamPopup) {
 		const doc: Document = popup.window.document;
 		for (const part of this.m_vecParts) {
 			const { steamComponent, componentClassName, component } = part;

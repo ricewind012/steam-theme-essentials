@@ -1,7 +1,7 @@
 import { CThemeEssentialBase } from "@/essentials/base";
 import { bind } from "@/utils/bind";
 import { AddPopupCreatedCallback, type Unsubscribable } from "@/utils/popup";
-import type { SteamPopup_t } from "@/utils/steamtypes";
+import type { SteamPopup } from "@/utils/steamtypes";
 
 import { Events } from "./events";
 import * as parts from "./parts";
@@ -10,7 +10,7 @@ const k_strCSSPropName = "--steamdesktopoverlay--game-name";
 
 export class CLegacySteamEssential extends CThemeEssentialBase {
 	private m_hPlaytimeInterval: number;
-	private m_pOverlayPopup: SteamPopup_t;
+	private m_pOverlayPopup: SteamPopup;
 	private m_unAppID: number;
 	private m_vecPopupCallbacks: Unsubscribable[] = [];
 

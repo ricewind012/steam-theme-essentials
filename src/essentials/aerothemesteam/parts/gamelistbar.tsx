@@ -10,7 +10,7 @@ interface GameListBarState {
 	text: string;
 }
 
-export class GameListBar extends Component<{}, GameListBarState> {
+export class GameListBar extends Component<unknown, GameListBarState> {
 	private observer: MutationObserver;
 
 	state = {

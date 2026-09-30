@@ -3,6 +3,7 @@ import {
 	findClassModule,
 	findModuleExport,
 	Millennium,
+	type Module,
 } from "millennium";
 
 /**
@@ -14,7 +15,7 @@ function GetClassNameWithoutResident(className: string) {
 	return bHasResident ? className.slice(0, nSpaceIdx) : className;
 }
 
-function FindClassModuleWithoutResident(filter: (module: any) => boolean) {
+function FindClassModuleWithoutResident(filter: (mod: Module) => boolean) {
 	const mod = findClassModule(filter);
 	if (!mod) {
 		return;

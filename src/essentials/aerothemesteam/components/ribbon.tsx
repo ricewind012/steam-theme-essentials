@@ -69,7 +69,7 @@ interface RibbonGameSectionButtonProps {
 	appid: number;
 }
 
-export class RibbonGameSectionButton<S = {}> extends Component<
+export class RibbonGameSectionButton<S = unknown> extends Component<
 	RibbonGameSectionButtonProps,
 	S
 > {}

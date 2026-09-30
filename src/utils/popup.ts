@@ -1,4 +1,4 @@
-import type { SteamPopup_t } from "./steamtypes";
+import type { SteamPopup } from "./steamtypes";
 
 export interface Unsubscribable {
 	Unregister(): void;
@@ -16,8 +16,8 @@ export function GetMainPopupWindow() {
  * and is specifically for popups that pass the given filter.
  */
 export function AddPopupCreatedCallback(
-	popupFilter: (popup: SteamPopup_t) => boolean,
-	onCreated: (popup: SteamPopup_t) => void,
+	popupFilter: (popup: SteamPopup) => boolean,
+	onCreated: (popup: SteamPopup) => void,
 ): Unsubscribable {
 	for (const popup of g_PopupManager.GetPopups()) {
 		if (popupFilter(popup)) {

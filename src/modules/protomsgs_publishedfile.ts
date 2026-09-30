@@ -104,7 +104,9 @@ export async function FetchPopularGuides(appid: number) {
 	msg.Body().set_excluded_content_descriptors(vecDescriptorIDs);
 
 	const pTransport = communityStore.CMInterface.GetServiceTransport();
-	const pQueryMsg = await PublishedFileService.QueryFiles<any>(pTransport, msg);
+	const pQueryMsg = await PublishedFileService.QueryFiles<{
+		publishedfiledetails: PublishedFile[];
+	}>(pTransport, msg);
 	const eResult = pQueryMsg.GetEResult();
 	if (eResult !== EResult.OK) {
 		throw new Error(`FetchPopularGuides got result ${eResult}`);
