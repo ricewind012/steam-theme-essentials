@@ -5,23 +5,46 @@ import {
 	Millennium,
 } from "millennium";
 
+/**
+ * @returns `PP7LM0Ow1K5qkR8WElLpt contextMenu` -> `PP7LM0Ow1K5qkR8WElLpt`
+ */
+function GetClassNameWithoutResident(className: string) {
+	const nSpaceIdx = className.indexOf(" ");
+	const bHasResident = nSpaceIdx !== -1;
+	return bHasResident ? className.slice(0, nSpaceIdx) : className;
+}
+
+function FindClassModuleWithoutResident(filter: (module: any) => boolean) {
+	const mod = findClassModule(filter);
+	if (!mod) {
+		return;
+	}
+
+	const result: ClassModule = {};
+	for (const [k, v] of Object.entries(mod)) {
+		result[k] = GetClassNameWithoutResident(v);
+	}
+
+	return result;
+}
+
 export const classes = {
-	appactionbutton: findClassModule(
+	appactionbutton: FindClassModuleWithoutResident(
 		(e) => e.StreamingContextMenuItem,
-	) as ClassModule,
-	gamelistbar: findClassModule((e) => e.GameListHomeAndSearch) as ClassModule,
-	gamelistdropdown: findClassModule((e) => e.ScrollToTop) as ClassModule,
-	jumplist: findClassModule((e) => e.JumpListItemText) as ClassModule,
-	keycapture: findClassModule(
+	),
+	gamelistbar: FindClassModuleWithoutResident((e) => e.GameListHomeAndSearch),
+	gamelistdropdown: FindClassModuleWithoutResident((e) => e.ScrollToTop),
+	jumplist: FindClassModuleWithoutResident((e) => e.JumpListItemText),
+	keycapture: FindClassModuleWithoutResident(
 		(e) => e.Capturing && !e.RecommendedNote,
-	) as ClassModule,
-	menu: findClassModule((e) => e.MenuWrapper) as ClassModule,
-	steamdesktop: findClassModule((e) => e.FocusBar) as ClassModule,
-	steamdesktopoverlay: findClassModule(
+	),
+	menu: FindClassModuleWithoutResident((e) => e.MenuWrapper),
+	steamdesktop: FindClassModuleWithoutResident((e) => e.FocusBar),
+	steamdesktopoverlay: FindClassModuleWithoutResident(
 		(e) => e.OverlayPopup && !e.BackgroundRecording,
-	) as ClassModule,
-	supernav: findClassModule((e) => e.SuperNav) as ClassModule,
-	titlebarcontrols: findClassModule((e) => e.BranchBar) as ClassModule,
+	),
+	supernav: FindClassModuleWithoutResident((e) => e.SuperNav),
+	titlebarcontrols: FindClassModuleWithoutResident((e) => e.BranchBar),
 };
 
 export const FindModuleExportByString = (s: string) =>
