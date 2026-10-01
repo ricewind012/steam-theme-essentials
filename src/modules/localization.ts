@@ -28,5 +28,5 @@ export const LocalizeInlineReact: (
 	strToken: string,
 	...nodes: ReactNode[]
 ) => ReactNode = Object.values<Module>(mod).find((e) =>
-	e.toString().includes("cloneElement"),
+	e.toString().includes("Fragment"),
 );

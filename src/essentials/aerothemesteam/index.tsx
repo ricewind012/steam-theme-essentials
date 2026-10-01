@@ -16,8 +16,8 @@ declare global {
 	}
 }
 
-const k_strCSSPropIcon = "--library_game-icon";
-const k_strCSSPropName = "--library_game-name";
+const k_strCSSPropIcon = "--library--game-icon";
+const k_strCSSPropName = "--library--game-name";
 
 const g_strMainWindowTitle = LocalizationManager.LocalizeString(
 	"#WindowName_SteamDesktop",

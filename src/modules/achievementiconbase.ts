@@ -12,4 +12,4 @@ interface AchievementIconBaseProps {
 }
 
 export const AchievementIconBase: FC<AchievementIconBaseProps> =
-	FindModuleExportByString("AchievementIconWrapper");
+	FindModuleExportByString(".AchievementIconWrapper");

@@ -1,11 +1,11 @@
+import { findModuleExport } from "millennium";
 import type { FC, PropsWithChildren } from "react";
-
-import { FindModuleExportByString } from "../utils/shared";
 
 interface MenuGroupProps extends PropsWithChildren {
 	label: string;
 	disabled?: boolean;
 }
 
-export const MenuGroup: FC<MenuGroupProps> =
-	FindModuleExportByString("...e,bInGamepadUI:");
+export const MenuGroup: FC<MenuGroupProps> = findModuleExport((e) =>
+	e.toString().match(/...[\w$]+,bInGamepadUI:/),
+);

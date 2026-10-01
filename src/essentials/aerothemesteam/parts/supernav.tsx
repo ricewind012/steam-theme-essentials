@@ -344,12 +344,13 @@ export class SuperNav extends Component {
 		 * The original functions are stolen, since the responsible webpack
 		 * module returns the entire menu bar.
 		 */
+		// biome-ignore assist/source/useSortedKeys: Sort how Steam does it
 		const pEntries: Record<string, RootMenuEntry[]> = {
 			[strSteamRootMenuTitle]: BuildSteamRootMenuEntries(),
+			"#Menu_View": BuildViewRootMenuEntries(),
 			"#Menu_Friends": BuildFriendsRootMenuEntries(),
 			"#Menu_Games": BuildGamesRootMenuEntries(),
 			"#Menu_Help": BuildHelpRootMenuEntries(),
-			"#Menu_View": BuildViewRootMenuEntries(),
 		};
 
 		showContextMenu(

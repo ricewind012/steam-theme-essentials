@@ -39,20 +39,17 @@ export default definePlugin(async () => {
 		SteamClient.UI.RegisterForUIModeChanged(OnUIModeChange),
 	];
 
-	function onDismount() {
-		for (const handle of vecRegistrars) {
-			handle.unregister();
-		}
-
-		for (const handle of pEssentialController.GetActive()) {
-			handle.OnDismount();
-		}
-	}
-
 	return {
 		content: <SettingsPanel />,
 		icon: <IconsModule.SingleWindowToggle />,
-		onDismount,
-		title: "Theme Essentials",
+		onDismount() {
+			for (const handle of vecRegistrars) {
+				handle.unregister();
+			}
+
+			for (const handle of pEssentialController.GetActive()) {
+				handle.OnDismount();
+			}
+		},
 	};
 });
