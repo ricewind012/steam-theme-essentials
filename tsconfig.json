@@ -9,7 +9,7 @@
 			"millennium": ["./.millennium/lsp/ts"]
 		},
 		"resolveJsonModule": true,
-		"strict": false
+		"strictNullChecks": false
 	},
 	"exclude": ["./src/backend"],
 	"include": ["./src", "./.millennium/types"]

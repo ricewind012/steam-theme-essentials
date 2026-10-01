@@ -4,6 +4,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { EPersonaState, FriendsListEntry } from "@/modules/friends";
 import { Localize } from "@/modules/localization";
 import { useOfflineMode } from "@/utils/reacthooks";
+import type { CPlayer } from "@/utils/steamtypes";
 
 import {
 	k_nPanelEntriesCount,
@@ -17,11 +18,11 @@ enum EFriendsPanelStatus {
 	OK,
 }
 
-function GetOnlineFriends() {
-	return friendStore.allFriends.filter((e) => e.persona.is_online);
+function GetOnlineFriends(): CPlayer[] {
+	return friendStore.allFriends.filter((e: CPlayer) => e.persona.is_online);
 }
 
-function GetPersonaStatus(pPlayer) {
+function GetPersonaStatus(pPlayer: CPlayer) {
 	return pPlayer.persona.m_ePersonaState;
 }
 
@@ -38,7 +39,7 @@ export function Friends() {
 	const [vecFriends, setFriends] = useState(GetOnlineFriends());
 
 	const onPersonaStateChange = useCallback(
-		(pPlayer) => {
+		(pPlayer: CPlayer) => {
 			const ePersonaState = GetPersonaStatus(pPlayer);
 			if (pPlayer === self) {
 				setPersonaState(ePersonaState);

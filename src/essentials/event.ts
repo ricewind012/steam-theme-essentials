@@ -23,10 +23,12 @@ export class CEssentialEvent<E, T extends EventTarget = EventTarget> {
 	 * @returns a function that unregisters the callback.
 	 */
 	Register(callback: (data: CustomEventInit<E>) => void): Unsubscribable {
-		this.m_pTarget.addEventListener(this.m_strName, callback);
+		const pTarget = this.m_pTarget;
+		const strName = this.m_strName;
+		pTarget.addEventListener(strName, callback);
 		return {
 			Unregister() {
-				this.m_pTarget.removeEventListener(this.m_strName, callback);
+				pTarget.removeEventListener(strName, callback);
 			},
 		};
 	}

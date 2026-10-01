@@ -7,6 +7,15 @@ import type { SteamPopup } from "@/utils/steamtypes";
 import { Events } from "./events";
 import * as parts from "./parts";
 
+// Redeclare to use as window["Millennium"]
+declare global {
+	interface Window {
+		Millennium: {
+			callServerMethod(plugin: string, method: string): Promise<string>;
+		};
+	}
+}
+
 const k_strCSSPropIcon = "--library_game-icon";
 const k_strCSSPropName = "--library_game-name";
 
@@ -123,8 +132,8 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 	@bind
 	async AddThemeFieldVars(popup: SteamPopup) {
 		// No API for finding themes yet? so use the internal API instead
-		// biome-ignore lint/complexity/useLiteralKeys: required here
-		const themes = await globalThis["Millennium"].callServerMethod(
+		// biome-ignore lint/complexity/useLiteralKeys: required for compiler
+		const themes = await window["Millennium"].callServerMethod(
 			"core",
 			"Core_FindAllThemes",
 		);

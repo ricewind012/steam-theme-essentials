@@ -26,7 +26,7 @@ export function AddPopupCreatedCallback(
 		}
 	}
 
-	return g_PopupManager.AddPopupCreatedCallback((popup) => {
+	return g_PopupManager.AddPopupCreatedCallback((popup: SteamPopup) => {
 		if (!popupFilter(popup)) {
 			return;
 		}

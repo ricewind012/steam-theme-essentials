@@ -220,13 +220,15 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 	}
 
 	@bind
-	OnWindowEvent(ev: CustomEventInit<GameListChangeEvent & TabChangeEvent>) {
+	OnWindowEvent(ev: CustomEventInit<GameListChangeEvent | TabChangeEvent>) {
 		const { appid, tab } = this.state;
-		if (appid === ev.detail.appid || tab === ev.detail.tab) {
+		const nextAppID = "appid" in ev.detail ? ev.detail.appid : appid;
+		const nextTab = "tab" in ev.detail ? ev.detail.tab : tab;
+		if (appid === nextAppID && tab === nextTab) {
 			return;
 		}
 
-		this.setState({ appid, tab, ...ev.detail });
+		this.setState({ appid: nextAppID, tab: nextTab });
 	}
 
 	override componentDidMount() {

@@ -2,7 +2,10 @@ import {
 	ELaunchSource,
 	Menu,
 	MenuItem,
+	type MenuItemProps,
 	MenuSeparator,
+	type SteamAppOverview,
+	type SteamAppOverviewRemoteClientData,
 	showContextMenu,
 	sleep,
 	type Unregisterable,
@@ -20,8 +23,11 @@ import { GetAppMobileCategories } from "@/modules/remoteplay";
 import { bind } from "@/utils/bind";
 import { GetMainPopupWindow } from "@/utils/popup";
 import { classes } from "@/utils/shared";
+import type { IAppOverview } from "@/utils/steamtypes";
 
 import { RibbonButton, RibbonGameSectionButton } from "../../components/ribbon";
+
+// Most of this file is stolen from some webpack module
 
 type MobileCategory_t = "generic" | "mobile" | "phone" | "tablet" | "tv";
 
@@ -42,7 +48,16 @@ const mapCategoryLocTokens: Record<MobileCategory_t, string[]> = {
 	tv: ["#StreamingClient_TV", "#StreamingClient_LinkDesc_Specific_TV"],
 };
 
-function StreamingContextMenu({ overview, onStreamingTargetSelected }) {
+interface StreamingContextMenuProps {
+	onStreamingTargetSelected: (
+		client: SteamAppOverviewRemoteClientData,
+		ev: MouseEvent,
+	) => void;
+	overview: IAppOverview;
+}
+
+function StreamingContextMenu(props: StreamingContextMenuProps) {
+	const { overview, onStreamingTargetSelected } = props;
 	const bInGamepadUI = Config.IN_GAMEPADUI;
 	const bHasMobileCategories =
 		!bInGamepadUI && GetAppMobileCategories(overview).length > 0;
@@ -60,7 +75,7 @@ function StreamingContextMenu({ overview, onStreamingTargetSelected }) {
 					pClient={e}
 					bIsLocalClient={overview.BIsPerClientDataLocal(e)}
 					bSelected={overview.selected_clientid === e.clientid}
-					onSelected={(t) => onStreamingTargetSelected(e, t)}
+					onSelected={(ev) => onStreamingTargetSelected(e, ev)}
 				/>
 			))}
 			{bHasMobileCategories && (
@@ -76,12 +91,15 @@ function StreamingContextMenu({ overview, onStreamingTargetSelected }) {
 	);
 }
 
-function StreamingClientContextMenuItem({
-	pClient,
-	bIsLocalClient,
-	bSelected,
-	onSelected,
-}) {
+interface StreamingContextMenuItemProps {
+	bIsLocalClient: boolean;
+	bSelected: boolean;
+	onSelected: (event: MouseEvent) => void;
+	pClient: SteamAppOverviewRemoteClientData;
+}
+
+function StreamingClientContextMenuItem(props: StreamingContextMenuItemProps) {
+	const { bIsLocalClient, bSelected, onSelected, pClient } = props;
 	let text = Localize("#StreamingClient_StreamFrom", pClient.client_name);
 	if (bIsLocalClient) {
 		text = Config.ON_DECK
@@ -97,14 +115,23 @@ function StreamingClientContextMenuItem({
 	);
 }
 
-const StreamingContextMenuItem = (props) => (
+const StreamingContextMenuItem = (props: MenuItemProps) => (
 	<MenuItem
 		{...props}
+		// @ts-expect-error: Wrong type
 		className={classes.appactionbutton.StreamingContextMenuItem}
 	/>
 );
 
-function RemotePlayAnywhereContextMenuItem({ overview, onSelected }) {
+interface RemotePlayAnywhereContextMenuItemProps {
+	onSelected: (event: MouseEvent) => void;
+	overview: SteamAppOverview;
+}
+
+function RemotePlayAnywhereContextMenuItem(
+	props: RemotePlayAnywhereContextMenuItemProps,
+) {
+	const { overview, onSelected } = props;
 	const vecCategories = GetAppMobileCategories(overview);
 	if (vecCategories.length === 0) {
 		return null;
@@ -183,7 +210,7 @@ export class ActionButton extends RibbonGameSectionButton<ActionButtonState> {
 		this.SetState();
 	}
 
-	OnStreamingTargetSelected(client) {
+	OnStreamingTargetSelected(client: SteamAppOverviewRemoteClientData) {
 		const { appid } = this.props;
 
 		SteamClient.Apps.SetStreamingClientForApp(appid, client.clientid);

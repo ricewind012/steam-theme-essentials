@@ -1,6 +1,7 @@
 import { EResult, findModuleExport } from "millennium";
 
 import { FindModuleExportByString } from "@/utils/shared";
+import type { ContentDescriptor } from "@/utils/steamtypes";
 
 import { Config } from "./config";
 import { CProtoBufMsg, type ProtoBufService_t } from "./protomsgs";
@@ -85,7 +86,7 @@ const PublishedFileService: ProtoBufService_t = findModuleExport(
 export async function FetchPopularGuides(appid: number) {
 	const vecDescriptorIDs =
 		settingsStore.storePreferences.content_descriptor_preferences.content_descriptors_to_exclude.map(
-			(e) => e.content_descriptorid,
+			(e: ContentDescriptor) => e.content_descriptorid,
 		);
 	const msg = CProtoBufMsg.Init(CPublishedFile_QueryFiles_Request);
 	msg.Body().set_filetype(11);

@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: Intentional */
+
 import { type BrowserContext, findModuleByExport } from "millennium";
 import type {
 	FC,
@@ -51,19 +53,19 @@ interface FriendsListEntryProps {
 	bSingleClickActivate?: boolean;
 	children?: ReactNode;
 	className?: string;
-	context?;
+	context?: any;
 	disableContextMenu?: boolean;
 	divRef?: RefObject<HTMLElement>;
 	friend: CPlayer;
 	gamepadEventOverrides?: HTMLAttributes<HTMLElement>;
-	lastChat?;
-	listStatusIndicator?;
-	listStatusIndicatorLeft?;
-	noActions?;
+	lastChat?: any;
+	listStatusIndicator?: any;
+	listStatusIndicatorLeft?: any;
+	noActions?: any;
 	notDraggable?: boolean;
 	showVoiceLevel?: boolean;
-	statusPosition?;
-	video?;
+	statusPosition?: any;
+	video?: any;
 }
 
 // mobx-react's @observer memoizes components, but it's the only one here

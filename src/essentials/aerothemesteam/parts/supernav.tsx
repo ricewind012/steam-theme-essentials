@@ -26,7 +26,7 @@ import {
 	FindModuleExportByString,
 	WaitForElement,
 } from "@/utils/shared";
-import { SteamClientURL } from "@/utils/steamtypes";
+import { type CPlayer, SteamClientURL } from "@/utils/steamtypes";
 import type { Fn_t } from "@/utils/types";
 
 import { IconButton } from "../components/iconbutton";
@@ -222,7 +222,7 @@ function BuildFriendsRootMenuEntries(): RootMenuEntry[] {
 	const ePersonaState: EPersonaState =
 		g_FriendsUIApp.m_FriendStore.m_eUserPersonaState;
 	const vecOnlineFriends = g_FriendsUIApp.m_FriendStore.all_friends.filter(
-		(e) => e.m_persona.m_ePersonaState !== EPersonaState.Offline,
+		(e: CPlayer) => e.m_persona.m_ePersonaState !== EPersonaState.Offline,
 	);
 
 	return [
