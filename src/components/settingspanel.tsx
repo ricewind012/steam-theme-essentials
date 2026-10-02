@@ -3,29 +3,26 @@
  * EssentialControls
  */
 
-import { Field, type FieldProps, TextField, Toggle } from "millennium";
 import {
-	type ChangeEventHandler,
-	createContext,
-	type ReactNode,
-	useContext,
-	useState,
-} from "react";
+	Field,
+	type FieldProps,
+	TextField,
+	Toggle,
+	usePluginConfig,
+} from "millennium";
+import { type ChangeEventHandler, type ReactNode, useMemo } from "react";
 
 import { pEssentialController } from "@/essentials/controller";
 import { Localize } from "@/modules/localization";
 import {
+	DEFAULT_SETTINGS,
 	type EssentialName_t,
-	GetSettings,
-	SetSettingsKey,
 	type Settings_t,
 } from "@/settings";
 
 import { LocalizedPanelSection } from "./localized";
 
 type EssentialControlsType_t = "boolean" | "number" | "string";
-
-const SettingsContext = createContext<Settings_t>(null);
 
 const EssentialPanelSectionContent: Record<EssentialName_t, () => ReactNode> = {
 	aerothemesteam: () => {
@@ -87,11 +84,11 @@ const EssentialControls: Record<
 		F extends Exclude<keyof Settings_t[T], symbol>,
 	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
-		const ctx = useContext(SettingsContext);
-		const [value, setValue] = useState(ctx[strName][strField] as boolean);
+		const [value, setValue] = usePluginConfig<boolean>(
+			`${strName}-${strField}`,
+		);
 		const onChange = (value: boolean) => {
 			props.onChange(value as Settings_t[T][F]);
-			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
@@ -102,8 +99,7 @@ const EssentialControls: Record<
 		F extends Exclude<keyof Settings_t[T], symbol>,
 	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
-		const pSettings = useContext(SettingsContext);
-		const [value, setValue] = useState(pSettings[strName][strField] as number);
+		const [value, setValue] = usePluginConfig<number>(`${strName}-${strField}`);
 		const onChange: ChangeEventHandler<HTMLInputElement> = (ev) => {
 			const value = Number(ev.target.value);
 			if (!Number.isFinite(value)) {
@@ -111,7 +107,6 @@ const EssentialControls: Record<
 			}
 
 			props.onChange(value as Settings_t[T][F]);
-			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
@@ -124,12 +119,10 @@ const EssentialControls: Record<
 		F extends Exclude<keyof Settings_t[T], symbol>,
 	>(props: EssentialControlProps<T, F>) {
 		const { strField, strName } = props;
-		const pSettings = useContext(SettingsContext);
-		const [value, setValue] = useState(pSettings[strName][strField] as string);
+		const [value, setValue] = usePluginConfig<string>(`${strName}-${strField}`);
 		const onChange: ChangeEventHandler<HTMLInputElement> = (ev) => {
 			const value = ev.target.value;
 			props.onChange(value as Settings_t[T][F]);
-			SetSettingsKey(strName, strField, value as Settings_t[T][F]);
 			setValue(value);
 		};
 
@@ -151,8 +144,9 @@ function EssentialField<
 	const { fieldProps, onChange, strField, strName } = props;
 	const label = Localize(`#EssentialSettings_${strName}_${strField}`);
 
-	const pSettings = useContext(SettingsContext);
-	const eType = typeof pSettings[strName][strField] as EssentialControlsType_t;
+	const eType = typeof DEFAULT_SETTINGS[strName][
+		strField
+	] as EssentialControlsType_t;
 	const Component = EssentialControls[eType];
 
 	return (
@@ -178,14 +172,12 @@ function EssentialPanelSection(props: EssentialPanelSectionProps) {
 }
 
 export function SettingsPanel() {
-	const pSettings = GetSettings();
-	const vecEssentials = Object.keys(pSettings) as EssentialName_t[];
+	const vecEssentials = useMemo(
+		() => Object.keys(DEFAULT_SETTINGS),
+		[],
+	) as EssentialName_t[];
 
-	return (
-		<SettingsContext value={pSettings}>
-			{vecEssentials.map((e) => (
-				<EssentialPanelSection key={e} strName={e} />
-			))}
-		</SettingsContext>
-	);
+	return vecEssentials.map((e) => (
+		<EssentialPanelSection key={e} strName={e} />
+	));
 }

@@ -1,9 +1,9 @@
-import { ErrorBoundary } from "millennium";
+import { ErrorBoundary, pluginConfig } from "millennium";
 import type { ReactNode } from "react";
 import { createRoot, type Root } from "react-dom/client";
 
 import { Config } from "@/modules/config";
-import { type EssentialName_t, GetSettings } from "@/settings";
+import type { EssentialName_t } from "@/settings";
 import { bind } from "@/utils/bind";
 import { CLogger } from "@/utils/log";
 import { classes, WaitForElement } from "@/utils/shared";
@@ -60,16 +60,16 @@ interface EssentialPartHandle {
 const g_pLogger = new CLogger("essentials/base");
 
 export abstract class CThemeEssentialBase {
-	private readonly m_bEnabled: boolean;
+	private m_bEnabled: boolean;
 	protected readonly m_fnFilter: (popup: SteamPopup) => boolean;
 	private readonly m_setPartHandles = new Set<EssentialPartHandle>();
 	private readonly m_strName: EssentialName_t;
 	private readonly m_vecParts: EssentialPart[];
 
 	constructor({ fnFilter, strName, vecParts }: EssentialConstructor) {
-		const pSettings = GetSettings();
-		this.m_bEnabled = pSettings[strName].bEnabled;
-
+		pluginConfig.get<boolean>(`${strName}-enabled`).then((bEnabled) => {
+			this.m_bEnabled = bEnabled;
+		});
 		this.m_fnFilter = fnFilter;
 		this.m_strName = strName;
 		this.m_vecParts = vecParts;
@@ -83,6 +83,7 @@ export abstract class CThemeEssentialBase {
 	 * Dispatched when it's disabled.
 	 */
 	OnDismount() {
+		this.m_bEnabled = false;
 		for (const handle of this.m_setPartHandles) {
 			this.m_setPartHandles.delete(handle);
 			const { div, root } = handle;

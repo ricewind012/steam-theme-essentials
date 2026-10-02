@@ -1,6 +1,8 @@
-import { PLUGIN_NAME } from "@/consts";
+// Declared by compiler
+declare const pluginName: string;
 
 const LOG_STYLE = "padding: 0 1ch";
+const PLUGIN_NAME = pluginName;
 const SHOULD_LOG = true;
 
 export class CLogger {
