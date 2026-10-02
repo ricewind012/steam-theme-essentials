@@ -10,8 +10,8 @@ import {
 	EParentalFeature,
 } from "@/modules/parentalfeatures";
 import { bind } from "@/utils/bind";
-import { GetMainPopupWindow, type Unsubscribable } from "@/utils/popup";
-import { SteamClientURL } from "@/utils/steamtypes";
+import { GetMainPopupWindow } from "@/utils/popup";
+import { SteamClientURL, type Unsubscribable } from "@/utils/steamtypes";
 
 import {
 	RibbonButton,

@@ -1,6 +1,8 @@
 // Declared by compiler
 declare const pluginName: string;
 
+type LogParams_t = Parameters<Console["log"]>;
+
 const LOG_STYLE = "padding: 0 1ch";
 const PLUGIN_NAME = pluginName;
 const SHOULD_LOG = true;
@@ -30,28 +32,24 @@ export class CLogger {
 		);
 	}
 
-	// biome-ignore lint/suspicious/noExplicitAny: intentional
-	Log(strFormat: string, ...args: any[]) {
-		this.Print("log", strFormat, ...args);
-	}
-
-	// biome-ignore lint/suspicious/noExplicitAny: intentional
-	Warn(strFormat: string, ...args: any[]) {
-		this.Print("warn", strFormat, ...args);
-	}
-
-	// biome-ignore lint/suspicious/noExplicitAny: intentional
-	Error(strFormat: string, ...args: any[]) {
-		this.Print("error", strFormat, ...args);
-	}
-
-	// biome-ignore lint/suspicious/noExplicitAny: intentional
-	Assert(bAssertion: boolean, strFormat: string, ...args: any[]) {
+	Assert(bAssertion: boolean, strFormat: string, ...args: LogParams_t) {
 		if (bAssertion) {
 			return;
 		}
 
 		this.Error(`Assertion failed: ${strFormat}`, ...args);
+	}
+
+	Error(strFormat: string, ...args: LogParams_t) {
+		this.Print("error", strFormat, ...args);
+	}
+
+	Log(strFormat: string, ...args: LogParams_t) {
+		this.Print("log", strFormat, ...args);
+	}
+
+	Warn(strFormat: string, ...args: LogParams_t) {
+		this.Print("warn", strFormat, ...args);
 	}
 }
 
@@ -69,11 +67,7 @@ export class CTimeLogger extends CLogger {
 	}
 
 	TimeEnd() {
-		const unCurrentDate = Date.now();
-		this.Log(
-			"%s: took %o seconds",
-			this.m_strLabel,
-			(unCurrentDate - this.m_unTimestamp) / 1_000,
-		);
+		const unSec = (Date.now() - this.m_unTimestamp) / 1_000;
+		this.Log("%s: took %o seconds", this.m_strLabel, unSec);
 	}
 }

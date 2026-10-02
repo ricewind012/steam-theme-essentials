@@ -9,7 +9,7 @@ import type { Fn_t } from "@/utils/types";
  * \@bind onTextInput( event ) { ... }
  *
  * render() {
- *     return <input OnInput={ this.onTextInput } />;
+ *     return <input onInput={ this.onTextInput } />;
  * }
  * ```
  */

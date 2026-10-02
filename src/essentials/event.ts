@@ -1,4 +1,4 @@
-import type { Unsubscribable } from "@/utils/popup";
+import type { Unsubscribable } from "@/utils/steamtypes";
 
 /**
  * Essentials communicate by receiving/sending data through window events

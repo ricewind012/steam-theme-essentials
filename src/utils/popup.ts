@@ -1,8 +1,4 @@
-import type { SteamPopup } from "./steamtypes";
-
-export interface Unsubscribable {
-	Unregister(): void;
-}
+import type { SteamPopup, Unsubscribable } from "./steamtypes";
 
 /** Internal main window name. */
 export const MAIN_WINDOW_NAME = "SP Desktop_uid0";

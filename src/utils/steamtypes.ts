@@ -6,6 +6,8 @@ import type {
 	SteamAppOverviewRemoteClientData,
 } from "millennium";
 
+import type { URL } from "../../.millennium/lsp/ts/sharedjscontext/globals/steam-client/URL";
+
 export type CMsgHotkey = any;
 export type ContentDescriptor = any;
 export type CPlayer = any;
@@ -15,6 +17,7 @@ export type IAppOverview = SteamAppOverview & {
 export type SteamPopup = any;
 export type SteamUIWindowInstance = any;
 // The def is broken lol
-export const SteamClientURL = SteamClient.URL as {
-	ExecuteSteamURL(url: string): void;
-};
+export const SteamClientURL = SteamClient.URL as URL;
+export interface Unsubscribable {
+	Unregister(): void;
+}
