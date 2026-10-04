@@ -1,8 +1,5 @@
 {
-	"name": "steam-theme-essentials",
-	"description": "Additional elements for themes",
 	"private": true,
-	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
 		"build": "starlight --release",
