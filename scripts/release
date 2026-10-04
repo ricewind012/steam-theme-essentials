@@ -1,44 +1,142 @@
 #!/bin/sh -e
 
-: "${TMPDIR:=/tmp}"
-export GH_TOKEN=$(gh auth token)
+git_branch_exists() {
+	git show-ref --verify --quiet "refs/heads/$1"
+}
 
-JASONS='package.json plugin.json'
+git_def_branch() {
+	git symbolic-ref --short refs/remotes/origin/HEAD
+}
 
 log() {
 	printf '\033[32;0;1m%s\033[m\n' "$1" >&2
 }
 
-git_branch_exists() {
-	git show-ref --verify --quiet "refs/heads/$1"
+run_semantic_release() {
+	GH_TOKEN=$(gh auth token) bunx semantic-release \
+		--no-ci \
+		--plugins '
+			@semantic-release/commit-analyzer,
+			@semantic-release/release-notes-generator,
+			@semantic-release/github
+		' \
+		"$@"
 }
 
-while IFS= read -r line; do case $line in
-	*'The next release version'*)
-		next=${line##*is }
-		break
-	;;
+cleanup() {
+	rm -rf "$tmpdir"
+}
 
-	*'There are no relevant changes'*)
-		log 'nothing to release!'
-		exit 1
-	;;
-esac; done <<-EOF
-$(bunx semantic-release --dry-run --no-ci 2>/dev/null)
-EOF
-commit_msg="chore(release): ${next:=1.0.0}" # for first run
+release() {
+	while IFS= read -r line; do case $line in
+		*'The next release version'*)
+			next=${line##*is }
+			break
+		;;
 
-for file in $JASONS; do
-	sed -i "s/\"version\": \".*\"/\"version\": \"$next\"/" "$file"
-done
+		*'There are no relevant changes'*)
+			log 'nothing to release!'
+			exit 1
+		;;
+	esac; done <<-EOF
+	$(run_semantic_release --dry-run)
+	EOF
 
-bunx semantic-release --no-ci --plugins '
-	@semantic-release/commit-analyzer,
-	@semantic-release/release-notes-generator,
-	@semantic-release/github
-'
-git add $JASONS
-git commit -m "$commit_msg"
-git push
+	if [ -z "$next" ]; then
+		is_first_run=1
+		next=1.0.0
+	fi
+	# todo
+	commit_msg="chore(release): ${next:=1.0.0}"
 
-log 'success!'
+	sed -i "s/version = .*/version = \"$next\"/" "$CONFIG_FILE"
+	git add "$CONFIG_FILE"
+	git commit -m "$commit_msg"
+	run_semantic_release
+	git push
+
+	log 'released!'
+}
+
+open_pr() {
+	db_fork_dir="$TMPDIR/plugindb"
+	db_repo=SteamClientHomebrew/PluginDatabase
+	gh repo fork "https://github.com/$db_repo" --clone -- "$db_fork_dir"
+	cd "$db_fork_dir"
+
+	src_branch=$(git_def_branch)
+	src_branch=${src_branch##*/}
+	src_url=$(git remote get-url origin)
+	src_name=${src_url##*/}
+	submodule_path=plugins/$src_name
+	db_branch=$(git_def_branch -C "$submodule_path")
+	if git config -f .gitmodules --get "submodule.plugins/$src_name" >/dev/null; then
+		git submodule update --init "$submodule_path"
+		git -C "$submodule_path" fetch origin "$src_branch"
+	else
+		git submodule add -b "$src_branch" "$src_url" "$submodule_path"
+	fi
+
+	target_sha=$(git -C "$submodule_path" rev-parse "$tag")
+	pr_branch="$src_name/v$next"
+	git switch --create "$pr_branch"
+	git -C "$submodule_path" checkout --detach "$target_sha"
+	git add "$submodule_path"
+
+	if [ "$is_first_run" ]; then
+		pr_template=pull_request_template
+		pr_title="Add $plugin_name"
+	else
+		pr_template=PULL_REQUEST_TEMPLATE/PLUGIN-UPDATE
+		pr_title="Update $plugin_name to $next"
+	fi
+
+	while IFS=' =' read -r k v; do
+		case $k in name)
+			k=${k#\"}
+			plugin_name=${k%\"}
+			break
+		esac
+	done < "$CONFIG_FILE"
+	while IFS= read -r line; do
+		case $line in
+			''|'# '*) ;;
+			*) changelog="$changelog$newline$line" ;;
+		esac
+	done <<-EOF
+	$(gh release view "v$next" --json body --jq '.body')
+	EOF
+	while IFS= read -r line; do
+		case $line in
+			'# REPLACE_WITH_PLUGIN_NAME') pr_body="# $plugin_name$newline$line" ;;
+			REPLACE_WITH_SUMMARY|REPLACE_WITH_UPDATE_SUMMARY) pr_body="$changelog$newline$line" ;;
+			*) pr_body="$pr_body$newline$line" ;;
+		esac
+	done <<-EOF
+	$(curl "https://raw.githubusercontent.com/$db_repo/refs/heads/$db_branch/.github/$pr_template")
+	EOF
+	git commit -m "$pr_title"
+	git push -u origin "$pr_branch"
+	gh pr create \
+		--web \
+		--repo "https://github.com/$db_repo" \
+		--base "$db_branch" \
+		--head "$pr_branch" \
+		--title "$pr_title" \
+		--body "$pr_body"
+
+	log 'update PR opened!'
+}
+
+main() {
+	: "${TMPDIR:=/tmp}"
+	CONFIG_FILE=millennium.toml
+
+	tmpdir=$(mktemp -d "$TMPDIR/submodule-pr.XXXXXX")
+	trap cleanup 0 HUP INT TERM
+
+	release
+	open_pr
+}
+
+main "$@"
