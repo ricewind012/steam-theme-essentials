@@ -1,15 +1,20 @@
 #!/bin/sh -e
 
+log() {
+	printf '\033[32;0;1m%s\033[m\n' "$1" >&2
+}
+
+die() {
+	log "$@"
+	exit 1
+}
+
 git_branch_exists() {
 	git show-ref --verify --quiet "refs/heads/$1"
 }
 
 git_def_branch() {
 	git symbolic-ref --short refs/remotes/origin/HEAD
-}
-
-log() {
-	printf '\033[32;0;1m%s\033[m\n' "$1" >&2
 }
 
 run_semantic_release() {
@@ -61,15 +66,42 @@ release() {
 open_pr() {
 	db_fork_dir="$TMPDIR/plugindb"
 	db_repo=SteamClientHomebrew/PluginDatabase
-	gh repo fork "https://github.com/$db_repo" --clone -- "$db_fork_dir"
-	cd "$db_fork_dir"
-
 	src_branch=$(git_def_branch)
 	src_branch=${src_branch##*/}
 	src_url=$(git remote get-url origin)
 	src_name=${src_url##*/}
+	src_name=${src_name%.git}
+	gh repo fork "https://github.com/$db_repo" --clone -- "$db_fork_dir"
+	cd "$db_fork_dir"
+
+	db_branch=$(git_def_branch)
+	db_branch=${db_branch##*/}
+	# TODO: vibed, change the changelog also, and the ifs below are uselss maybe
+	existing_pr=$(gh pr list \
+		--repo "$db_repo" \
+		--state open \
+		--base "$db_branch" \
+		--json headRefName,headRepository \
+		--jq "[.[] | select(.headRefName | startswith(\"$src_name/v\"))] | if length > 1 then error(\"multiple open PRs found for $src_name\") elif length == 1 then .[0] | [.headRepository.nameWithOwner // \"null\", .headRefName] | @tsv else empty end")
+	if [ -n "$existing_pr" ]; then
+		IFS="$(printf '\t')" read -r pr_repo pr_branch <<-EOF
+		$existing_pr
+		EOF
+		if [ "$pr_repo" = null ]; then
+			log 'the existing PR fork is unavailable'
+			exit 1
+		fi
+		git remote add pr-fork "https://github.com/$pr_repo.git"
+		git fetch pr-fork "$pr_branch:refs/remotes/pr-fork/$pr_branch"
+		git switch --track --create "$pr_branch" "pr-fork/$pr_branch"
+		push_remote=pr-fork
+	else
+		pr_branch="$src_name/v$next"
+		git switch --create "$pr_branch"
+		push_remote=origin
+	fi
+
 	submodule_path=plugins/$src_name
-	db_branch=$(git_def_branch -C "$submodule_path")
 	if git config -f .gitmodules --get "submodule.plugins/$src_name" >/dev/null; then
 		git submodule update --init "$submodule_path"
 		git -C "$submodule_path" fetch origin "$src_branch"
@@ -115,17 +147,20 @@ open_pr() {
 	done <<-EOF
 	$(curl "https://raw.githubusercontent.com/$db_repo/refs/heads/$db_branch/.github/$pr_template")
 	EOF
-	git commit -m "$pr_title"
-	git push -u origin "$pr_branch"
-	gh pr create \
-		--web \
-		--repo "https://github.com/$db_repo" \
-		--base "$db_branch" \
-		--head "$pr_branch" \
-		--title "$pr_title" \
-		--body "$pr_body"
 
-	log 'update PR opened!'
+	git commit -m "$pr_title"
+	git push -u "$push_remote" "$pr_branch"
+	if [ -n "$existing_pr" ]; then
+		log 'existing PR updated!'
+	else
+		gh pr create \
+			--web \
+			--repo "https://github.com/$db_repo" \
+			--base "$db_branch" \
+			--head "$pr_branch" \
+			--title "$pr_title" \
+			--body "$pr_body"
+	fi
 }
 
 main() {
