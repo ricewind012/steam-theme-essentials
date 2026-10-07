@@ -1,0 +1,101 @@
+/* steam styles */
+.ToolbarContainer.LocationLeft {
+	align-items: start;
+	flex-direction: row;
+	justify-content: start;
+	width: 100%;
+}
+
+._3OzkVrQFFPv0aV41N4MrHV {
+	align-items: center;
+	flex-direction: column;
+}
+/* end */
+
+.AppAchievement {
+	align-items: center;
+	display: flex;
+}
+
+.AppAchievement_Description {
+}
+
+.AppAchievement_Name {
+}
+
+.AppAchievements {
+	display: flex;
+	flex-direction: column;
+}
+
+.OverlayPanel_Body {
+	margin-block-end: var(--library_spacing-x05);
+}
+
+.OverlayPanel_Container {
+	background: rgb(from #23262e r g b / 0.25);
+	border-radius: 2px;
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+
+	&:where([data-name="screenshots"]) {
+		.OverlayPanel_Body {
+			display: grid;
+			gap: 5px;
+			grid-template-columns: repeat(2, 159px);
+		}
+	}
+}
+
+.OverlayPanel_Description {
+}
+
+.OverlayPanel_Footer {
+	display: flex;
+	gap: 10px;
+	margin-block-start: auto;
+
+	.DialogButton {
+		width: auto;
+	}
+}
+
+.OverlayPanel_GridContainer {
+	--count: 3;
+	--gap: 10px;
+	/* 250px = buttons' width, 20px = container's padding-inline */
+	--offset: calc(250px + 20px * 2 + var(--gap) * (var(--count) - 1));
+
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(
+		var(--count),
+		(100vw - var(--offset)) / var(--count)
+	);
+	grid-template-columns: repeat(var(--count), 1fr);
+}
+
+.OverlayPanel_Header {
+	color: #fff;
+}
+
+.OverlayPanel_ListItem {
+	display: flex;
+	justify-content: space-between;
+}
+
+.OverlayPanel_ListItem_Image {
+	--size: 48px;
+
+	height: var(--size);
+	width: var(--size);
+}
+
+.OverlayPanel_ListItem_Secondary {
+}
+
+.TimeStats {
+	color: #b8bcbf;
+	font-size: 11px;
+}

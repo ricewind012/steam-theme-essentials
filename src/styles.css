@@ -1,0 +1,13 @@
+.ThemeEssentialPart {
+	/* #gamelist_Container */
+	div + &:where([data-part="gamelistbar"]) {
+		order: 1;
+	}
+
+	&:where([data-part="steamdesktopoverlay"]) {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		margin-block-start: 8px;
+	}
+}
