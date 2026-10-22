@@ -1,10 +1,25 @@
-import { DialogButton } from "millennium";
+import {
+	DialogButton,
+	type DialogButtonProps,
+	joinClassNames,
+} from "millennium";
 import type { FC, PropsWithChildren } from "react";
+
+import { classes } from "@/utils/shared";
 
 export const k_nPanelEntriesCount = 4;
 
+const strDialogButtonClassName = joinClassNames(
+	classes.steamdesktopoverlay.ToolbarButton,
+	"OverlayPanel_Button",
+);
+
 const Body: FC<PropsWithChildren> = ({ children }) => (
 	<div className="OverlayPanel_Body">{children}</div>
+);
+
+const Button: FC<Exclude<DialogButtonProps, "className">> = (props) => (
+	<DialogButton className={strDialogButtonClassName} {...props} />
 );
 
 interface ContainerProps extends PropsWithChildren {
@@ -65,6 +80,7 @@ function ListItem(props: ListItemProps) {
 
 export const OverlayPanel = {
 	Body,
+	Button,
 	Container,
 	Description,
 	Footer,

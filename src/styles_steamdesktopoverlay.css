@@ -29,12 +29,12 @@
 }
 
 .OverlayPanel_Body {
-	margin-block-end: var(--library_spacing-x05);
+	margin-block-end: var(--spacing-3);
 }
 
 .OverlayPanel_Container {
-	background: rgb(from #23262e r g b / 0.25);
-	border-radius: 2px;
+	background: rgb(from var(--color-greyneutral-6) r g b / 0.25);
+	border-radius: var(--radius-sm);
 	display: flex;
 	flex-direction: column;
 	padding: 10px;
@@ -68,7 +68,7 @@
 	--offset: calc(250px + 20px * 2 + var(--gap) * (var(--count) - 1));
 
 	display: grid;
-	gap: 10px;
+	gap: var(--gap);
 	grid-template-columns: repeat(
 		var(--count),
 		(100vw - var(--offset)) / var(--count)

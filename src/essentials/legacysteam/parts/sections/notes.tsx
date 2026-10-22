@@ -65,12 +65,12 @@ export function Notes() {
 				))}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton onClick={onOpenNotesPopupClick}>
+				<OverlayPanel.Button onClick={onOpenNotesPopupClick}>
 					{Localize("#Essential_OverlayPanel_Notes_FooterButton")}
-				</DialogButton>
-				<DialogButton onClick={onNewNoteClick}>
+				</OverlayPanel.Button>
+				<OverlayPanel.Button onClick={onNewNoteClick}>
 					{Localize("#Essential_OverlayPanel_Notes_FooterButton_2")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);

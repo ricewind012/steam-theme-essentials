@@ -7,6 +7,13 @@ import { CLogger } from "@/utils/log";
 const g_pLogger = new CLogger("index");
 
 async function InitLocalization() {
+	// biome-ignore lint/correctness/noConstantCondition: <fsdfsd>
+	if (true) {
+		const { default: tokens } = await import("../locales/english.json");
+		LocalizationManager.AddTokens(tokens);
+		return;
+	}
+
 	const lang = await SteamClient.Settings.GetCurrentLanguage();
 	let tokens = await backend.read_locale(lang);
 	if (!tokens) {

@@ -14,7 +14,7 @@ import { pLoadedEssentials } from "./loadedtracker";
 interface HTMLEssentialPartElement extends HTMLDivElement {
 	dataset: {
 		name: EssentialName_t;
-		part: keyof typeof classes;
+		part: string;
 	};
 }
 
@@ -67,7 +67,7 @@ export abstract class CThemeEssentialBase {
 	private readonly m_vecParts: EssentialPart[];
 
 	constructor({ fnFilter, strName, vecParts }: EssentialConstructor) {
-		pluginConfig.get<boolean>(`${strName}-enabled`).then((bEnabled) => {
+		pluginConfig.get<boolean>(`${strName}-bEnabled`).then((bEnabled) => {
 			this.m_bEnabled = bEnabled;
 		});
 		this.m_fnFilter = fnFilter;
@@ -114,7 +114,7 @@ export abstract class CThemeEssentialBase {
 				const div = doc.createElement("div") as HTMLEssentialPartElement;
 				div.className = "ThemeEssentialPart";
 				div.dataset.name = this.m_strName;
-				div.dataset.part = steamComponent;
+				div.dataset.part = componentClassName;
 				// Initially hidden if not themed by anything
 				div.style.display = "none";
 				el.appendChild(div);

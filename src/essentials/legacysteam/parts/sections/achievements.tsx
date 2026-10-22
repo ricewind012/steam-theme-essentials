@@ -1,7 +1,6 @@
 import {
 	type AppAchievement,
 	type AppAchievementResponse,
-	DialogButton,
 	EResult,
 	ProgressBar,
 } from "millennium";
@@ -112,11 +111,11 @@ export function Achievements() {
 				</div>
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton
+				<OverlayPanel.Button
 					onClick={() => pInstance.Navigator.MyAchievements(pBrowser.m_unAppID)}
 				>
 					{Localize("#Essential_OverlayPanel_Achievements_FooterButton")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);

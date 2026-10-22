@@ -1,4 +1,3 @@
-import { DialogButton } from "millennium";
 import { useContext, useEffect, useState } from "react";
 
 import { Localize } from "@/modules/localization";
@@ -76,9 +75,9 @@ export function Guides() {
 				})}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton onClick={onAllGuidesClick}>
+				<OverlayPanel.Button onClick={onAllGuidesClick}>
 					{Localize("#Essential_OverlayPanel_Guides_FooterButton")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);

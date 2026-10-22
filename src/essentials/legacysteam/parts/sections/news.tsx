@@ -1,4 +1,4 @@
-import { DialogButton, EResult } from "millennium";
+import { EResult } from "millennium";
 import { useContext, useEffect, useState } from "react";
 
 import { Config } from "@/modules/config";
@@ -75,9 +75,9 @@ export function News() {
 				})}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton onClick={onLatestNewsClick}>
+				<OverlayPanel.Button onClick={onLatestNewsClick}>
 					{Localize("#Essential_OverlayPanel_News_FooterButton")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);

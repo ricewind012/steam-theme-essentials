@@ -1,4 +1,3 @@
-import { DialogButton } from "millennium";
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import { EPersonaState, FriendsListEntry } from "@/modules/friends";
@@ -94,9 +93,9 @@ export function Friends() {
 				))}
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton onClick={() => pInstance.Navigator.Chat()}>
+				<OverlayPanel.Button onClick={() => pInstance.Navigator.Chat()}>
 					{Localize("#Essential_OverlayPanel_Friends_FooterButton")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);
