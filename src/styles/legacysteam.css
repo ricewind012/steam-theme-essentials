@@ -1,0 +1,101 @@
+/* steam styles */
+.ToolbarContainer.LocationLeft {
+	align-items: start;
+	flex-direction: row;
+	height: 100%;
+	width: 100%;
+}
+
+._3OzkVrQFFPv0aV41N4MrHV {
+	align-items: center;
+	flex-direction: column;
+}
+/* end */
+
+.OverlayPanel_Body {
+	flex-grow: 1;
+	margin-block: 15px;
+
+	.OverlayPanel_Container:where([data-name="screenshots"]) & {
+		display: grid;
+		gap: 5px;
+		grid-template-columns: repeat(2, 145px);
+	}
+}
+
+.OverlayPanel_Button {
+	margin: 0;
+}
+
+.OverlayPanel_Container {
+	background: var(--color-greyneutral-6);
+	border-radius: var(--radius-md);
+	display: flex;
+	flex-direction: column;
+	padding: 10px;
+}
+
+.OverlayPanel_Description {
+	color: var(--color-text-body-description);
+	font-size: var(--text-size-3);
+}
+
+.OverlayPanel_Footer {
+	display: flex;
+	gap: 10px;
+}
+
+.OverlayPanel_GridContainer {
+	display: grid;
+	gap: 10px;
+	grid-template-columns: repeat(3, max(25%, 350px));
+	justify-content: center;
+}
+
+.OverlayPanel_Header {
+	color: #fff;
+	font-size: var(--text-size-5);
+	font-weight: var(--font-weight-heavy);
+	/* This emulates the `text-box-trim` property.
+	 * See https://github.com/mozilla-firefox/firefox/blob/4190c69a7dd55aed53572c97914faabda9f612c1/toolkit/themes/shared/design-system/src/text-and-typography.css#L48-L56 */
+	margin-block-start: calc((1cap - 1lh) / 4);
+}
+
+button.OverlayPanel_ListItem {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-2);
+	line-height: var(--line-height-4);
+
+	&:where([data-no-image]) {
+		box-sizing: border-box;
+		padding: 6px 10px;
+	}
+
+	& > div {
+		overflow: hidden;
+		text-align: start;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+	}
+}
+
+.OverlayPanel_ListItem_Image {
+	--size: 48px;
+
+	border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+	height: var(--size);
+	width: var(--size);
+}
+
+.OverlayPanel_ListItem_Secondary {
+	color: var(--color-text-light-description);
+	margin-inline-start: var(--spacing-1);
+	vertical-align: top;
+}
+
+.TimeStats {
+	color: #b8bcbf;
+	font-size: 11px;
+}

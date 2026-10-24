@@ -115,15 +115,11 @@ export abstract class CThemeEssentialBase {
 				div.className = "ThemeEssentialPart";
 				div.dataset.name = this.m_strName;
 				div.dataset.part = componentClassName;
-				// Initially hidden if not themed by anything
-				div.style.display = "none";
 				el.appendChild(div);
 
 				pLoadedEssentials.Add(doc, this.m_strName);
 				const root = createRoot(div, {
-					// ..but let the errors be seen
 					onCaughtError() {
-						div.style.display = "block";
 						pLoadedEssentials.StopTracking(doc);
 					},
 				});
