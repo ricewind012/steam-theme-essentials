@@ -107,6 +107,14 @@ export abstract class CThemeEssentialBase {
 	@bind
 	protected RenderParts(popup: SteamPopup) {
 		const doc: Document = popup.window.document;
+		// TODO: remove on unmount
+		backend.read_style(this.m_strName).then((e) => {
+			const style = doc.createElement("style");
+			style.id = `theme-essentials-${this.m_strName}`;
+			style.textContent = e;
+			doc.head.appendChild(style);
+		});
+
 		for (const part of this.m_vecParts) {
 			const { steamComponent, componentClassName, component } = part;
 			const className = classes[steamComponent][componentClassName];

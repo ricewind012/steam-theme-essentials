@@ -1,16 +1,30 @@
-/* steam styles */
-.ToolbarContainer.LocationLeft {
-	align-items: start;
-	flex-direction: row;
-	height: 100%;
-	width: 100%;
-}
+/* #region Steam styles */
 
-._3OzkVrQFFPv0aV41N4MrHV {
+.ToolbarContainer {
 	align-items: center;
 	flex-direction: column;
+
+	&:where(.LocationLeft) {
+		align-items: start;
+		flex-direction: row;
+		height: 100%;
+		width: 100%;
+	}
 }
-/* end */
+
+/* #endregion */
+
+.ThemeEssentialPart:where([data-name="legacysteam"]) {
+	&:where([data-part="TimeStats"]) {
+		flex-direction: column;
+	}
+
+	&:where([data-part="ToolbarContainer"]) {
+		align-self: end;
+		flex-grow: 1;
+		margin-block-end: 30px;
+	}
+}
 
 .OverlayPanel_Body {
 	flex-grow: 1;
@@ -50,6 +64,7 @@
 	gap: 10px;
 	grid-template-columns: repeat(3, max(25%, 350px));
 	justify-content: center;
+	width: 100%;
 }
 
 .OverlayPanel_Header {

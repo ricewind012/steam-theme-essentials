@@ -221,9 +221,12 @@ export class ActionButton extends RibbonGameSectionButton<ActionButtonState> {
 
 		if (!this.m_elButton) {
 			const wnd = GetMainPopupWindow();
-			const strElementID = this.GetLocToken().replace("#", "");
+			const token = this.GetLocToken();
+			const strIcon = token.slice(token.lastIndexOf("_") + 1, token.length);
 
-			this.m_elButton = wnd.document.getElementById(strElementID);
+			this.m_elButton = wnd.document.querySelector(
+				`.RibbonButtonContainer[data-icon="${strIcon}"]`,
+			);
 		}
 
 		showContextMenu(
@@ -272,9 +275,7 @@ export class ActionButton extends RibbonGameSectionButton<ActionButtonState> {
 		return (
 			<RibbonButton
 				disabled={!eAction}
-				icon={eAction}
 				text={strToken}
-				vertical
 				onClick={() => this.OnClick()}
 				onArrowClick={() => this.OnArrowClick()}
 			/>

@@ -1,48 +1,43 @@
+import { DialogButton, IconsModule } from "millennium";
 import { Component, type FC, type PropsWithChildren } from "react";
 
 import { Localize } from "@/modules/localization";
-
-import { IconButton } from "./iconbutton";
 
 interface RibbonButtonProps {
 	/** Arguments for localization. */
 	args?: string[];
 	disabled?: boolean;
-	/** Icon name for {@link IconButton}. */
-	icon: string;
 	/** Localization token. */
 	text: string;
-	/** Vertical layout? */
-	vertical?: boolean;
 	onArrowClick?: () => void;
 	onClick: () => void;
 }
 
 export function RibbonButton(props: RibbonButtonProps) {
-	const { args, disabled, icon, text, vertical, onClick, onArrowClick } = props;
+	const { args, disabled, text, onClick, onArrowClick } = props;
 
 	return (
 		<div
 			className="RibbonButtonContainer"
-			id={text.replace("#", "")}
 			data-disabled={disabled}
-			data-vertical={vertical}
+			data-icon={text.slice(text.lastIndexOf("_") + 1, text.length)}
 		>
-			<button
+			<DialogButton
 				className="RibbonButton"
-				type="button"
+				disabled={disabled}
 				onClick={onClick}
 				onContextMenu={onArrowClick}
 			>
-				<IconButton name={icon} />
 				{Localize(text, ...(args || []))}
-			</button>
+			</DialogButton>
 			{onArrowClick && (
-				<button
+				<DialogButton
 					className="RibbonButtonArrow"
-					type="button"
+					disabled={disabled}
 					onClick={onArrowClick}
-				/>
+				>
+					<IconsModule.KaratDown />
+				</DialogButton>
 			)}
 		</div>
 	);
@@ -54,8 +49,8 @@ interface RibbonSectionProps extends PropsWithChildren {
 
 export const RibbonSection: FC<RibbonSectionProps> = ({ children, title }) => (
 	<div className="RibbonSection">
-		<div className="RibbonSectionBody">{children}</div>
 		<div className="RibbonSectionTitle">{Localize(title)}</div>
+		<div className="RibbonSectionBody">{children}</div>
 	</div>
 );
 

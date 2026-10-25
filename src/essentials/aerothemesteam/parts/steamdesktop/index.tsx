@@ -32,7 +32,6 @@ const k_EAppType_Demo = 8;
 
 interface LibraryLink {
 	label: string;
-	icon: string;
 	link?: string;
 	url?: string;
 }
@@ -74,47 +73,38 @@ function GetAppLinks(appid: number) {
 
 	const vecLinks: LibraryLink[] = [
 		{
-			icon: "steam",
 			label: "#AppDetails_Links_Store",
 			url: urlStore.BuildStoreAppURL(unDemoAppID, "primarylinks"),
 		},
 		bAvailableContentOnStore && {
-			icon: "steam",
 			label: "#AppDetails_Links_DLC",
 			url: urlStore.BuildStoreAppDlcURL(actual_appid, "primarylinks"),
 		},
 		!bIsChinaLauncher && {
-			icon: "community",
 			label: "#AppDetails_Links_Community",
 			link: "GameHub",
 		},
 		bPointsShopAvailable && {
-			icon: "points",
 			label: "#AppDetails_Links_PointsShop",
 			url: urlStore.BuildAppPointsShopURL(actual_appid),
 		},
 		!bIsChinaLauncher && {
-			icon: "discussions",
 			label: "#AppDetails_Link_Discussions",
 			link: "GameHubDiscussions",
 		},
 		!bIsChinaLauncher && {
-			icon: "guide",
 			label: "#AppDetails_Link_Guides",
 			link: "GameHubGuides",
 		},
 		bWorkshopVisible && {
-			icon: "community",
 			label: "#AppDetails_Link_Workshop",
 			link: "SteamWorkshopPage",
 		},
 		bCommunityMarketPresence && {
-			icon: "community",
 			label: "#AppDetails_Link_Market",
 			link: "CommunityMarketApp",
 		},
 		!CKioskModeManager.BKioskModeLocked() && {
-			icon: "help",
 			label: "#AppDetails_Link_Support",
 			link: "HelpAppPage",
 		},
@@ -130,37 +120,32 @@ function GetAccountEntries() {
 	return [
 		{
 			feature: EParentalFeature.Profile,
-			icon: "info",
 			text: "#Menu_ViewMyProfile",
 			url: "steam://url/SteamIDMyProfile",
 		},
 		{
 			args: [strAccountName],
 			feature: EParentalFeature.Max,
-			icon: "info",
 			text: "#Menu_ViewMyAccount",
 			url: "steam://url/StoreAccount",
 		},
 		{
 			feature: EParentalFeature.Max,
-			icon: "steam",
 			text: "#Menu_StorePreferences",
 			url: "steam://url/SteamPreferences",
 		},
 		{
 			args: [strAccountBalance],
 			feature: EParentalFeature.Store,
-			icon: "steam",
 			text: "#Menu_ViewMyWallet",
 			url: "steam://url/StoreAddFundsPage",
 		},
 		{
 			disabled: !secureComputer,
-			icon: "update",
 			text: "#Menu_ChangeAccount",
 			url: "steam://changeuser",
 		},
-		{ icon: "nav-back", text: "#Menu_Logout", url: "steam://signout" },
+		{ text: "#Menu_Logout", url: "steam://signout" },
 	];
 }
 
@@ -251,7 +236,7 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 		}
 
 		const accountSection = GetAccountEntries().map((e) => {
-			const { args, icon, feature, text, url } = e;
+			const { args, feature, text, url } = e;
 			const onClick = () => {
 				SteamClientURL.ExecuteSteamURL(url);
 			};
@@ -262,7 +247,6 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 				<RibbonButton
 					key={text}
 					args={args}
-					icon={icon}
 					disabled={disabled}
 					text={text}
 					onClick={onClick}
@@ -272,17 +256,14 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 		const browserSection = (
 			<RibbonSection title="#Essential_RibbonSection_Browser">
 				<RibbonButton
-					icon="nav-back"
 					text="#Essential_RibbonButton_NavBack"
 					onClick={this.OnGoBackButtonClick}
 				/>
 				<RibbonButton
-					icon="nav-forward"
 					text="#Essential_RibbonButton_NavForward"
 					onClick={this.OnGoForwardButtonClick}
 				/>
 				<RibbonButton
-					icon="update"
 					text="#Essential_RibbonButton_Reload"
 					onClick={this.OnReloadButtonClick}
 				/>
@@ -292,20 +273,13 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 		switch (tab) {
 			case ESuperNavTab.Library: {
 				const links = GetAppLinks(appid).map((e) => {
-					const { label, icon, link, url } = e;
+					const { label, link, url } = e;
 					const dest = link ? urlStore.ResolveURL(link, appid) : url;
 					const onClick = () => {
 						MainWindowBrowserManager.ShowURL(dest);
 					};
 
-					return (
-						<RibbonButton
-							key={label}
-							icon={icon}
-							text={label}
-							onClick={onClick}
-						/>
-					);
+					return <RibbonButton key={label} text={label} onClick={onClick} />;
 				});
 
 				return (
@@ -313,12 +287,10 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 						<RibbonSection title="#Essential_RibbonSection_Game">
 							<ActionButton appid={appid} />
 							<RibbonButton
-								icon="manage"
 								text="#GameAction_Manage"
 								onClick={() => this.OnManageButtonClick()}
 							/>
 							<RibbonButton
-								icon="details"
 								text="#GameAction_ViewDetails"
 								onClick={() => this.OnDetailsButtonClick()}
 							/>
