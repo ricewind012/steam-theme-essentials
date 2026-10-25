@@ -21,8 +21,8 @@ import { CheckIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { GetAppMobileCategories } from "@/modules/remoteplay";
 import { bind } from "@/utils/bind";
+import { classes } from "@/utils/css";
 import { GetMainPopupWindow } from "@/utils/popup";
-import { classes } from "@/utils/shared";
 import type { IAppOverview } from "@/utils/steamtypes";
 
 import { RibbonButton, RibbonGameSectionButton } from "../../components/ribbon";

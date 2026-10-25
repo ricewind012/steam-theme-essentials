@@ -1,7 +1,8 @@
 import { CThemeEssentialBase } from "@/essentials/base";
 import { bind } from "@/utils/bind";
+import { classes } from "@/utils/css";
 import { AddPopupCreatedCallback } from "@/utils/popup";
-import { classes, WaitForElement } from "@/utils/shared";
+import { WaitForElement } from "@/utils/shared";
 import type { SteamPopup, Unsubscribable } from "@/utils/steamtypes";
 
 import { Events } from "./events";

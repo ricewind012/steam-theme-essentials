@@ -1,8 +1,9 @@
 import { Component } from "react";
 
 import { Localize } from "@/modules/localization";
+import { classes } from "@/utils/css";
 import { GetMainPopupWindow } from "@/utils/popup";
-import { classes, WaitForElement } from "@/utils/shared";
+import { WaitForElement } from "@/utils/shared";
 
 const k_strLocTokenPrefix = "#Essential_GameListBar";
 

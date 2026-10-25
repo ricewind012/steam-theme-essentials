@@ -20,12 +20,9 @@ import {
 } from "@/modules/parentalfeatures";
 import { ToolTip } from "@/modules/tooltip";
 import { CVRStore } from "@/modules/vrstore";
+import { classes } from "@/utils/css";
 import { GetMainPopupWindow } from "@/utils/popup";
-import {
-	classes,
-	FindModuleExportByString,
-	WaitForElement,
-} from "@/utils/shared";
+import { FindModuleExportByString, WaitForElement } from "@/utils/shared";
 import { type CPlayer, SteamClientURL } from "@/utils/steamtypes";
 import type { Fn_t } from "@/utils/types";
 

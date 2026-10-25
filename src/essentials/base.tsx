@@ -5,8 +5,9 @@ import { createRoot, type Root } from "react-dom/client";
 import { Config } from "@/modules/config";
 import type { EssentialName_t } from "@/settings";
 import { bind } from "@/utils/bind";
+import { classes } from "@/utils/css";
 import { CLogger } from "@/utils/log";
-import { classes, WaitForElement } from "@/utils/shared";
+import { WaitForElement } from "@/utils/shared";
 import type { SteamPopup } from "@/utils/steamtypes";
 
 import { pLoadedEssentials } from "./loadedtracker";

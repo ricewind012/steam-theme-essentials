@@ -4,7 +4,7 @@ import { type KeyboardEventHandler, useRef, useState } from "react";
 import { XLineIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { ToolTip } from "@/modules/tooltip";
-import { classes } from "@/utils/shared";
+import { classes } from "@/utils/css";
 import type { CMsgHotkey } from "@/utils/steamtypes";
 
 function BuildClassNames(...classes: string[]) {
