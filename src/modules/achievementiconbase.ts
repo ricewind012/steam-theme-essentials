@@ -11,5 +11,6 @@ interface AchievementIconBaseProps {
 	pauseAnimation: boolean;
 }
 
+// TODO: unused after the styling, maybe use after the achievement rework?
 export const AchievementIconBase: FC<AchievementIconBaseProps> =
 	FindModuleExportByString(".AchievementIconWrapper");

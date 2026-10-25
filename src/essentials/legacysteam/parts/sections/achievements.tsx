@@ -1,13 +1,11 @@
 import {
 	type AppAchievement,
 	type AppAchievementResponse,
-	DialogButton,
 	EResult,
 	ProgressBar,
 } from "millennium";
 import { useCallback, useContext, useEffect, useState } from "react";
 
-import { AchievementIconBase } from "@/modules/achievementiconbase";
 import { Localize, LocalizeInlineReact } from "@/modules/localization";
 import { RandomArrayElement } from "@/utils/shared";
 
@@ -20,31 +18,22 @@ interface AchievementProps {
 	pAchievement: AppAchievement;
 }
 
-/**
- * Separate component from OverlayPanel.ListItem to instead use
- * AchievementIconBase.
- */
 function Achievement(props: AchievementProps) {
 	const { pAchievement } = props;
 	if (!pAchievement) {
 		return null;
 	}
 
-	const { bAchieved, flAchieved, strDescription, strImage, strName } =
+	const { bAchieved, strImage, strName, strDescription, flAchieved } =
 		pAchievement;
 	return (
-		<div className="AppAchievement">
-			<AchievementIconBase
-				alt={strName}
-				className="AppAchievement_Image"
-				glow={bAchieved && flAchieved < k_unRareAchievementThreshold}
-				imgURL={strImage}
-				pauseAnimation={window.matchMedia("(prefers-reduced-motion)").matches}
+		<div data-rare={bAchieved && flAchieved < k_unRareAchievementThreshold}>
+			<OverlayPanel.ListItem
+				onClick={() => {}}
+				strImage={strImage}
+				strPrimaryText={strName}
+				strSecondaryText={strDescription}
 			/>
-			<div>
-				<div className="AppAchievement_Name">{strName}</div>
-				<div className="AppAchievement_Description">{strDescription}</div>
-			</div>
 		</div>
 	);
 }
@@ -99,24 +88,22 @@ export function Achievements() {
 					),
 					<span className="AppAchievements_ProgressPercentage" />,
 				)}
-			</OverlayPanel.Description>
-			<OverlayPanel.Body>
 				<ProgressBar
 					// @ts-expect-error: Wrong type
 					className="AppAchievements_ProgressBar"
 					nProgress={nProgress}
 				/>
-				<div className="AppAchievements">
-					<Achievement pAchievement={pLastAchieved} />
-					<Achievement pAchievement={pRandomAchievement} />
-				</div>
+			</OverlayPanel.Description>
+			<OverlayPanel.Body>
+				<Achievement pAchievement={pLastAchieved} />
+				<Achievement pAchievement={pRandomAchievement} />
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton
+				<OverlayPanel.Button
 					onClick={() => pInstance.Navigator.MyAchievements(pBrowser.m_unAppID)}
 				>
 					{Localize("#Essential_OverlayPanel_Achievements_FooterButton")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);

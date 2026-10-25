@@ -1,13 +1,13 @@
-import type { HTMLAttributes } from "react";
+import { DialogButton, type DialogButtonProps } from "millennium";
 
 interface IconButtonProps {
 	name: string;
 }
 
 export function IconButton(
-	props: IconButtonProps & HTMLAttributes<HTMLDivElement>,
+	props: IconButtonProps & Exclude<DialogButtonProps, "className">,
 ) {
 	const { name } = props;
 
-	return <div {...props} className="IconButton" data-name={name} />;
+	return <DialogButton {...props} className="IconButton" data-name={name} />;
 }

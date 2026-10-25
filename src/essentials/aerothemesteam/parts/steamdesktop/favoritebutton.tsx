@@ -43,8 +43,6 @@ export class FavoriteButton extends RibbonGameSectionButton<FavoriteButtonState>
 	override render() {
 		const { text } = this.state;
 
-		return (
-			<RibbonButton icon="star" text={text} onClick={() => this.OnClick()} />
-		);
+		return <RibbonButton text={text} onClick={() => this.OnClick()} />;
 	}
 }

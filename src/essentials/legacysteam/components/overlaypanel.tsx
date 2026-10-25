@@ -1,10 +1,14 @@
-import { DialogButton } from "millennium";
+import { DialogButton, type DialogButtonProps } from "millennium";
 import type { FC, PropsWithChildren } from "react";
 
 export const k_nPanelEntriesCount = 4;
 
 const Body: FC<PropsWithChildren> = ({ children }) => (
 	<div className="OverlayPanel_Body">{children}</div>
+);
+
+const Button: FC<Exclude<DialogButtonProps, "className">> = (props) => (
+	<DialogButton className="OverlayPanel_Button" {...props} />
 );
 
 interface ContainerProps extends PropsWithChildren {
@@ -45,7 +49,11 @@ function ListItem(props: ListItemProps) {
 	const { onClick, strImage, strPrimaryText, strSecondaryText } = props;
 
 	return (
-		<DialogButton className="OverlayPanel_ListItem" onClick={onClick}>
+		<DialogButton
+			className="OverlayPanel_ListItem"
+			onClick={onClick}
+			data-no-image={!strImage ? "" : undefined}
+		>
 			{strImage && (
 				<img
 					alt={strPrimaryText}
@@ -65,6 +73,7 @@ function ListItem(props: ListItemProps) {
 
 export const OverlayPanel = {
 	Body,
+	Button,
 	Container,
 	Description,
 	Footer,

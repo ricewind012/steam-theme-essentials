@@ -6,7 +6,7 @@ name = "Theme Essentials"
 version = "1.0.0"
 
 [assets]
-resources = ["locales"]
+resources = ["locales", "src/styles"]
 
 [backend]
 entry = "src/backend/main.lua"

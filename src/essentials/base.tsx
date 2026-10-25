@@ -14,7 +14,7 @@ import { pLoadedEssentials } from "./loadedtracker";
 interface HTMLEssentialPartElement extends HTMLDivElement {
 	dataset: {
 		name: EssentialName_t;
-		part: keyof typeof classes;
+		part: string;
 	};
 }
 
@@ -67,7 +67,7 @@ export abstract class CThemeEssentialBase {
 	private readonly m_vecParts: EssentialPart[];
 
 	constructor({ fnFilter, strName, vecParts }: EssentialConstructor) {
-		pluginConfig.get<boolean>(`${strName}-enabled`).then((bEnabled) => {
+		pluginConfig.get<boolean>(`${strName}-bEnabled`).then((bEnabled) => {
 			this.m_bEnabled = bEnabled;
 		});
 		this.m_fnFilter = fnFilter;
@@ -107,6 +107,14 @@ export abstract class CThemeEssentialBase {
 	@bind
 	protected RenderParts(popup: SteamPopup) {
 		const doc: Document = popup.window.document;
+		// TODO: remove on unmount
+		backend.read_style(this.m_strName).then((e) => {
+			const style = doc.createElement("style");
+			style.id = `theme-essentials-${this.m_strName}`;
+			style.textContent = e;
+			doc.head.appendChild(style);
+		});
+
 		for (const part of this.m_vecParts) {
 			const { steamComponent, componentClassName, component } = part;
 			const className = classes[steamComponent][componentClassName];
@@ -114,16 +122,12 @@ export abstract class CThemeEssentialBase {
 				const div = doc.createElement("div") as HTMLEssentialPartElement;
 				div.className = "ThemeEssentialPart";
 				div.dataset.name = this.m_strName;
-				div.dataset.part = steamComponent;
-				// Initially hidden if not themed by anything
-				div.style.display = "none";
+				div.dataset.part = componentClassName;
 				el.appendChild(div);
 
 				pLoadedEssentials.Add(doc, this.m_strName);
 				const root = createRoot(div, {
-					// ..but let the errors be seen
 					onCaughtError() {
-						div.style.display = "block";
 						pLoadedEssentials.StopTracking(doc);
 					},
 				});

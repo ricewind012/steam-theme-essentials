@@ -1,0 +1,104 @@
+/* #region Steam styles */
+
+/* #appdetailsprimarylinkssection_LinksSection */
+.AppDetailsSection:where(.LinksSection) {
+	display: none;
+}
+
+/* #gamelist_Container */
+.LeftListSizableContainer > .Container > [style] {
+	order: 1;
+}
+
+/* #steamdesktop_TopBar */
+.OuterFrame > .TopBar {
+	order: -1;
+}
+
+/* #endregion */
+
+.ThemeEssentialPart:where([data-name="aerothemesteam"]) {
+	&:where([data-part="OuterFrame"]) {
+		order: -1;
+	}
+}
+
+/* Align with the rest */
+.GameListFilterStatus {
+	font-size: 12px;
+	padding-block-end: 10px;
+	padding-inline: 6px;
+}
+
+button.RibbonButton {
+	font-size: var(--text-size-3);
+	line-height: var(--button-line-height);
+	padding: var(--button-spacing-block) var(--spacing-2);
+	text-align: start;
+}
+
+button.RibbonButtonArrow {
+	flex-shrink: 0;
+	/* Dedicate all the space to the icon */
+	font-size: 0;
+	line-height: 1;
+	width: calc(var(--button-line-height) + var(--button-spacing-block) * 2);
+}
+
+.RibbonButtonContainer {
+	display: flex;
+	gap: 2px;
+}
+
+.RibbonContainer {
+	background: var(--color-greyneutral-4);
+	box-shadow:
+		inset rgb(from var(--color-greyneutral-8) r g b / 0.75) 1px -1px 1px,
+		inset rgb(from var(--color-greyneutral-8) r g b / 0.25) -1px -1px 1px;
+	box-sizing: border-box;
+	display: flex;
+	gap: var(--spacing-4);
+	padding: 0 var(--spacing-4);
+	position: relative;
+	width: 100%;
+
+	/* Yeah dude */
+	&::before {
+		background: inherit;
+		content: "";
+		height: 2px;
+		inset-block-end: 0px;
+		inset-inline: 1px;
+		pointer-events: none;
+		position: absolute;
+	}
+}
+
+.RibbonSection {
+	justify-content: start;
+	display: flex;
+	flex-direction: column;
+}
+
+.RibbonSectionBody {
+	/* 2px = default DialogButton margin-block, idk why 4 but yeah */
+	--button-height: calc(
+		var(--button-line-height) + var(--button-spacing-block) + 2px * 4
+	);
+	--button-line-height: var(--line-height-4);
+	--button-spacing-block: var(--spacing-1);
+	--count: 2;
+
+	column-gap: var(--spacing-1);
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: calc(var(--button-height) * var(--count));
+}
+
+.RibbonSectionTitle {
+	/* Align *only* color with supernav, but also don't make it too prominent */
+	color: var(--color-text-body-subtitle);
+	font-size: var(--text-size-4);
+	font-weight: var(--font-weight-medium);
+}

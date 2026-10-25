@@ -1,5 +1,4 @@
 import {
-	DialogButton,
 	ModalPosition,
 	ModalRoot,
 	type Screenshot,
@@ -117,12 +116,12 @@ export function Screenshots() {
 				</ConfigContext>
 			</OverlayPanel.Body>
 			<OverlayPanel.Footer>
-				<DialogButton onClick={() => pInstance.Navigator.Media.Grid()}>
+				<OverlayPanel.Button onClick={() => pInstance.Navigator.Media.Grid()}>
 					{Localize("#Essential_OverlayPanel_Screenshots_FooterButton")}
-				</DialogButton>
-				<DialogButton onClick={onSetShortcutClick}>
+				</OverlayPanel.Button>
+				<OverlayPanel.Button onClick={onSetShortcutClick}>
 					{Localize("#Essential_OverlayPanel_Screenshots_FooterButton_2")}
-				</DialogButton>
+				</OverlayPanel.Button>
 			</OverlayPanel.Footer>
 		</OverlayPanel.Container>
 	);
