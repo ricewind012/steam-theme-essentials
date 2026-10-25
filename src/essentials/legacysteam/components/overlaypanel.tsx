@@ -1,14 +1,18 @@
 import { DialogButton, type DialogButtonProps } from "millennium";
 import type { FC, PropsWithChildren } from "react";
 
+import { ClassNameFactory } from "@/utils/css";
+
 export const k_nPanelEntriesCount = 4;
 
+const cl = ClassNameFactory("OverlayPanel");
+
 const Body: FC<PropsWithChildren> = ({ children }) => (
-	<div className="OverlayPanel_Body">{children}</div>
+	<div className={cl("Body")}>{children}</div>
 );
 
 const Button: FC<Exclude<DialogButtonProps, "className">> = (props) => (
-	<DialogButton className="OverlayPanel_Button" {...props} />
+	<DialogButton className={cl("Button")} {...props} />
 );
 
 interface ContainerProps extends PropsWithChildren {
@@ -17,25 +21,25 @@ interface ContainerProps extends PropsWithChildren {
 }
 
 const Container: FC<ContainerProps> = ({ children, strName }) => (
-	<div className="OverlayPanel_Container" data-name={strName}>
+	<div className={cl("Container")} data-name={strName}>
 		{children}
 	</div>
 );
 
 const Description: FC<PropsWithChildren> = ({ children }) => (
-	<div className="OverlayPanel_Description">{children}</div>
+	<div className={cl("Description")}>{children}</div>
 );
 
 const Footer: FC<PropsWithChildren> = ({ children }) => (
-	<div className="OverlayPanel_Footer">{children}</div>
+	<div className={cl("Footer")}>{children}</div>
 );
 
 const GridContainer: FC<PropsWithChildren> = ({ children }) => (
-	<div className="OverlayPanel_GridContainer">{children}</div>
+	<div className={cl("GridContainer")}>{children}</div>
 );
 
 const Header: FC<PropsWithChildren> = ({ children }) => (
-	<div className="OverlayPanel_Header">{children}</div>
+	<div className={cl("Header")}>{children}</div>
 );
 
 interface ListItemProps {
@@ -50,22 +54,20 @@ function ListItem(props: ListItemProps) {
 
 	return (
 		<DialogButton
-			className="OverlayPanel_ListItem"
+			className={cl("ListItem")}
 			onClick={onClick}
 			data-no-image={!strImage ? "" : undefined}
 		>
 			{strImage && (
 				<img
 					alt={strPrimaryText}
-					className="OverlayPanel_ListItem_Image"
+					className={cl("ListItem", "Image")}
 					src={strImage}
 				/>
 			)}
 			<div>
-				<span className="OverlayPanel_ListItem_Primary">{strPrimaryText}</span>
-				<span className="OverlayPanel_ListItem_Secondary">
-					{strSecondaryText}
-				</span>
+				<span className={cl("ListItem", "Primary")}>{strPrimaryText}</span>
+				<span className={cl("ListItem", "Secondary")}>{strSecondaryText}</span>
 			</div>
 		</DialogButton>
 	);

@@ -1,5 +1,19 @@
 import { type ClassModule, findClassModule, type Module } from "millennium";
 
+/**
+ * @example
+ * ```
+ * const cl = ClassNameFactory("OverlayPanel");
+ * cl("ListItem", "Secondary");
+ * -> ".OverlayPanel_ListItem_Secondary"
+ * ```
+ */
+export const ClassNameFactory =
+	(strPrefix: string) =>
+	(...args: string[]) => {
+		return `${strPrefix}_${args.join("_")}`;
+	};
+
 function FindClassModuleWithoutResident(filter: (mod: Module) => boolean) {
 	const mod = findClassModule(filter);
 	if (!mod) {

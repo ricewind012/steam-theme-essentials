@@ -7,12 +7,15 @@ import {
 import { useCallback, useContext, useEffect, useState } from "react";
 
 import { Localize, LocalizeInlineReact } from "@/modules/localization";
+import { ClassNameFactory } from "@/utils/css";
 import { RandomArrayElement } from "@/utils/shared";
 
 import { OverlayPanel } from "../../components/overlaypanel";
 import { OverlayInfoContext } from "../overlayinfocontext";
 
 const k_unRareAchievementThreshold = 10;
+
+const cl = ClassNameFactory("AppAchievements");
 
 interface AchievementProps {
 	pAchievement: AppAchievement;
@@ -86,11 +89,11 @@ export function Achievements() {
 						nTotal,
 						Math.floor(nProgress),
 					),
-					<span className="AppAchievements_ProgressPercentage" />,
+					<span className={cl("ProgressPercentage")} />,
 				)}
 				<ProgressBar
 					// @ts-expect-error: Wrong type
-					className="AppAchievements_ProgressBar"
+					className={cl("ProgressBar")}
 					nProgress={nProgress}
 				/>
 			</OverlayPanel.Description>

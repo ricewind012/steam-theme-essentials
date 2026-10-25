@@ -30,14 +30,14 @@
 	padding-inline: 6px;
 }
 
-button.RibbonButton {
+button.Ribbon_Button {
 	font-size: var(--text-size-3);
 	line-height: var(--button-line-height);
 	padding: var(--button-spacing-block) var(--spacing-2);
 	text-align: start;
 }
 
-button.RibbonButtonArrow {
+button.Ribbon_ButtonArrow {
 	flex-shrink: 0;
 	/* Dedicate all the space to the icon */
 	font-size: 0;
@@ -45,12 +45,12 @@ button.RibbonButtonArrow {
 	width: calc(var(--button-line-height) + var(--button-spacing-block) * 2);
 }
 
-.RibbonButtonContainer {
+.Ribbon_ButtonContainer {
 	display: flex;
 	gap: 2px;
 }
 
-.RibbonContainer {
+.Ribbon_Container {
 	background: var(--color-greyneutral-4);
 	box-shadow:
 		inset rgb(from var(--color-greyneutral-8) r g b / 0.75) 1px -1px 1px,
@@ -74,13 +74,13 @@ button.RibbonButtonArrow {
 	}
 }
 
-.RibbonSection {
+.Ribbon_Section {
 	justify-content: start;
 	display: flex;
 	flex-direction: column;
 }
 
-.RibbonSectionBody {
+.Ribbon_SectionBody {
 	/* 2px = default DialogButton margin-block, idk why 4 but yeah */
 	--button-height: calc(
 		var(--button-line-height) + var(--button-spacing-block) + 2px * 4
@@ -96,7 +96,7 @@ button.RibbonButtonArrow {
 	height: calc(var(--button-height) * var(--count));
 }
 
-.RibbonSectionTitle {
+.Ribbon_SectionTitle {
 	/* Align *only* color with supernav, but also don't make it too prominent */
 	color: var(--color-text-body-subtitle);
 	font-size: var(--text-size-4);

@@ -2,6 +2,9 @@ import { DialogButton, IconsModule } from "millennium";
 import { Component, type FC, type PropsWithChildren } from "react";
 
 import { Localize } from "@/modules/localization";
+import { ClassNameFactory } from "@/utils/css";
+
+const cl = ClassNameFactory("Ribbon");
 
 interface RibbonButtonProps {
 	/** Arguments for localization. */
@@ -18,12 +21,12 @@ export function RibbonButton(props: RibbonButtonProps) {
 
 	return (
 		<div
-			className="RibbonButtonContainer"
+			className={cl("ButtonContainer")}
 			data-disabled={disabled}
 			data-icon={text.slice(text.lastIndexOf("_") + 1, text.length)}
 		>
 			<DialogButton
-				className="RibbonButton"
+				className={cl("Button")}
 				disabled={disabled}
 				onClick={onClick}
 				onContextMenu={onArrowClick}
@@ -32,7 +35,7 @@ export function RibbonButton(props: RibbonButtonProps) {
 			</DialogButton>
 			{onArrowClick && (
 				<DialogButton
-					className="RibbonButtonArrow"
+					className={cl("ButtonArrow")}
 					disabled={disabled}
 					onClick={onArrowClick}
 				>
@@ -48,16 +51,16 @@ interface RibbonSectionProps extends PropsWithChildren {
 }
 
 export const RibbonSection: FC<RibbonSectionProps> = ({ children, title }) => (
-	<div className="RibbonSection">
-		<div className="RibbonSectionTitle">{Localize(title)}</div>
-		<div className="RibbonSectionBody">{children}</div>
+	<div className={cl("Section")}>
+		<div className={cl("SectionTitle")}>{Localize(title)}</div>
+		<div className={cl("SectionBody")}>{children}</div>
 	</div>
 );
 
 interface RibbonContainerProps extends PropsWithChildren {}
 
 export const RibbonContainer: FC<RibbonContainerProps> = ({ children }) => (
-	<div className="RibbonContainer">{children}</div>
+	<div className={cl("Container")}>{children}</div>
 );
 
 interface RibbonGameSectionButtonProps {
