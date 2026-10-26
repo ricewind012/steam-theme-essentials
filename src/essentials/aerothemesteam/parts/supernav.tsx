@@ -7,7 +7,7 @@ import {
 	showContextMenu,
 	showModal,
 } from "millennium";
-import { Component } from "react";
+import { useRef } from "react";
 
 import { BIsChinaLauncher, Config } from "@/modules/config";
 import { MenuGroup } from "@/modules/contextmenu";
@@ -324,14 +324,14 @@ function BuildHelpRootMenuEntries(): RootMenuEntry[] {
 	];
 }
 
-export class SuperNav extends Component {
+export function SuperNav() {
 	/** ref */
-	m_elSuperNav: Element | null = null;
+	const elSuperNav = useRef<Element>(null);
 
-	async OnClick() {
-		if (!this.m_elSuperNav) {
+	const OnClick = async () => {
+		if (!elSuperNav.current) {
 			const wnd = GetMainPopupWindow();
-			this.m_elSuperNav = await WaitForElement(
+			elSuperNav.current = await WaitForElement(
 				`.${classes.supernav.SuperNav}`,
 				wnd.document,
 			);
@@ -383,20 +383,18 @@ export class SuperNav extends Component {
 					</MenuGroup>
 				))}
 			</Menu>,
-			this.m_elSuperNav,
+			elSuperNav.current,
 			{
 				// Make it appear above the browser view
 				bForcePopup: true,
 				bOverlapHorizontal: true,
 			},
 		);
-	}
+	};
 
-	override render() {
-		return (
-			<ToolTip direction="bottom" toolTipContent={strSteamRootMenuTitle}>
-				<IconButton name="steam" onClick={() => this.OnClick()} />
-			</ToolTip>
-		);
-	}
+	return (
+		<ToolTip direction="bottom" toolTipContent={strSteamRootMenuTitle}>
+			<IconButton name="steam" onClick={() => OnClick()} />
+		</ToolTip>
+	);
 }

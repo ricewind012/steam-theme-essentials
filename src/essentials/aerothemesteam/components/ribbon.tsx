@@ -1,5 +1,5 @@
 import { DialogButton, IconsModule } from "millennium";
-import { Component, type FC, type PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { Localize } from "@/modules/localization";
 import { ClassNameFactory } from "@/utils/css";
@@ -63,18 +63,12 @@ const Container: FC<ContainerProps> = ({ children }) => (
 	<div className={cl("Container")}>{children}</div>
 );
 
-interface GameSectionButtonProps {
+export interface RibbonGameSectionButtonProps {
 	appid: number;
 }
-
-class GameSectionButton<S = unknown> extends Component<
-	GameSectionButtonProps,
-	S
-> {}
 
 export const Ribbon = {
 	Button,
 	Container,
-	GameSectionButton,
 	Section,
 };

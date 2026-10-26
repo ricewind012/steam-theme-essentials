@@ -1,5 +1,5 @@
 import { ModalPosition, showModal } from "millennium";
-import { Component } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AppGameInfo } from "@/modules/appgameinfo";
 import { BIsChinaLauncher, Config } from "@/modules/config";
@@ -9,7 +9,6 @@ import {
 	CParentalFeaturesManager,
 	EParentalFeature,
 } from "@/modules/parentalfeatures";
-import { bind } from "@/utils/bind";
 import { GetMainPopupWindow } from "@/utils/popup";
 import { SteamClientURL, type Unsubscribable } from "@/utils/steamtypes";
 
@@ -150,27 +149,17 @@ function GetDefaltTabState() {
 	return GetESuperNavTabFromSetting(eDefaultTab);
 }
 
-interface SteamDesktopState {
-	appid: number;
-	tab: ESuperNavTab;
-}
+export function SteamDesktop() {
+	const [appid, setAppID] = useState(-1);
+	const [tab, setTab] = useState(GetDefaltTabState());
 
-export class SteamDesktop extends Component<unknown, SteamDesktopState> {
-	private m_vecEventRegistrars: Unsubscribable[] = [];
+	const vecEventRegistrars = useRef<Unsubscribable[]>([]);
 
-	state = {
-		appid: -1,
-		tab: GetDefaltTabState(),
-	};
-
-	OnManageButtonClick() {
-		const { appid } = this.state;
-
+	function OnManageButtonClick() {
 		SteamClient.Apps.OpenAppSettingsDialog(appid, "");
 	}
 
-	OnDetailsButtonClick() {
-		const { appid } = this.state;
+	function OnDetailsButtonClick() {
 		const overview = appStore.GetAppOverviewByAppID(appid);
 		const { details } = appDetailsStore.GetAppData(appid);
 		const wnd = GetMainPopupWindow();
@@ -188,134 +177,133 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 		);
 	}
 
-	OnGoBackButtonClick() {
+	function OnGoBackButtonClick() {
 		MainWindowBrowserManager.m_browser.GoBack();
 	}
 
-	OnGoForwardButtonClick() {
+	function OnGoForwardButtonClick() {
 		MainWindowBrowserManager.m_browser.GoForward();
 	}
 
-	OnReloadButtonClick() {
+	function OnReloadButtonClick() {
 		MainWindowBrowserManager.m_browser.Reload();
 	}
 
-	@bind
-	OnWindowEvent(ev: CustomEventInit<GameListChangeEvent | TabChangeEvent>) {
-		const { appid, tab } = this.state;
-		const nextAppID = "appid" in ev.detail ? ev.detail.appid : appid;
-		const nextTab = "tab" in ev.detail ? ev.detail.tab : tab;
-		if (appid === nextAppID && tab === nextTab) {
-			return;
-		}
-
-		this.setState({ appid: nextAppID, tab: nextTab });
-	}
-
-	override componentDidMount() {
-		this.m_vecEventRegistrars = [
-			Events.GameList.Register(this.OnWindowEvent),
-			Events.Tab.Register(this.OnWindowEvent),
-		];
-	}
-
-	override componentWillUnmount() {
-		for (const handle of this.m_vecEventRegistrars) {
-			handle.Unregister();
-		}
-	}
-
-	override render() {
-		const { appid, tab } = this.state;
-		if (tab === ESuperNavTab.Library && appid === -1) {
-			return <Ribbon.Container />;
-		}
-
-		const accountSection = GetAccountEntries().map((e) => {
-			const { args, feature, text, url } = e;
-			const onClick = () => {
-				SteamClientURL.ExecuteSteamURL(url);
-			};
-			const disabled =
-				e.disabled || CParentalFeaturesManager.BIsFeatureBlocked(feature);
-
-			return (
-				<Ribbon.Button
-					key={text}
-					args={args}
-					disabled={disabled}
-					text={text}
-					onClick={onClick}
-				/>
-			);
-		});
-		const browserSection = (
-			<Ribbon.Section title="#Essential_RibbonSection_Browser">
-				<Ribbon.Button
-					text="#Essential_RibbonButton_NavBack"
-					onClick={this.OnGoBackButtonClick}
-				/>
-				<Ribbon.Button
-					text="#Essential_RibbonButton_NavForward"
-					onClick={this.OnGoForwardButtonClick}
-				/>
-				<Ribbon.Button
-					text="#Essential_RibbonButton_Reload"
-					onClick={this.OnReloadButtonClick}
-				/>
-			</Ribbon.Section>
-		);
-
-		switch (tab) {
-			case ESuperNavTab.Library: {
-				const links = GetAppLinks(appid).map((e) => {
-					const { label, link, url } = e;
-					const dest = link ? urlStore.ResolveURL(link, appid) : url;
-					const onClick = () => {
-						MainWindowBrowserManager.ShowURL(dest);
-					};
-
-					return <Ribbon.Button key={label} text={label} onClick={onClick} />;
-				});
-
-				return (
-					<Ribbon.Container>
-						<Ribbon.Section title="#Essential_RibbonSection_Game">
-							<ActionButton appid={appid} />
-							<Ribbon.Button
-								text="#GameAction_Manage"
-								onClick={() => this.OnManageButtonClick()}
-							/>
-							<Ribbon.Button
-								text="#GameAction_ViewDetails"
-								onClick={() => this.OnDetailsButtonClick()}
-							/>
-							<FavoriteButton appid={appid} />
-						</Ribbon.Section>
-						{links.length > 0 && (
-							<Ribbon.Section title="#Essential_RibbonSection_Links">
-								{links}
-							</Ribbon.Section>
-						)}
-					</Ribbon.Container>
-				);
+	const OnWindowEvent = useCallback(
+		(ev: CustomEventInit<GameListChangeEvent | TabChangeEvent>) => {
+			const nextAppID = "appid" in ev.detail ? ev.detail.appid : appid;
+			const nextTab = "tab" in ev.detail ? ev.detail.tab : tab;
+			if (appid === nextAppID && tab === nextTab) {
+				return;
 			}
 
-			case ESuperNavTab.Console:
-				return <Ribbon.Container />;
+			setAppID(nextAppID);
+			setTab(nextTab);
+		},
+		[appid, tab],
+	);
 
-			// Browser
-			default:
-				return (
-					<Ribbon.Container>
-						{browserSection}
-						{tab === ESuperNavTab.Profile && (
-							<Ribbon.Section title="#Essential_RibbonSection_Account">
-								{accountSection}
-							</Ribbon.Section>
-						)}
-					</Ribbon.Container>
-				);
+	useEffect(() => {
+		vecEventRegistrars.current.push(
+			Events.GameList.Register(OnWindowEvent),
+			Events.Tab.Register(OnWindowEvent),
+		);
+
+		return () => {
+			for (const handle of vecEventRegistrars.current) {
+				handle.Unregister();
+			}
+		};
+	}, [OnWindowEvent]);
+
+	if (tab === ESuperNavTab.Library && appid === -1) {
+		return <Ribbon.Container />;
+	}
+
+	const accountSection = GetAccountEntries().map((e) => {
+		const { args, feature, text, url } = e;
+		const onClick = () => {
+			SteamClientURL.ExecuteSteamURL(url);
+		};
+		const disabled =
+			e.disabled || CParentalFeaturesManager.BIsFeatureBlocked(feature);
+
+		return (
+			<Ribbon.Button
+				key={text}
+				args={args}
+				disabled={disabled}
+				text={text}
+				onClick={onClick}
+			/>
+		);
+	});
+	const browserSection = (
+		<Ribbon.Section title="#Essential_RibbonSection_Browser">
+			<Ribbon.Button
+				text="#Essential_RibbonButton_NavBack"
+				onClick={OnGoBackButtonClick}
+			/>
+			<Ribbon.Button
+				text="#Essential_RibbonButton_NavForward"
+				onClick={OnGoForwardButtonClick}
+			/>
+			<Ribbon.Button
+				text="#Essential_RibbonButton_Reload"
+				onClick={OnReloadButtonClick}
+			/>
+		</Ribbon.Section>
+	);
+
+	switch (tab) {
+		case ESuperNavTab.Library: {
+			const links = GetAppLinks(appid).map((e) => {
+				const { label, link, url } = e;
+				const dest = link ? urlStore.ResolveURL(link, appid) : url;
+				const onClick = () => {
+					MainWindowBrowserManager.ShowURL(dest);
+				};
+
+				return <Ribbon.Button key={label} text={label} onClick={onClick} />;
+			});
+
+			return (
+				<Ribbon.Container>
+					<Ribbon.Section title="#Essential_RibbonSection_Game">
+						<ActionButton appid={appid} />
+						<Ribbon.Button
+							text="#GameAction_Manage"
+							onClick={() => OnManageButtonClick()}
+						/>
+						<Ribbon.Button
+							text="#GameAction_ViewDetails"
+							onClick={() => OnDetailsButtonClick()}
+						/>
+						<FavoriteButton appid={appid} />
+					</Ribbon.Section>
+					{links.length > 0 && (
+						<Ribbon.Section title="#Essential_RibbonSection_Links">
+							{links}
+						</Ribbon.Section>
+					)}
+				</Ribbon.Container>
+			);
 		}
+
+		case ESuperNavTab.Console:
+			return <Ribbon.Container />;
+
+		// Browser
+		default:
+			return (
+				<Ribbon.Container>
+					{browserSection}
+					{tab === ESuperNavTab.Profile && (
+						<Ribbon.Section title="#Essential_RibbonSection_Account">
+							{accountSection}
+						</Ribbon.Section>
+					)}
+				</Ribbon.Container>
+			);
 	}
 }

@@ -7,25 +7,22 @@ import {
 	type SteamAppOverview,
 	type SteamAppOverviewRemoteClientData,
 	showContextMenu,
-	sleep,
-	type Unregisterable,
 } from "millennium";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import {
-	type AppAction_t,
-	GetAppAction,
-	GetCallbackForAppAction,
-} from "@/modules/appactions";
+import { GetAppAction, GetCallbackForAppAction } from "@/modules/appactions";
 import { Config } from "@/modules/config";
 import { CheckIcon } from "@/modules/icons";
 import { Localize } from "@/modules/localization";
 import { GetAppMobileCategories } from "@/modules/remoteplay";
-import { bind } from "@/utils/bind";
 import { classes } from "@/utils/css";
 import { GetMainPopupWindow } from "@/utils/popup";
 import type { IAppOverview } from "@/utils/steamtypes";
 
-import { Ribbon } from "../../components/ribbon";
+import {
+	Ribbon,
+	type RibbonGameSectionButtonProps,
+} from "../../components/ribbon";
 
 // Most of this file is stolen from some webpack module
 
@@ -163,122 +160,83 @@ function RemotePlayAnywhereContextMenuItem(
 	);
 }
 
-interface ActionButtonState {
-	action: AppAction_t;
-}
+export function ActionButton(props: RibbonGameSectionButtonProps) {
+	const { appid } = props;
+	const elButton = useRef<HTMLElement>(null);
 
-export class ActionButton extends Ribbon.GameSectionButton<ActionButtonState> {
-	/** ref */
-	private m_elButton: HTMLElement;
-	private m_vecRegistrars: Unregisterable[] = [];
-
-	state: ActionButtonState = {
-		action: "Play",
-	};
-
-	GetAppAction() {
+	const overview = appStore.GetAppOverviewByAppID(appid);
+	const GetAppActionWrap = useCallback(() => {
 		return GetAppAction(
 			SteamUIStore.ActiveWindowInstance,
-			this.GetAppOverview(),
+			overview,
 			"selected",
 		);
-	}
+	}, [overview]);
 
-	GetAppOverview() {
-		const { appid } = this.props;
-		return appStore.GetAppOverviewByAppID(appid);
-	}
+	const [eAction, setAction] = useState(GetAppActionWrap());
+	const token = `#GameAction_${eAction}`;
 
-	GetLocToken() {
-		const eAction = this.GetAppAction();
-		return `#GameAction_${eAction}`;
-	}
+	const onGameAction = useCallback(() => {
+		setAction(GetAppActionWrap());
+	}, [GetAppActionWrap]);
 
-	SetState() {
-		const action = this.GetAppAction();
-
-		this.setState({ action });
-	}
-
-	/**
-	 * @todo Need a better way, but this works well enough, fuck you
-	 */
-	@bind
-	async OnGameAction() {
-		await sleep(500);
-
-		this.SetState();
-	}
-
-	OnStreamingTargetSelected(client: SteamAppOverviewRemoteClientData) {
-		const { appid } = this.props;
-
+	function onStreamingTargetSelected(client: SteamAppOverviewRemoteClientData) {
 		SteamClient.Apps.SetStreamingClientForApp(appid, client.clientid);
 	}
 
-	OnArrowClick() {
-		const overview = this.GetAppOverview();
-
-		if (!this.m_elButton) {
+	function onArrowClick() {
+		if (!elButton.current) {
 			const wnd = GetMainPopupWindow();
-			const token = this.GetLocToken();
 			const strIcon = token.slice(token.lastIndexOf("_") + 1, token.length);
-
-			this.m_elButton = wnd.document.querySelector(
-				`.RibbonButtonContainer[data-icon="${strIcon}"]`,
+			const elButton = wnd.document.querySelector(
+				`.Ribbon_ButtonContainer[data-icon="${strIcon}"]`,
 			);
+			elButton.current = elButton;
 		}
 
 		showContextMenu(
 			<StreamingContextMenu
 				overview={overview}
-				onStreamingTargetSelected={(e) => this.OnStreamingTargetSelected(e)}
+				onStreamingTargetSelected={(e) => onStreamingTargetSelected(e)}
 			/>,
-			this.m_elButton,
+			elButton.current,
 			{
 				bOverlapHorizontal: true,
 			},
 		);
 	}
 
-	OnClick() {
-		const overview = this.GetAppOverview();
+	function onClick() {
 		const callback = GetCallbackForAppAction(
-			this.GetAppAction(),
+			eAction,
 			overview,
 			"selected",
 			ELaunchSource._2ftLibraryDetails,
 		);
 
 		callback();
-		this.SetState();
+		setAction(GetAppActionWrap());
 	}
 
-	override componentDidMount() {
-		this.SetState();
-		this.m_vecRegistrars = [
-			SteamClient.Apps.RegisterForGameActionStart(this.OnGameAction),
-			SteamClient.Apps.RegisterForGameActionEnd(this.OnGameAction),
+	useEffect(() => {
+		const vecRegistrars = [
+			SteamClient.Apps.RegisterForGameActionStart(onGameAction),
+			SteamClient.Apps.RegisterForGameActionEnd(onGameAction),
 		];
-	}
 
-	override componentWillUnmount() {
-		for (const handle of this.m_vecRegistrars) {
-			handle.unregister();
-		}
-	}
+		return () => {
+			for (const handle of vecRegistrars) {
+				handle.unregister();
+			}
+		};
+	}, [onGameAction]);
 
-	override render() {
-		const eAction = this.GetAppAction();
-		const strToken = this.GetLocToken();
-
-		return (
-			<Ribbon.Button
-				disabled={!eAction}
-				text={strToken}
-				onClick={() => this.OnClick()}
-				onArrowClick={() => this.OnArrowClick()}
-			/>
-		);
-	}
+	return (
+		<Ribbon.Button
+			disabled={!eAction}
+			text={token}
+			onClick={() => onClick()}
+			onArrowClick={() => onArrowClick()}
+		/>
+	);
 }

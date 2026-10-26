@@ -17,7 +17,7 @@ const exports = Object.values<Module>(
 /**
  * There are more, but these are the ones {@link GetAppAction} uses.
  */
-export type AppAction_t =
+type AppAction_t =
 	| "BorrowApp"
 	| "Cancel"
 	| "Connect"

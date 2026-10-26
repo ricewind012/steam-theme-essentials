@@ -1,48 +1,40 @@
-import { Ribbon } from "../../components/ribbon";
+import { useCallback, useEffect, useState } from "react";
 
-interface FavoriteButtonState {
-	text: string;
-}
+import {
+	Ribbon,
+	type RibbonGameSectionButtonProps,
+} from "../../components/ribbon";
 
 // TODO: its text doesn't update... but ActionButton does
-export class FavoriteButton extends Ribbon.GameSectionButton<FavoriteButtonState> {
-	state: FavoriteButtonState = {
-		text: "#GameAction_AddToFavorites",
-	};
+export function FavoriteButton(props: RibbonGameSectionButtonProps) {
+	const { appid } = props;
+	const [text, setText] = useState("");
 
-	BIsFavorite() {
-		const { appid } = this.props;
+	const BIsFavorite = useCallback(() => {
 		return collectionStore.BIsFavorite(appid);
-	}
+	}, [appid]);
 
-	ToggleAppFavorite() {
-		const { appid } = this.props;
-		const favorite = this.BIsFavorite();
-
+	const ToggleAppFavorite = useCallback(() => {
+		const favorite = BIsFavorite();
 		collectionStore.SetAppsAsFavorite([appid], !favorite);
-	}
+	}, [BIsFavorite, appid]);
 
-	SetFavorite() {
-		const favorite = this.BIsFavorite();
+	const SetFavorite = useCallback(() => {
+		const favorite = BIsFavorite();
 		const text = favorite
 			? "#GameAction_RemoveFromFavorites"
 			: "#GameAction_AddToFavorites";
+		setText(text);
+	}, [BIsFavorite]);
 
-		this.setState({ text });
+	function onClick() {
+		ToggleAppFavorite();
+		SetFavorite();
 	}
 
-	OnClick() {
-		this.ToggleAppFavorite();
-		this.SetFavorite();
-	}
+	useEffect(() => {
+		SetFavorite();
+	}, [SetFavorite]);
 
-	override componentDidMount() {
-		this.SetFavorite();
-	}
-
-	override render() {
-		const { text } = this.state;
-
-		return <Ribbon.Button text={text} onClick={() => this.OnClick()} />;
-	}
+	return <Ribbon.Button text={text} onClick={() => onClick()} />;
 }
