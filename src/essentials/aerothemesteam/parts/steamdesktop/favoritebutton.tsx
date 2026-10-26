@@ -1,11 +1,11 @@
-import { RibbonButton, RibbonGameSectionButton } from "../../components/ribbon";
+import { Ribbon } from "../../components/ribbon";
 
 interface FavoriteButtonState {
 	text: string;
 }
 
 // TODO: its text doesn't update... but ActionButton does
-export class FavoriteButton extends RibbonGameSectionButton<FavoriteButtonState> {
+export class FavoriteButton extends Ribbon.GameSectionButton<FavoriteButtonState> {
 	state: FavoriteButtonState = {
 		text: "#GameAction_AddToFavorites",
 	};
@@ -43,6 +43,6 @@ export class FavoriteButton extends RibbonGameSectionButton<FavoriteButtonState>
 	override render() {
 		const { text } = this.state;
 
-		return <RibbonButton text={text} onClick={() => this.OnClick()} />;
+		return <Ribbon.Button text={text} onClick={() => this.OnClick()} />;
 	}
 }

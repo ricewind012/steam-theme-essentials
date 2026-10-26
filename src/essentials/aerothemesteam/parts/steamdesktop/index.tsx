@@ -13,11 +13,7 @@ import { bind } from "@/utils/bind";
 import { GetMainPopupWindow } from "@/utils/popup";
 import { SteamClientURL, type Unsubscribable } from "@/utils/steamtypes";
 
-import {
-	RibbonButton,
-	RibbonContainer,
-	RibbonSection,
-} from "../../components/ribbon";
+import { Ribbon } from "../../components/ribbon";
 import {
 	ESuperNavTab,
 	Events,
@@ -232,7 +228,7 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 	override render() {
 		const { appid, tab } = this.state;
 		if (tab === ESuperNavTab.Library && appid === -1) {
-			return <RibbonContainer />;
+			return <Ribbon.Container />;
 		}
 
 		const accountSection = GetAccountEntries().map((e) => {
@@ -244,7 +240,7 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 				e.disabled || CParentalFeaturesManager.BIsFeatureBlocked(feature);
 
 			return (
-				<RibbonButton
+				<Ribbon.Button
 					key={text}
 					args={args}
 					disabled={disabled}
@@ -254,20 +250,20 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 			);
 		});
 		const browserSection = (
-			<RibbonSection title="#Essential_RibbonSection_Browser">
-				<RibbonButton
+			<Ribbon.Section title="#Essential_RibbonSection_Browser">
+				<Ribbon.Button
 					text="#Essential_RibbonButton_NavBack"
 					onClick={this.OnGoBackButtonClick}
 				/>
-				<RibbonButton
+				<Ribbon.Button
 					text="#Essential_RibbonButton_NavForward"
 					onClick={this.OnGoForwardButtonClick}
 				/>
-				<RibbonButton
+				<Ribbon.Button
 					text="#Essential_RibbonButton_Reload"
 					onClick={this.OnReloadButtonClick}
 				/>
-			</RibbonSection>
+			</Ribbon.Section>
 		);
 
 		switch (tab) {
@@ -279,46 +275,46 @@ export class SteamDesktop extends Component<unknown, SteamDesktopState> {
 						MainWindowBrowserManager.ShowURL(dest);
 					};
 
-					return <RibbonButton key={label} text={label} onClick={onClick} />;
+					return <Ribbon.Button key={label} text={label} onClick={onClick} />;
 				});
 
 				return (
-					<RibbonContainer>
-						<RibbonSection title="#Essential_RibbonSection_Game">
+					<Ribbon.Container>
+						<Ribbon.Section title="#Essential_RibbonSection_Game">
 							<ActionButton appid={appid} />
-							<RibbonButton
+							<Ribbon.Button
 								text="#GameAction_Manage"
 								onClick={() => this.OnManageButtonClick()}
 							/>
-							<RibbonButton
+							<Ribbon.Button
 								text="#GameAction_ViewDetails"
 								onClick={() => this.OnDetailsButtonClick()}
 							/>
 							<FavoriteButton appid={appid} />
-						</RibbonSection>
+						</Ribbon.Section>
 						{links.length > 0 && (
-							<RibbonSection title="#Essential_RibbonSection_Links">
+							<Ribbon.Section title="#Essential_RibbonSection_Links">
 								{links}
-							</RibbonSection>
+							</Ribbon.Section>
 						)}
-					</RibbonContainer>
+					</Ribbon.Container>
 				);
 			}
 
 			case ESuperNavTab.Console:
-				return <RibbonContainer />;
+				return <Ribbon.Container />;
 
 			// Browser
 			default:
 				return (
-					<RibbonContainer>
+					<Ribbon.Container>
 						{browserSection}
 						{tab === ESuperNavTab.Profile && (
-							<RibbonSection title="#Essential_RibbonSection_Account">
+							<Ribbon.Section title="#Essential_RibbonSection_Account">
 								{accountSection}
-							</RibbonSection>
+							</Ribbon.Section>
 						)}
-					</RibbonContainer>
+					</Ribbon.Container>
 				);
 		}
 	}

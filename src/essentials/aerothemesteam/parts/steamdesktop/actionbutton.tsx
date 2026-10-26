@@ -25,7 +25,7 @@ import { classes } from "@/utils/css";
 import { GetMainPopupWindow } from "@/utils/popup";
 import type { IAppOverview } from "@/utils/steamtypes";
 
-import { RibbonButton, RibbonGameSectionButton } from "../../components/ribbon";
+import { Ribbon } from "../../components/ribbon";
 
 // Most of this file is stolen from some webpack module
 
@@ -167,7 +167,7 @@ interface ActionButtonState {
 	action: AppAction_t;
 }
 
-export class ActionButton extends RibbonGameSectionButton<ActionButtonState> {
+export class ActionButton extends Ribbon.GameSectionButton<ActionButtonState> {
 	/** ref */
 	private m_elButton: HTMLElement;
 	private m_vecRegistrars: Unregisterable[] = [];
@@ -273,7 +273,7 @@ export class ActionButton extends RibbonGameSectionButton<ActionButtonState> {
 		const strToken = this.GetLocToken();
 
 		return (
-			<RibbonButton
+			<Ribbon.Button
 				disabled={!eAction}
 				text={strToken}
 				onClick={() => this.OnClick()}

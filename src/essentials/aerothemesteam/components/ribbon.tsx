@@ -6,7 +6,7 @@ import { ClassNameFactory } from "@/utils/css";
 
 const cl = ClassNameFactory("Ribbon");
 
-interface RibbonButtonProps {
+interface ButtonProps {
 	/** Arguments for localization. */
 	args?: string[];
 	disabled?: boolean;
@@ -16,7 +16,7 @@ interface RibbonButtonProps {
 	onClick: () => void;
 }
 
-export function RibbonButton(props: RibbonButtonProps) {
+function Button(props: ButtonProps) {
 	const { args, disabled, text, onClick, onArrowClick } = props;
 
 	return (
@@ -46,28 +46,35 @@ export function RibbonButton(props: RibbonButtonProps) {
 	);
 }
 
-interface RibbonSectionProps extends PropsWithChildren {
+interface SectionProps extends PropsWithChildren {
 	title: string;
 }
 
-export const RibbonSection: FC<RibbonSectionProps> = ({ children, title }) => (
+const Section: FC<SectionProps> = ({ children, title }) => (
 	<div className={cl("Section")}>
 		<div className={cl("SectionTitle")}>{Localize(title)}</div>
 		<div className={cl("SectionBody")}>{children}</div>
 	</div>
 );
 
-interface RibbonContainerProps extends PropsWithChildren {}
+interface ContainerProps extends PropsWithChildren {}
 
-export const RibbonContainer: FC<RibbonContainerProps> = ({ children }) => (
+const Container: FC<ContainerProps> = ({ children }) => (
 	<div className={cl("Container")}>{children}</div>
 );
 
-interface RibbonGameSectionButtonProps {
+interface GameSectionButtonProps {
 	appid: number;
 }
 
-export class RibbonGameSectionButton<S = unknown> extends Component<
-	RibbonGameSectionButtonProps,
+class GameSectionButton<S = unknown> extends Component<
+	GameSectionButtonProps,
 	S
 > {}
+
+export const Ribbon = {
+	Button,
+	Container,
+	GameSectionButton,
+	Section,
+};
