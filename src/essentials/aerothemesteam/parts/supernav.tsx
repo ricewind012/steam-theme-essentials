@@ -349,47 +349,41 @@ export function SuperNav() {
 			"#Menu_Games": BuildGamesRootMenuEntries(),
 			"#Menu_Help": BuildHelpRootMenuEntries(),
 		};
+		const content = Object.entries(pEntries).map(([token, entries]) => (
+			<MenuGroup key={token} label={Localize(token)}>
+				{entries.map((e) => {
+					const bIsFeatureBlocked = CParentalFeaturesManager.BIsFeatureBlocked(
+						e.parentalFeature,
+					);
+					if (!(e.visible ?? true) || bIsFeatureBlocked) {
+						return null;
+					}
 
-		showContextMenu(
-			<Menu label="Menu">
-				{Object.entries(pEntries).map(([token, entries]) => (
-					<MenuGroup key={token} label={Localize(token)}>
-						{entries
-							.filter(
-								(e) =>
-									(e.visible ?? true) &&
-									!CParentalFeaturesManager.BIsFeatureBlocked(
-										e.parentalFeature,
-									),
-							)
-							.map((e) => {
-								const { checked, name, onClick, steamURL } = e;
-								if (name.startsWith("Separator")) {
-									return <MenuSeparator key={name} />;
-								}
+					const { checked, name, onClick, steamURL } = e;
+					if (name.startsWith("Separator")) {
+						return <MenuSeparator key={name} />;
+					}
 
-								const text = Localize(name);
-								const onClickFallback = () => {
-									SteamClientURL.ExecuteSteamURL(steamURL);
-								};
+					const text = Localize(name);
+					const onClickFallback = () => {
+						SteamClientURL.ExecuteSteamURL(steamURL);
+					};
 
-								return (
-									<MenuItem key={name} onSelected={onClick || onClickFallback}>
-										{checked && <span className={classes.jumplist.Icon} />}
-										{text}
-									</MenuItem>
-								);
-							})}
-					</MenuGroup>
-				))}
-			</Menu>,
-			elSuperNav.current,
-			{
-				// Make it appear above the browser view
-				bForcePopup: true,
-				bOverlapHorizontal: true,
-			},
-		);
+					return (
+						<MenuItem key={name} onSelected={onClick || onClickFallback}>
+							{checked && <span className={classes.jumplist.Icon} />}
+							{text}
+						</MenuItem>
+					);
+				})}
+			</MenuGroup>
+		));
+
+		showContextMenu(<Menu label="Menu">{content}</Menu>, elSuperNav.current, {
+			// Make it appear above the browser view
+			bForcePopup: true,
+			bOverlapHorizontal: true,
+		});
 	};
 
 	return (
