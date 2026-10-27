@@ -56,6 +56,7 @@ interface EssentialPart {
 interface EssentialPartHandle {
 	div: HTMLEssentialPartElement;
 	root: Root;
+	style: HTMLStyleElement;
 }
 
 const g_pLogger = new CLogger("essentials/base");
@@ -87,9 +88,10 @@ export abstract class CThemeEssentialBase {
 		this.m_bEnabled = false;
 		for (const handle of this.m_setPartHandles) {
 			this.m_setPartHandles.delete(handle);
-			const { div, root } = handle;
+			const { div, root, style } = handle;
 			div.remove();
 			root.unmount();
+			style.remove();
 
 			const { name, part } = div.dataset;
 			pLoadedEssentials.Remove(div.ownerDocument, name);
@@ -108,9 +110,8 @@ export abstract class CThemeEssentialBase {
 	@bind
 	protected RenderParts(popup: SteamPopup) {
 		const doc: Document = popup.window.document;
-		// TODO: remove on unmount
+		const style = doc.createElement("style");
 		backend.read_style(this.m_strName).then((e) => {
-			const style = doc.createElement("style");
 			style.id = `theme-essentials-${this.m_strName}`;
 			style.textContent = e;
 			doc.head.appendChild(style);
@@ -138,7 +139,7 @@ export abstract class CThemeEssentialBase {
 					<ErrorBoundary>{component}</ErrorBoundary>
 				);
 				root.render(children);
-				this.m_setPartHandles.add({ div, root });
+				this.m_setPartHandles.add({ div, root, style });
 
 				g_pLogger.Log("%s(%s): rendered", this.m_strName, steamComponent);
 			});
