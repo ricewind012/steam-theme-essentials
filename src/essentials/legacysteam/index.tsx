@@ -29,9 +29,7 @@ export class CLegacySteamEssential extends CThemeEssentialBase {
 			vecParts: [
 				{
 					component: <parts.OverlayInfo />,
-					// componentClassName: "Container",
-					// steamComponent: "gamelistbar",
-					componentClassName: "ToolbarContainer",
+					componentClassName: "ToolbarMaxWidthContainer",
 					steamComponent: "steamdesktopoverlay",
 				},
 				{

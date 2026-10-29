@@ -69,10 +69,10 @@ function StreamingContextMenu(props: StreamingContextMenuProps) {
 			{overview.per_client_data.map((e) => (
 				<StreamingClientContextMenuItem
 					key={e.clientid}
-					pClient={e}
 					bIsLocalClient={overview.BIsPerClientDataLocal(e)}
 					bSelected={overview.selected_clientid === e.clientid}
 					onSelected={(ev) => onStreamingTargetSelected(e, ev)}
+					pClient={e}
 				/>
 			))}
 			{bHasMobileCategories && (
@@ -128,7 +128,7 @@ interface RemotePlayAnywhereContextMenuItemProps {
 function RemotePlayAnywhereContextMenuItem(
 	props: RemotePlayAnywhereContextMenuItemProps,
 ) {
-	const { overview, onSelected } = props;
+	const { onSelected, overview } = props;
 	const vecCategories = GetAppMobileCategories(overview);
 	if (vecCategories.length === 0) {
 		return null;
@@ -235,8 +235,8 @@ export function ActionButton(props: RibbonGameSectionButtonProps) {
 		<Ribbon.Button
 			disabled={!eAction}
 			text={token}
-			onClick={() => onClick()}
-			onArrowClick={() => onArrowClick()}
+			onClick={onClick}
+			onArrowClick={onArrowClick}
 		/>
 	);
 }
