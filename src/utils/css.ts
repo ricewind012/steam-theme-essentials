@@ -41,12 +41,12 @@ export const classes = {
 	appactionbutton: FindClassModuleWithoutResident(
 		(e) => e.StreamingContextMenuItem,
 	),
-	gamelistbar: FindClassModuleWithoutResident((e) => e.GameListHomeAndSearch),
 	gamelistdropdown: FindClassModuleWithoutResident((e) => e.ScrollToTop),
 	jumplist: FindClassModuleWithoutResident((e) => e.JumpListItemText),
 	keycapture: FindClassModuleWithoutResident(
 		(e) => e.Capturing && !e.RecommendedNote,
 	),
+	library: FindClassModuleWithoutResident((e) => e.LeftListSizableContainer),
 	menu: FindClassModuleWithoutResident((e) => e.MenuWrapper),
 	steamdesktop: FindClassModuleWithoutResident((e) => e.FocusBar),
 	steamdesktopoverlay: FindClassModuleWithoutResident(

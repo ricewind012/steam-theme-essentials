@@ -48,8 +48,8 @@ export class CAeroThemeEssential extends CThemeEssentialBase {
 			vecParts: [
 				{
 					component: <parts.GameListBar />,
-					componentClassName: "Container",
-					steamComponent: "gamelistbar",
+					componentClassName: "LeftListSizableContainer",
+					steamComponent: "library",
 				},
 				{
 					component: <parts.SteamDesktop />,
