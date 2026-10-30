@@ -11,9 +11,10 @@ import type { EssentialName_t } from "@/settings";
 import { bind } from "@/utils/bind";
 import { classes } from "@/utils/css";
 import { CLogger } from "@/utils/log";
-import { FindInReactTree, type ReactFiber } from "@/utils/reacttree";
+import { FindInReactTree } from "@/utils/reacttree";
 import type { SteamPopup } from "@/utils/steamtypes";
 
+import { map } from "./componentmap";
 import { pLoadedEssentials } from "./loadedtracker";
 
 interface EssentialConstructor {
@@ -141,7 +142,7 @@ export abstract class CThemeEssentialBase {
 	 * @param popup The popup to render to.
 	 */
 	@bind
-	protected RenderParts(popup: SteamPopup) {
+	protected async RenderParts(popup: SteamPopup) {
 		const doc: Document = popup.window.document;
 		const style = doc.createElement("style");
 		/*
@@ -167,44 +168,8 @@ export abstract class CThemeEssentialBase {
 				children = <ErrorBoundary>{children}</ErrorBoundary>;
 			}
 
-			interface shit {
-				patchFn: (ret: any) => void;
-				treeFilter: (node: ReactFiber) => boolean;
-			}
-			const map: Partial<Record<keyof typeof classes, Record<string, shit>>> = {
-				library: {
-					LeftListSizableContainer: {
-						patchFn: (ret) => {
-							// Skip collections button tooltip, no idea why it's there lol
-							if (!ret?.props?.children || ret.props.toolTipContent) {
-								return ret;
-							}
-
-							ret.props.children = [ret?.props?.children, <div>asdf</div>];
-						},
-						treeFilter: (x) => {
-							const classNameProp: string = x?.child?.pendingProps?.className;
-							return classNameProp?.includes(className);
-						},
-					},
-				},
-				steamdesktopoverlay: {
-					ToolbarMaxWidthContainer: {
-						patchFn: (ret) => {
-							g_pLogger.Log("ToolbarMaxWidthContainer", ret);
-							const elContainer = ret?.props?.children?.props?.children;
-							elContainer?.props?.children.push(children);
-						},
-						treeFilter: (x) => {
-							const classNameProp: string = x?.pendingProps?.className;
-							return classNameProp?.includes(className);
-						},
-					},
-				},
-			};
-
-			const { patchFn, treeFilter } =
-				map[steamComponent]?.[componentClassName] ?? {};
+			const { bClassComponent, patchFn, treeFilter } =
+				map(className, children)[steamComponent][componentClassName] ?? {};
 			if (!treeFilter || !patchFn) {
 				g_pLogger.Warn("%s(%s): failed to find node", strName, steamComponent);
 				continue;
@@ -212,10 +177,12 @@ export abstract class CThemeEssentialBase {
 
 			const pNode = FindInReactTree(treeFilter);
 			g_pLogger.Log("%s(%s): found node %o", strName, steamComponent, pNode);
-			const patch = afterPatch(pNode, "type", (_args, ret) => {
-				patchFn(ret);
-				return ret;
-			});
+
+			const { obj, strProperty } = bClassComponent
+				? { obj: pNode.type.prototype, strProperty: "render" }
+				: { obj: pNode, strProperty: "type" };
+			const patch = afterPatch(obj, strProperty, (_args, ret) => patchFn(ret));
+			window.MILLENNIUM_STEAM_FORCE_RERENDER();
 
 			this.m_setPartHandles.add({
 				componentClassName,

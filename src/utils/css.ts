@@ -46,7 +46,9 @@ export const classes = {
 	keycapture: FindClassModuleWithoutResident(
 		(e) => e.Capturing && !e.RecommendedNote,
 	),
-	library: FindClassModuleWithoutResident((e) => e.LeftListSizableContainer),
+	library: FindClassModuleWithoutResident(
+		(e) => e.LibraryContextMenu && !e.OverlayTransitionDurationMS,
+	),
 	menu: FindClassModuleWithoutResident((e) => e.MenuWrapper),
 	steamdesktop: FindClassModuleWithoutResident((e) => e.FocusBar),
 	steamdesktopoverlay: FindClassModuleWithoutResident(
